@@ -3,13 +3,13 @@
 	<ui:define name="title">#{strg['label.usuarios']}</ui:define>
 	<ui:define name="body">
 		<p:panel id="usuarioEditor">
-			<h:panelGrid columns="2" rendered="#{!usuarioBean.nenhum}">
+			<h:panelGrid columns="2">
 				<h:form id="usuarioForm" prependId="false" enctype="multipart/form-data" acceptcharset="UTF-8">
 					<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 					<h:panelGrid columns="3" layout="grid">
-						<p:outputLabel value="#{strg['label.codigo']}" for="codigo" />
-						<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" disabled="true" />
-						<p:message for="codigo" />
+						<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{usuarioBean.edicao}" />
+						<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" disabled="true" rendered="#{usuarioBean.edicao}" />
+						<p:message for="codigo" rendered="#{usuarioBean.edicao}" />
 
 						<p:outputLabel value="#{strg['label.nome']}" for="nome" />
 						<p:inputText id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" size="50" />
@@ -27,7 +27,7 @@
 						<p:message for="confirmeSenha" rendered="#{!usuarioBean.edicao}" />
 
 						<p:outputLabel value="#{strg['label.foto']}" for="imagem" />
-						<h:inputFile id="imagem" styleClass="inputFile" value="#{usuarioBean.imageFile}">
+						<h:inputFile id="imagem" styleClass="inputFile" value="#{usuarioBean.imageFile}" autocomplete="off" >
 							<f:validator validatorId="imageValidator" />
 						</h:inputFile>
 						<p:message for="imagem" />
@@ -35,10 +35,15 @@
 						<p:outputLabel value="#{strg['label.observacao']}" for="observacao" />
 						<p:inputTextarea id="observacao" value="#{usuarioBean.usuario.irmao.observacao}" cols="53" rows="2" />
 						<p:message for="observacao" />
-						<p:commandButton value="Salvar" action="#{usuarioBean.salvar}" ajax="false" style="margin-top: 10px;" />
 					</h:panelGrid>
+					<h:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar}" style="margin-top: 10px;">
+						<f:ajax execute="usuarioEditor" render="@all"></f:ajax>
+					</h:commandButton>
+					<h:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}">
+						<f:ajax render="usuarioEditor" />
+					</h:commandButton>
 				</h:form>
-				<h:panelGroup>
+				<h:panelGroup rendered="#{usuarioBean.edicao}">
 					<div align="center" style="border: 1px solid gray; margin: -25px 30px 30px 30px; padding: 5px;">
 						<h:graphicImage value="../../imagemstream/usuario/#{usuarioBean.usuario.id}" height="120" width="120" />
 					</div>
@@ -46,12 +51,12 @@
 			</h:panelGrid>
 		</p:panel>
 
-
+		<p:spacer height="15">
+		</p:spacer>
 
 
 
 		<p:dataTable id="tabelaUsuarios" var="usuarioTemp" value="#{usuarioBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortBy="#{usuarioTemp.id}" sortOrder="ascending" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{usuarioBean.usuario}" selectionMode="single">
-			<!-- 			<f:ajax event="rowSelect" render="usuarioEditor" execute="tabelaUsuarios"></f:ajax> -->
 			<p:ajax event="rowSelect" update="@([id$=usuarioEditor])" process="@([id$=tabelaUsuarios])" />
 			<p:column width="7%">
 				<f:facet name="header"> #{strg['label.codigo']} </f:facet>

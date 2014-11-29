@@ -12,16 +12,20 @@ public class ManagedBeanBase {
 		this.modoEditor = ModoEditor.ADICAO;
 	}
 
+	public void adicionando() {
+		this.modoEditor = ModoEditor.ADICAO;
+	}
+
+	public void editando() {
+		this.modoEditor = ModoEditor.EDICAO;
+	}
+
 	public boolean isAdicao() {
 		return this.modoEditor == ModoEditor.ADICAO;
 	}
 
 	public boolean isEdicao() {
 		return this.modoEditor == ModoEditor.EDICAO;
-	}
-
-	public boolean isNenhum() {
-		return this.modoEditor == ModoEditor.NENHUM;
 	}
 
 	public AppMessage getAppMessage() {

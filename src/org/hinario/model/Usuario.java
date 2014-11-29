@@ -50,6 +50,10 @@ public class Usuario {
 	@Basic(fetch = FetchType.EAGER)
 	private byte[] imagem;
 
+	public Usuario() {
+		this.irmao = new Irmao();
+	}
+
 	public Long getId() {
 		return id;
 	}

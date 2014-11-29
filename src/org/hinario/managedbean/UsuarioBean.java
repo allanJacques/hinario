@@ -14,7 +14,6 @@ import javax.servlet.http.Part;
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
 import org.hinario.dao.UsuarioDAO;
-import org.hinario.model.Irmao;
 import org.hinario.model.Usuario;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
@@ -30,10 +29,10 @@ public class UsuarioBean extends ManagedBeanBase {
 	private UsuarioDAO dao;
 	private Part imageFile;
 	private UsuarioDataModel usuarioDataModel;
+	private int linhaSelecionanda;
 
 	public UsuarioBean() {
 		this.usuario = new Usuario();
-		this.usuario.setIrmao(new Irmao());
 		this.dao = new UsuarioDAO();
 		this.appMessage = new AppMessage();
 		this.usuarioDataModel = new UsuarioDataModel();
@@ -41,6 +40,10 @@ public class UsuarioBean extends ManagedBeanBase {
 
 	public void salvar() {
 		if (this.isAdicao() && dao.emailJaExiste(this.usuario.getEmail())) {
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.usuario.getEmail()));
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			return;
+		} else if (this.isEdicao() && dao.emailJaExisteEmOutroUsuario(this.usuario.getEmail(), this.usuario.getId())) {
 			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.usuario.getEmail()));
 			FacesContext.getCurrentInstance().addMessage(null, fm);
 			return;
@@ -57,7 +60,13 @@ public class UsuarioBean extends ManagedBeanBase {
 		this.dao.salvar(this.usuario);
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
-		this.modoEditor = ModoEditor.NENHUM;
+		this.adicionando();
+		this.usuario = new Usuario();
+	}
+
+	public void novo() {
+		this.usuario = new Usuario();
+		this.adicionando();
 	}
 
 	public List<Usuario> getListaUsuario() {
@@ -94,6 +103,14 @@ public class UsuarioBean extends ManagedBeanBase {
 
 	public void setUsuarioDataModel(UsuarioDataModel usuarioDataModel) {
 		this.usuarioDataModel = usuarioDataModel;
+	}
+
+	public int getLinhaSelecionanda() {
+		return linhaSelecionanda;
+	}
+
+	public void setLinhaSelecionanda(int linhaSelecionanda) {
+		this.linhaSelecionanda = linhaSelecionanda;
 	}
 
 	public class UsuarioDataModel extends LazyDataModel<Usuario> {

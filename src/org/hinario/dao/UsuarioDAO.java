@@ -20,6 +20,14 @@ public class UsuarioDAO extends BasicDAO {
 		return (count > 0);
 	}
 
+	public boolean emailJaExisteEmOutroUsuario(final String email, final Long id) {
+		Query q = this.em.createQuery("select COUNT(u) from Usuario u where email = :email AND id != :id");
+		q.setParameter("email", email);
+		q.setParameter("id", id);
+		Long count = (Long) q.getSingleResult();
+		return (count > 0);
+	}
+
 	public Usuario getUsuarioPorId(Long id) {
 		Usuario usuario = this.em.getReference(Usuario.class, id);
 		return usuario;

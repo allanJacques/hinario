@@ -27,7 +27,7 @@
 						<p:message for="confirmeSenha" rendered="#{!usuarioBean.edicao}" />
 
 						<p:outputLabel value="#{strg['label.foto']}" for="imagem" />
-						<h:inputFile id="imagem" styleClass="inputFile" value="#{usuarioBean.imageFile}" autocomplete="off" >
+						<h:inputFile id="imagem" styleClass="inputFile" value="#{usuarioBean.imageFile}" autocomplete="off">
 							<f:validator validatorId="imageValidator" />
 						</h:inputFile>
 						<p:message for="imagem" />

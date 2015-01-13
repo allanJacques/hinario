@@ -1,5 +1,6 @@
 package org.hinario.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +9,9 @@ import javax.persistence.TypedQuery;
 
 import org.hinario.model.Usuario;
 
-public class UsuarioDAO extends BasicDAO {
+public class UsuarioDAO extends BasicDAO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public UsuarioDAO() {
 	}

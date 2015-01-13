@@ -1,6 +1,7 @@
 package org.hinario.managedbean;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,9 @@ import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends ManagedBeanBase {
+public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Usuario usuario;
 	private UsuarioDAO dao;
 	private Part imageFile;
@@ -63,6 +65,13 @@ public class UsuarioBean extends ManagedBeanBase {
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 		this.adicionando();
 		this.usuario = new Usuario();
+	}
+
+	public void remover(Usuario usuario) {
+		this.dao.remover(usuario);
+		if (usuario.getId().equals(this.usuario.getId())) {
+			this.novo();
+		}
 	}
 
 	public void novo() {

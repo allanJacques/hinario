@@ -44,6 +44,7 @@ public class Usuario {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
+	@Column(updatable = false)
 	private Date dataCadastro;
 
 	@Lob

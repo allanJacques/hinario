@@ -24,7 +24,7 @@ public class ImprimeURLs implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println(sdf.format(new Date()) + "\t" + ((HttpServletRequest) request).getRequestURL());
+		System.out.println(sdf.format(new Date()) + "\t" + ((HttpServletRequest) request).getRequestURL() + "\t" + ((HttpServletRequest) request).getMethod());
 		chain.doFilter(request, response);
 	}
 

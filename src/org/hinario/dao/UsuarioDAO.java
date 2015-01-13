@@ -37,7 +37,7 @@ public class UsuarioDAO extends BasicDAO {
 	public List<Usuario> getListaUsuario() {
 		// TODO fazendo muitos selects no banco, queries desnecessarias
 		System.out.println("----------------------------------getListaUsuario()----------------------------------");
-		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join u.irmao order by u.id desc", Usuario.class);
+		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join fetch u.irmao order by u.id desc", Usuario.class);
 		List<Usuario> returN = q.getResultList();
 		return returN;
 	}
@@ -45,7 +45,7 @@ public class UsuarioDAO extends BasicDAO {
 	public List<Usuario> getListaUsuario(int inicio, int limite) {
 		// TODO fazendo muitos selects no banco, queries desnecessarias
 		System.out.println("----------------------------------getListaUsuario()----------------------------------");
-		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join u.irmao order by u.id desc", Usuario.class);
+		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join fetch u.irmao order by u.id desc", Usuario.class);
 		q.setFirstResult(inicio);
 		q.setMaxResults(limite);
 		List<Usuario> returN = q.getResultList();

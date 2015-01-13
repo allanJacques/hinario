@@ -5,12 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 
-import org.hibernate.Criteria;
-import org.hinario.model.Irmao;
 import org.hinario.model.Usuario;
 
 public class Teste {
@@ -29,10 +25,10 @@ public class Teste {
 		// TypedQuery<Usuario> qu = (TypedQuery)
 		// em.createQuery("select i from Irmao i join i.usuario ",
 		// Usuario.class);
-		TypedQuery<Usuario> qu = (TypedQuery) em.createQuery("select u from Usuario u join u.irmao", Usuario.class);
+		TypedQuery<Usuario> qu = (TypedQuery<Usuario>) em.createQuery("select u from Usuario u join fetch u.irmao", Usuario.class);
 		List<Usuario> usuarios = qu.getResultList();
 		for (Usuario uTemp : usuarios) {
-			System.out.println(uTemp.getIrmao().getNome());
+			System.out.println("Irmão: " + uTemp.getIrmao().getNome());
 		}
 
 		em.getTransaction().commit();

@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
@@ -22,7 +22,7 @@ import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsuarioBean extends ManagedBeanBase {
 
 	private Usuario usuario;
@@ -32,6 +32,7 @@ public class UsuarioBean extends ManagedBeanBase {
 	private int linhaSelecionanda;
 
 	public UsuarioBean() {
+		System.out.println("-----------------------------------------Novo UsuarioBean-----------------------------------------");
 		this.usuario = new Usuario();
 		this.dao = new UsuarioDAO();
 		this.appMessage = new AppMessage();

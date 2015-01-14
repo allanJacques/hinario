@@ -26,4 +26,10 @@ public class JPAUtil {
 		return JPAUtil.uniqueEntityManager;
 	}
 
+	public static void closeEntityManager() {
+		if (JPAUtil.uniqueEntityManager == null && JPAUtil.uniqueEntityManager.isOpen()) {
+			JPAUtil.uniqueEntityManager.close();
+		}
+	}
+
 }

@@ -38,19 +38,17 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 
 	@PostConstruct
 	public List<Usuario> getListaUsuario() {
-		// TODO fazendo muitos selects no banco, queries desnecessarias
-		System.out.println("----------------------------------getListaUsuario()----------------------------------");
-		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join fetch u.irmao order by u.id desc", Usuario.class);
-		List<Usuario> returN = q.getResultList();
-		return returN;
+		return getListaUsuario(null, null);
 	}
 
-	public List<Usuario> getListaUsuario(int inicio, int limite) {
+	public List<Usuario> getListaUsuario(final Integer inicio, final Integer limite) {
 		// TODO fazendo muitos selects no banco, queries desnecessarias
 		System.out.println("----------------------------------getListaUsuario()----------------------------------");
 		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join fetch u.irmao order by u.id desc", Usuario.class);
-		q.setFirstResult(inicio);
-		q.setMaxResults(limite);
+		if (inicio != null)
+			q.setFirstResult(inicio);
+		if (limite != null)
+			q.setMaxResults(limite);
 		List<Usuario> returN = q.getResultList();
 		return returN;
 	}

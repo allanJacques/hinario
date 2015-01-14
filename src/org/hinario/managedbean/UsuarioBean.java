@@ -27,7 +27,7 @@ import org.primefaces.model.SortOrder;
 public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Usuario usuario;
+	private Usuario usuario = null;
 	private UsuarioDAO dao;
 	private Part imageFile;
 	private UsuarioDataModel usuarioDataModel;
@@ -35,47 +35,45 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	public UsuarioBean() {
 		System.out.println("-----------------------------------------Novo UsuarioBean-----------------------------------------");
-		this.usuario = new Usuario();
+		this.setUsuario(new Usuario());
 		this.dao = new UsuarioDAO();
 		this.appMessage = new AppMessage();
 		this.usuarioDataModel = new UsuarioDataModel();
 	}
 
 	public void salvar() {
-		if (this.isAdicao() && dao.emailJaExiste(this.usuario.getEmail())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.usuario.getEmail()));
+		if (this.isAdicao() && dao.emailJaExiste(this.getUsuario().getEmail())) {
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.getUsuario().getEmail()));
 			FacesContext.getCurrentInstance().addMessage(null, fm);
 			return;
-		} else if (this.isEdicao() && dao.emailJaExisteEmOutroUsuario(this.usuario.getEmail(), this.usuario.getId())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.usuario.getEmail()));
+		} else if (this.isEdicao() && dao.emailJaExisteEmOutroUsuario(this.getUsuario().getEmail(), this.getUsuario().getId())) {
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.getUsuario().getEmail()));
 			FacesContext.getCurrentInstance().addMessage(null, fm);
 			return;
 		}
-		if (!this.usuario.getSenha().equals(this.usuario.getConfirmeSenha())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.senhasNaoConferem", this.usuario.getEmail()));
+		if (!this.getUsuario().getSenha().equals(this.getUsuario().getConfirmeSenha())) {
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.senhasNaoConferem", this.getUsuario().getEmail()));
 			FacesContext.getCurrentInstance().addMessage("senha", fm);
 			FacesContext.getCurrentInstance().addMessage("confirmeSenha", fm);
 			return;
 		}
-		this.usuario.setDataCadastro(new Date());
+		this.getUsuario().setDataCadastro(new Date());
 		if (isAdicao())
-			this.usuario.setSenha(new CriptografiaUtil().criptografar(this.usuario.getSenha()));
-		this.dao.salvar(this.usuario);
+			this.getUsuario().setSenha(new CriptografiaUtil().criptografar(this.getUsuario().getSenha()));
+		this.dao.salvar(this.getUsuario());
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 		this.adicionando();
-		this.usuario = new Usuario();
+		this.setUsuario(new Usuario());
 	}
 
 	public void remover(Usuario usuario) {
 		this.dao.remover(usuario);
-		if (usuario.getId().equals(this.usuario.getId())) {
-			this.novo();
-		}
+		this.novo();
 	}
 
 	public void novo() {
-		this.usuario = new Usuario();
+		this.setUsuario(new Usuario());
 		this.adicionando();
 	}
 
@@ -91,7 +89,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		if (imageFile != null) {
 			this.imageFile = imageFile;
 			try {
-				this.usuario.setImagem(new IOUtil().InputStreamToArray(this.imageFile.getInputStream(), this.imageFile.getSize()));
+				this.getUsuario().setImagem(new IOUtil().InputStreamToArray(this.imageFile.getInputStream(), this.imageFile.getSize()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -99,12 +97,14 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public Usuario getUsuario() {
-		return usuario;
+		System.out.println("getUsuario: " + this.usuario);
+		return this.usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
-		if (usuario != null && usuario.getIrmao().getNome() != null)
-			this.usuario = usuario;
+		// if (usuario != null && usuario.getIrmao().getNome() != null)
+		System.out.println("setUsuario: " + usuario);
+		this.usuario = usuario;
 	}
 
 	public UsuarioDataModel getUsuarioDataModel() {
@@ -131,8 +131,8 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		public List<Usuario> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
 			List<Usuario> returN = dao.getListaUsuario(first, pageSize);
-			if (returN != null && !returN.isEmpty())
-				UsuarioBean.this.usuario = returN.get(0);
+//			if (returN != null && !returN.isEmpty())
+//				UsuarioBean.this.setUsuario(returN.get(0));
 			return returN;
 		}
 
@@ -140,21 +140,21 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
 			List<Usuario> returN = dao.getListaUsuario(first, pageSize);
-			if (returN != null && !returN.isEmpty())
-				UsuarioBean.this.usuario = returN.get(0);
+//			if (returN != null && !returN.isEmpty())
+//				UsuarioBean.this.setUsuario(returN.get(0));
 			return returN;
 		}
 
 		@Override
 		public Usuario getRowData(String rowKey) {
 			try {
-				usuario = dao.getUsuarioPorId(Long.parseLong(rowKey));
-				usuario.setConfirmeSenha(usuario.getSenha());
+				UsuarioBean.this.setUsuario(dao.getUsuarioPorId(Long.parseLong(rowKey)));
+				UsuarioBean.this.getUsuario().setConfirmeSenha(UsuarioBean.this.getUsuario().getSenha());
 				setModoEditor(ModoEditor.EDICAO);
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 			}
-			return usuario;
+			return UsuarioBean.this.getUsuario();
 		}
 
 		@Override

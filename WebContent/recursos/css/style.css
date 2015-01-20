@@ -10,9 +10,25 @@
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
-	float: 
+	float:
 }
 
 .iconeUsuarioTabela {
 	margin-right: 15px;
+	z-index: 0;
+}
+
+span.ui-paginator-current {
+	float: left;
+	margin: 5px 20px 0px 20px;
+}
+
+label.ui-paginator-rpp-label {
+	margin: 5px 20px 0px -15px;
+	float: right;
+}
+
+select.ui-paginator-rpp-options {
+	float: right;
+	margin-top: 3px
 }

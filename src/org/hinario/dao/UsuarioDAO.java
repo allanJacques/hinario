@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hinario.model.Usuario;
+import org.primefaces.model.SortMeta;
 
 public class UsuarioDAO extends BasicDAO implements Serializable {
 
@@ -38,13 +39,12 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 
 	@PostConstruct
 	public List<Usuario> getListaUsuario() {
-		return getListaUsuario(null, null);
+		return getListaUsuario(null, null, null);
 	}
 
-	public List<Usuario> getListaUsuario(final Integer inicio, final Integer limite) {
-		// TODO fazendo muitos selects no banco, queries desnecessarias
-		System.out.println("----------------------------------getListaUsuario()----------------------------------");
-		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u join fetch u.irmao order by u.id desc", Usuario.class);
+	public List<Usuario> getListaUsuario(final Integer inicio, final Integer limite, final List<SortMeta> multiSortMeta) {
+		String sQuery = getQueryOrdenada("select usuario from Usuario usuario join fetch usuario.irmao", multiSortMeta, "usuario");
+		TypedQuery<Usuario> q = this.em.createQuery(sQuery, Usuario.class);
 		if (inicio != null)
 			q.setFirstResult(inicio);
 		if (limite != null)

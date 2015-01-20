@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
+import javax.swing.JOptionPane;
 
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
@@ -97,13 +98,10 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public Usuario getUsuario() {
-		System.out.println("getUsuario: " + this.usuario);
 		return this.usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
-		// if (usuario != null && usuario.getIrmao().getNome() != null)
-		System.out.println("setUsuario: " + usuario);
 		this.usuario = usuario;
 	}
 
@@ -123,6 +121,12 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		this.linhaSelecionanda = linhaSelecionanda;
 	}
 
+	public int ordena(final Object o) {
+		System.out.println(o);
+		JOptionPane.showMessageDialog(null, "asdfas");
+		return 0;
+	}
+
 	public class UsuarioDataModel extends LazyDataModel<Usuario> {
 
 		private static final long serialVersionUID = 1L;
@@ -130,18 +134,14 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		@Override
 		public List<Usuario> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
-			List<Usuario> returN = dao.getListaUsuario(first, pageSize);
-//			if (returN != null && !returN.isEmpty())
-//				UsuarioBean.this.setUsuario(returN.get(0));
+			List<Usuario> returN = dao.getListaUsuario(first, pageSize, multiSortMeta);
 			return returN;
 		}
 
 		@Override
 		public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
-			List<Usuario> returN = dao.getListaUsuario(first, pageSize);
-//			if (returN != null && !returN.isEmpty())
-//				UsuarioBean.this.setUsuario(returN.get(0));
+			List<Usuario> returN = dao.getListaUsuario(first, pageSize, null);
 			return returN;
 		}
 

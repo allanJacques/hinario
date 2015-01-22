@@ -3,9 +3,11 @@ package org.hinario.managedbean;
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
 
-public class ManagedBeanBase {
+public class ManagedBeanBase<F> {
 	protected AppMessage appMessage;
 	protected ModoEditor modoEditor;
+	protected F filtro;
+	protected boolean exibindoFiltro;
 
 	public ManagedBeanBase() {
 		this.appMessage = new AppMessage();
@@ -42,6 +44,26 @@ public class ManagedBeanBase {
 
 	public void setModoEditor(ModoEditor modoEditor) {
 		this.modoEditor = modoEditor;
+	}
+
+	public void inverteFiltro() {
+		this.exibindoFiltro = !this.exibindoFiltro;
+	}
+
+	public F getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(F filtro) {
+		this.filtro = filtro;
+	}
+
+	public boolean isExibindoFiltro() {
+		return exibindoFiltro;
+	}
+
+	public void setExibindoFiltro(boolean exibindoFiltro) {
+		this.exibindoFiltro = exibindoFiltro;
 	}
 
 }

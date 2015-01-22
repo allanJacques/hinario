@@ -53,18 +53,33 @@
 					</h:panelGrid>
 				</p:panel>
 
-				<p:spacer height="15">
-				</p:spacer>
+				<p:spacer height="15" />
+
+				<h:form id="painelFiltro">
+					<f:ajax render="painelFiltro">
+						<h:commandLink action="#{usuarioBean.inverteFiltro()}" style="float:right;" rendered="#{usuarioBean.exibindoFiltro}" value="#{strg['label.esconderFiltros']}" />
+						<h:commandLink action="#{usuarioBean.inverteFiltro()}" style="float:right;" rendered="#{!usuarioBean.exibindoFiltro}" value="#{strg['label.exibirFiltros']}" />
+					</f:ajax>
+					<p:spacer height="1" />
+					<p:panel rendered="#{usuarioBean.exibindoFiltro}">
+						<h:panelGrid columns="3">
+							<p:outputLabel value="#{strg['label.campo']}" />
+							<p:outputLabel value="#{strg['label.condicao']}" />
+							<p:outputLabel value="#{strg['label.valor']}" />
+							<p:selectOneMenu></p:selectOneMenu>
+							<p:selectOneMenu>
+								<f:selectItems value="#{condicoesBean.operadores}" />
+							</p:selectOneMenu>
+							<p:inputText />
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+				<p:spacer height="1" />
 
 				<h:form>
 					<p:dataTable id="tabelaUsuarios" var="usuarioTemp" value="#{usuarioBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{usuarioBean.usuario}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 						<p:ajax event="rowSelect" update="@([id$=usuarioEditor])" process="@([id$=tabelaUsuarios])" />
-						<p:column width="7%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}" filterBy="#{usuarioTemp.id}">
-							<f:facet name="header">
-							</f:facet>
-							<f:facet name="filter">
-							asdf
-							</f:facet>
+						<p:column width="7%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}">
 							<div class="colunaCodigo">
 								<h:outputText value="#{usuarioTemp.id}" title="#{usuarioTemp.id}" />
 							</div>

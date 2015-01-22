@@ -25,7 +25,7 @@ import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends ManagedBeanBase implements Serializable {
+public class UsuarioBean extends ManagedBeanBase<Usuario> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario = null;
@@ -134,6 +134,12 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		@Override
 		public List<Usuario> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
+			for (String key : filters.keySet()) {
+				System.out.println(key);
+				System.out.println(filters.get(key));
+				System.out.println(filters.get(key).getClass());
+				System.out.println("====================");
+			}
 			List<Usuario> returN = dao.getListaUsuario(first, pageSize, multiSortMeta);
 			return returN;
 		}

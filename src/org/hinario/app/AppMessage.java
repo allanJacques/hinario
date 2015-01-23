@@ -17,6 +17,7 @@ public class AppMessage {
 	}
 
 	public String getString(final String chave) {
+		System.out.println(chave);
 		String returN = this.resourceBundle.getString(chave);
 		if (returN.equals(null)) {
 			return "*" + chave + "*";

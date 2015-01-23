@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hinario.util.filtro.CampoNaoFiltravel;
+
 @Entity
 public class Irmao implements Serializable {
 
@@ -19,6 +21,7 @@ public class Irmao implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@CampoNaoFiltravel
 	private Long id;
 
 	@NotNull
@@ -29,6 +32,7 @@ public class Irmao implements Serializable {
 	private String observacao;
 
 	@OneToOne(mappedBy = "irmao", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@CampoNaoFiltravel
 	private Usuario usuario;
 
 	public Long getId() {

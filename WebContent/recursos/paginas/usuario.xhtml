@@ -66,11 +66,17 @@
 							<p:outputLabel value="#{strg['label.campo']}" />
 							<p:outputLabel value="#{strg['label.condicao']}" />
 							<p:outputLabel value="#{strg['label.valor']}" />
-							<p:selectOneMenu></p:selectOneMenu>
-							<p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="4">
+							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo}">
+								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo.nome}|#{campo.nomeAbsoluto}" />
+							</p:selectOneMenu>
+							<h:message for="campo" />
+							<p:selectOneMenu value="#{usuarioBean.condicaoAAdicionar.operador}">
 								<f:selectItems value="#{condicoesBean.operadores}" />
 							</p:selectOneMenu>
-							<p:inputText />
+							<p:inputText value="#{usuarioBean.condicaoAAdicionar.valor}" />
+							<h:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" />
 						</h:panelGrid>
 					</p:panel>
 				</h:form>

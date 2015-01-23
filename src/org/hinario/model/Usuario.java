@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
+import org.hinario.util.filtro.CampoNaoFiltravel;
 
 @Entity
 public class Usuario implements Serializable {
@@ -35,10 +36,12 @@ public class Usuario implements Serializable {
 	private String email;
 
 	@NotNull
+	@CampoNaoFiltravel
 	private String senha;
 
 	@NotNull
 	@Transient
+	@CampoNaoFiltravel
 	private String confirmeSenha;
 
 	@NotNull

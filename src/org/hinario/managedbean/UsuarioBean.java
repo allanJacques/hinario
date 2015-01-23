@@ -19,13 +19,14 @@ import org.hinario.dao.UsuarioDAO;
 import org.hinario.model.Usuario;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
+import org.hinario.util.filtro.Filtro;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends ManagedBeanBase<Usuario> implements Serializable {
+public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario = null;
@@ -40,6 +41,7 @@ public class UsuarioBean extends ManagedBeanBase<Usuario> implements Serializabl
 		this.dao = new UsuarioDAO();
 		this.appMessage = new AppMessage();
 		this.usuarioDataModel = new UsuarioDataModel();
+		this.filtro = new Filtro(Usuario.class);
 	}
 
 	public void salvar() {

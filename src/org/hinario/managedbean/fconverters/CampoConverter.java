@@ -15,12 +15,18 @@ public class CampoConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String valor) {
-		return new Campo(valor.split(":")[0], valor.split(":")[1], this.appMessage.getString(valor.split(":")[1]));
+		if (valor.split(":").length == 2)
+			return new Campo(valor.split(":")[0], valor.split(":")[1], this.appMessage.getString(valor.split(":")[1]));
+		else
+			return null;
 	}
 
 	@Override
 	public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object valor) {
-		return ((Campo) getAsObject(facesContext, uiComponent, valor.toString())).getDescricao();
+		Campo returN = ((Campo) getAsObject(facesContext, uiComponent, valor.toString()));
+		if (returN != null)
+			return returN.getDescricao();
+		else
+			return null;
 	}
-
 }

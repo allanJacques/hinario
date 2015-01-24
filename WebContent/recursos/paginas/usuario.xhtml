@@ -68,8 +68,9 @@
 							<p:outputLabel value="#{strg['label.valor']}" />
 						</h:panelGrid>
 						<h:panelGrid columns="4">
-							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo}">
-								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo.nome}|#{campo.nomeAbsoluto}" />
+							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo.nome}:#{usuarioBean.condicaoAAdicionar.campo.nomeAbsoluto}">
+								<f:converter converterId="campoConverter" />
+								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo.nome}:#{campo.nomeAbsoluto}" />
 							</p:selectOneMenu>
 							<h:message for="campo" />
 							<p:selectOneMenu value="#{usuarioBean.condicaoAAdicionar.operador}">

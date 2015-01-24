@@ -1,4 +1,4 @@
-package org.hinario.managedbean.fvalidators;
+package org.hinario.managedbean.fconverters;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -15,12 +15,12 @@ public class CampoConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String valor) {
-		return new Campo(valor.split("|")[0], valor.split("|")[1], this.appMessage.getString(valor.split("|")[1]));
+		return new Campo(valor.split(":")[0], valor.split(":")[1], this.appMessage.getString(valor.split(":")[1]));
 	}
 
 	@Override
 	public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object valor) {
-		return null;
+		return ((Campo) getAsObject(facesContext, uiComponent, valor.toString())).getDescricao();
 	}
 
 }

@@ -4,15 +4,15 @@ import java.lang.reflect.Field;
 
 public class Condicao {
 
-	private Field campo;
+	private Campo campo;
 	private Operador operador;
 	private Object valor;
 
-	public Field getCampo() {
+	public Campo getCampo() {
 		return campo;
 	}
 
-	public void setCampo(Field campo) {
+	public void setCampo(Campo campo) {
 		this.campo = campo;
 	}
 

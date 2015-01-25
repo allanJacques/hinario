@@ -39,6 +39,10 @@ public class ManagedBeanBase {
 		this.condicaoAAdicionar = new Condicao();
 	}
 
+	public void removerCondicao(final Condicao condicao){
+		this.filtro.getCondicoes().remove(condicao);
+	}
+	
 	public AppMessage getAppMessage() {
 		return appMessage;
 	}

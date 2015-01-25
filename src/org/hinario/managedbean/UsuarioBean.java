@@ -11,7 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
-import javax.swing.JOptionPane;
 
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
@@ -19,6 +18,7 @@ import org.hinario.dao.UsuarioDAO;
 import org.hinario.model.Usuario;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
+import org.hinario.util.filtro.Campo;
 import org.hinario.util.filtro.Filtro;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -33,7 +33,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	private UsuarioDAO dao;
 	private Part imageFile;
 	private UsuarioDataModel usuarioDataModel;
-	private int linhaSelecionanda;
+	private Campo campo;
 
 	public UsuarioBean() {
 		System.out.println("-----------------------------------------Novo UsuarioBean-----------------------------------------");
@@ -115,18 +115,12 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		this.usuarioDataModel = usuarioDataModel;
 	}
 
-	public int getLinhaSelecionanda() {
-		return linhaSelecionanda;
+	public Campo getCampo() {
+		return campo;
 	}
 
-	public void setLinhaSelecionanda(int linhaSelecionanda) {
-		this.linhaSelecionanda = linhaSelecionanda;
-	}
-
-	public int ordena(final Object o) {
-		System.out.println(o);
-		JOptionPane.showMessageDialog(null, "asdfas");
-		return 0;
+	public void setCampo(Campo campo) {
+		this.campo = campo;
 	}
 
 	public class UsuarioDataModel extends LazyDataModel<Usuario> {
@@ -136,20 +130,14 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		@Override
 		public List<Usuario> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
-			for (String key : filters.keySet()) {
-				System.out.println(key);
-				System.out.println(filters.get(key));
-				System.out.println(filters.get(key).getClass());
-				System.out.println("====================");
-			}
-			List<Usuario> returN = dao.getListaUsuario(first, pageSize, multiSortMeta);
+			List<Usuario> returN = dao.getListaUsuario(first, pageSize, multiSortMeta, UsuarioBean.this.filtro);
 			return returN;
 		}
 
 		@Override
 		public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
 			setRowCount(dao.count().intValue());
-			List<Usuario> returN = dao.getListaUsuario(first, pageSize, null);
+			List<Usuario> returN = dao.getListaUsuario(first, pageSize, null, UsuarioBean.this.filtro);
 			return returN;
 		}
 

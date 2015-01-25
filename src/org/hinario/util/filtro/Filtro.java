@@ -7,19 +7,16 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import org.hinario.app.AppMessage;
-
 public class Filtro {
 
 	private List<Condicao> condicoes;
 	private List<Campo> campos;
 	private final Class<? extends Object> clazz;
-	private final AppMessage appMessage;
 
 	public Filtro(final Class<? extends Object> clazz) {
 		this.clazz = clazz;
 		this.campos = new ArrayList<>();
-		this.appMessage = new AppMessage();
+		this.condicoes = new ArrayList<>();
 		this.processaCampos();
 	}
 
@@ -33,7 +30,7 @@ public class Filtro {
 				if (fieldTemp.getType().isAnnotationPresent(Entity.class)) {
 					processaCampos(fieldTemp.getName(), fieldTemp.getType());
 				} else
-					this.campos.add(new Campo(((campoPai != null && !campoPai.isEmpty()) ? campoPai + "." : "") + fieldTemp.getName(), (clazz.getName() + "." + fieldTemp.getName()), this.appMessage.getString(clazz.getName() + "." + fieldTemp.getName())));
+					this.campos.add(new Campo(((campoPai != null && !campoPai.isEmpty()) ? campoPai + "." : "") + fieldTemp.getName() + "*" + (clazz.getName() + "." + fieldTemp.getName())));
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package org.hinario.app;
 
 import java.text.MessageFormat;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class AppMessage {
@@ -17,12 +18,15 @@ public class AppMessage {
 	}
 
 	public String getString(final String chave) {
-		System.out.println(chave);
-		String returN = this.resourceBundle.getString(chave);
-		if (returN.equals(null)) {
+		try {
+			String returN = this.resourceBundle.getString(chave);
+			if (returN.equals(null)) {
+				return "*" + chave + "*";
+			}
+			return returN;
+		} catch (MissingResourceException ex) {
 			return "*" + chave + "*";
 		}
-		return returN;
 	}
 
 	public String getString(final String chave, Object... valores) {

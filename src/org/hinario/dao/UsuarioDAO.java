@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hinario.model.Usuario;
+import org.hinario.util.filtro.Filtro;
 import org.primefaces.model.SortMeta;
 
 public class UsuarioDAO extends BasicDAO implements Serializable {
@@ -39,11 +40,12 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 
 	@PostConstruct
 	public List<Usuario> getListaUsuario() {
-		return getListaUsuario(null, null, null);
+		return getListaUsuario(null, null, null, null);
 	}
 
-	public List<Usuario> getListaUsuario(final Integer inicio, final Integer limite, final List<SortMeta> multiSortMeta) {
-		String sQuery = getQueryOrdenada("select usuario from Usuario usuario join fetch usuario.irmao", multiSortMeta, "usuario");
+	public List<Usuario> getListaUsuario(final Integer inicio, final Integer limite, final List<SortMeta> multiSortMeta, final Filtro filtro) {
+		String sQuery = getQueryFiltrada("select usuario from Usuario usuario join fetch usuario.irmao", filtro, "usuario");
+		sQuery = getQueryOrdenada(sQuery, multiSortMeta, "usuario");
 		TypedQuery<Usuario> q = this.em.createQuery(sQuery, Usuario.class);
 		if (inicio != null)
 			q.setFirstResult(inicio);
@@ -54,6 +56,10 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 	}
 
 	public Long count() {
+		return this.em.createQuery("select COUNT(u) from Usuario u", Long.class).getSingleResult();
+	}
+
+	public Long count(final Filtro filtro) {
 		return this.em.createQuery("select COUNT(u) from Usuario u", Long.class).getSingleResult();
 	}
 

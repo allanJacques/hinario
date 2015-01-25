@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.hinario.util.filtro.Filtro;
 import org.primefaces.model.SortMeta;
 
 public class BasicDAO implements Serializable {
@@ -48,6 +49,10 @@ public class BasicDAO implements Serializable {
 		} else {
 			return sQuery;
 		}
+	}
+
+	public String getQueryFiltrada(String string, Filtro filtro, String string2) {
+		return null;
 	}
 
 }

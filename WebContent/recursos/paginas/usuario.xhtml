@@ -2,6 +2,7 @@
 
 	<ui:define name="title">#{strg['label.usuarios']}</ui:define>
 	<ui:define name="body">
+		<!-- ======================================================== EDITOR ======================================================== -->
 		<h:panelGrid id="pagina">
 			<h:panelGroup>
 				<p:panel id="usuarioEditor">
@@ -38,10 +39,10 @@
 								<p:inputTextarea id="observacao" value="#{usuarioBean.usuario.irmao.observacao}" cols="53" rows="2" />
 								<p:message for="observacao" />
 							</h:panelGrid>
-							<h:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;">
+							<h:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;" styleClass="botao">
 								<f:ajax execute="usuarioEditor" render="pagina" />
 							</h:commandButton>
-							<h:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}">
+							<h:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}" styleClass="botao">
 								<f:ajax render="usuarioEditor" />
 							</h:commandButton>
 						</h:form>
@@ -54,8 +55,8 @@
 				</p:panel>
 
 				<p:spacer height="15" />
-
-				<h:form id="painelFiltro">
+				<!-- ======================================================== FILTRO ======================================================== -->
+				<h:form id="painelFiltro" prependId="false">
 					<f:ajax render="painelFiltro">
 						<h:commandLink action="#{usuarioBean.inverteFiltro()}" style="float:right;" rendered="#{usuarioBean.exibindoFiltro}" value="#{strg['label.esconderFiltros']}" />
 						<h:commandLink action="#{usuarioBean.inverteFiltro()}" style="float:right;" rendered="#{!usuarioBean.exibindoFiltro}" value="#{strg['label.exibirFiltros']}" />
@@ -66,23 +67,45 @@
 							<p:outputLabel value="#{strg['label.campo']}" />
 							<p:outputLabel value="#{strg['label.condicao']}" />
 							<p:outputLabel value="#{strg['label.valor']}" />
-						</h:panelGrid>
-						<h:panelGrid columns="4">
+
 							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo}">
 								<f:converter converterId="campoConverter" />
-								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo.nome}:#{campo.nomeAbsoluto}" />
+								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo}" />
 							</p:selectOneMenu>
-							<h:message for="campo" />
-							<p:selectOneMenu value="#{usuarioBean.condicaoAAdicionar.operador}">
+
+							<p:selectOneMenu id="operador" value="#{usuarioBean.condicaoAAdicionar.operador}">
 								<f:selectItems value="#{condicoesBean.operadores}" />
 							</p:selectOneMenu>
-							<p:inputText value="#{usuarioBean.condicaoAAdicionar.valor}" />
-							<h:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" />
+							<h:panelGroup>
+								<p:inputText id="valor" value="#{usuarioBean.condicaoAAdicionar.valor}" />
+								<h:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao">
+									<f:ajax render="painelFiltro" execute="campo operador valor"></f:ajax>
+								</h:commandButton>
+							</h:panelGroup>
 						</h:panelGrid>
+						<p:dataTable value="#{usuarioBean.filtro.condicoes}" var="condicao" rendered="#{!usuarioBean.filtro.condicoes.isEmpty()}">
+							<p:column headerText="#{strg['label.campo']}" width="30%">
+								<h:outputText value="#{condicao.campo.descricao}" />
+							</p:column>
+							<p:column headerText="#{strg['label.condicao']}" width="30%">
+								<h:outputText value="#{condicao.operador.descricao}" />
+							</p:column>
+							<p:column headerText="#{strg['label.valor']}" width="30%">
+								<h:outputText value="#{condicao.valor}" />
+							</p:column>
+							<p:column headerText="#{strg['label.acoes']}" width="10%">
+								<div class="colunaData">
+									<h:commandLink action="#{usuarioBean.removerCondicao(condicao)}">
+										<f:ajax render="painelFiltro" execute="painelFiltro"></f:ajax>
+										<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
+									</h:commandLink>
+								</div>
+							</p:column>
+						</p:dataTable>
 					</p:panel>
 				</h:form>
 				<p:spacer height="1" />
-
+				<!-- ======================================================== TABELA ======================================================== -->
 				<h:form>
 					<p:dataTable id="tabelaUsuarios" var="usuarioTemp" value="#{usuarioBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{usuarioBean.usuario}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 						<p:ajax event="rowSelect" update="@([id$=usuarioEditor])" process="@([id$=tabelaUsuarios])" />

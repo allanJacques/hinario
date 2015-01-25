@@ -1,6 +1,5 @@
 package org.hinario.util.filtro;
 
-import java.lang.reflect.Field;
 
 public class Condicao {
 

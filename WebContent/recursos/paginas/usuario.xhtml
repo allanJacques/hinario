@@ -79,7 +79,7 @@
 							<h:panelGroup>
 								<p:inputText id="valor" value="#{usuarioBean.condicaoAAdicionar.valor}" />
 								<h:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao">
-									<f:ajax render="painelFiltro" execute="campo operador valor"></f:ajax>
+									<f:ajax render="pagina" execute="campo operador valor"></f:ajax>
 								</h:commandButton>
 							</h:panelGroup>
 						</h:panelGrid>
@@ -96,7 +96,7 @@
 							<p:column headerText="#{strg['label.acoes']}" width="10%">
 								<div class="colunaData">
 									<h:commandLink action="#{usuarioBean.removerCondicao(condicao)}">
-										<f:ajax render="painelFiltro" execute="painelFiltro"></f:ajax>
+										<f:ajax render="pagina" execute="painelFiltro"></f:ajax>
 										<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
 									</h:commandLink>
 								</div>

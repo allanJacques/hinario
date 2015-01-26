@@ -7,8 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Usuario;
-import org.hinario.util.filtro.Filtro;
 import org.primefaces.model.SortMeta;
 
 public class UsuarioDAO extends BasicDAO implements Serializable {
@@ -56,11 +56,11 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 	}
 
 	public Long count() {
-		return this.em.createQuery("select COUNT(u) from Usuario u", Long.class).getSingleResult();
+		return count(null);
 	}
 
 	public Long count(final Filtro filtro) {
-		return this.em.createQuery("select COUNT(u) from Usuario u", Long.class).getSingleResult();
+		return this.em.createQuery(getQueryFiltrada("select COUNT(u) from Usuario u", filtro, "u"), Long.class).getSingleResult();
 	}
 
 }

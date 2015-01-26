@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
-import org.hinario.util.filtro.CampoNaoFiltravel;
+import org.hinario.dao.filtro.CampoNaoFiltravel;
 
 @Entity
-public class Irmao implements Serializable {
+public class Irmao extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

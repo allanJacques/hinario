@@ -5,18 +5,17 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.hinario.util.filtro.Filtro;
+import org.hinario.dao.filtro.Filtro;
 import org.primefaces.model.SortMeta;
 
 public class BasicDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// protected EntityManagerFactory emf;
 	protected EntityManager em;
+	protected QueryConstrutor queryConstrutor = new QueryConstrutor();
 
 	public BasicDAO() {
-		// this.emf = JPAUtil.getEFM();
 		this.em = JPAUtil.getEntityManager();
 	}
 
@@ -34,25 +33,11 @@ public class BasicDAO implements Serializable {
 	}
 
 	public String getQueryOrdenada(String sQuery, final List<SortMeta> multiSortMeta, final String alias) {
-		if (multiSortMeta != null && sQuery != null && !multiSortMeta.isEmpty() && !sQuery.isEmpty()) {
-			StringBuilder sbQuery = new StringBuilder(sQuery);
-			for (SortMeta sortMetaTemp : multiSortMeta) {
-				if (!sbQuery.toString().contains("order by")) {
-					sbQuery.append(" order by ");
-				} else {
-					sbQuery.append(" , ");
-				}
-				sbQuery.append(alias).append(".").append(sortMetaTemp.getSortField());
-				sbQuery.append((sortMetaTemp.getSortOrder().toString().equals("ASCENDING") ? " asc " : " desc "));
-			}
-			return sbQuery.toString();
-		} else {
-			return sQuery;
-		}
+		return this.queryConstrutor.getQueryOrdenada(sQuery, multiSortMeta, alias);
 	}
 
-	public String getQueryFiltrada(String string, Filtro filtro, String string2) {
-		return null;
+	public String getQueryFiltrada(String query, Filtro filtro, String alias) {
+		return this.queryConstrutor.getQueryFiltrada(query, filtro, alias);
 	}
 
 }

@@ -15,11 +15,11 @@ import javax.servlet.http.Part;
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
 import org.hinario.dao.UsuarioDAO;
+import org.hinario.dao.filtro.Campo;
+import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Usuario;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
-import org.hinario.util.filtro.Campo;
-import org.hinario.util.filtro.Filtro;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
@@ -129,14 +129,14 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 		@Override
 		public List<Usuario> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
-			setRowCount(dao.count().intValue());
+			setRowCount(dao.count(UsuarioBean.this.filtro).intValue());
 			List<Usuario> returN = dao.getListaUsuario(first, pageSize, multiSortMeta, UsuarioBean.this.filtro);
 			return returN;
 		}
 
 		@Override
 		public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-			setRowCount(dao.count().intValue());
+			setRowCount(dao.count(UsuarioBean.this.filtro).intValue());
 			List<Usuario> returN = dao.getListaUsuario(first, pageSize, null, UsuarioBean.this.filtro);
 			return returN;
 		}

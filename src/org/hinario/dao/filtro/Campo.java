@@ -1,4 +1,4 @@
-package org.hinario.util.filtro;
+package org.hinario.dao.filtro;
 
 import org.hinario.app.AppMessage;
 
@@ -11,6 +11,10 @@ public class Campo {
 	public Campo(String chave) {
 		this.chave = chave;
 		this.descricao = this.appMessage.getString(chave);
+	}
+
+	public String getNome() {
+		return this.chave.split("[*]")[0];
 	}
 
 	public String getChave() {

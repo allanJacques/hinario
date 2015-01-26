@@ -2,8 +2,8 @@ package org.hinario.managedbean;
 
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
-import org.hinario.util.filtro.Condicao;
-import org.hinario.util.filtro.Filtro;
+import org.hinario.dao.filtro.Condicao;
+import org.hinario.dao.filtro.Filtro;
 
 public class ManagedBeanBase {
 	protected AppMessage appMessage;

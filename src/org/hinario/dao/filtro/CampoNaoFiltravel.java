@@ -1,4 +1,4 @@
-package org.hinario.util.filtro;
+package org.hinario.dao.filtro;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

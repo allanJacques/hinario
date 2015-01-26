@@ -1,4 +1,4 @@
-package org.hinario.util.filtro;
+package org.hinario.dao.filtro;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

@@ -19,10 +19,10 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
-import org.hinario.util.filtro.CampoNaoFiltravel;
+import org.hinario.dao.filtro.CampoNaoFiltravel;
 
 @Entity
-public class Usuario implements Serializable {
+public class Usuario extends Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import org.hinario.util.filtro.Campo;
+import org.hinario.dao.filtro.Campo;
 
 @FacesConverter(value = "campoConverter")
 public class CampoConverter implements Converter {

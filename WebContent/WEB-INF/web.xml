@@ -11,6 +11,12 @@
 		<param-value>server</param-value>
 	</context-param>
 	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<!-- <param-value>bootstrap</param-value> -->
+		<!-- <param-value>blitzer</param-value> -->
+		<param-value>south-street</param-value>
+	</context-param>
+	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>resources.application</param-value>
 	</context-param>

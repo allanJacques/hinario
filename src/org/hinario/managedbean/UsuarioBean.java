@@ -45,29 +45,46 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void salvar() {
-		if (this.isAdicao() && dao.emailJaExiste(this.getUsuario().getEmail())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.getUsuario().getEmail()));
-			FacesContext.getCurrentInstance().addMessage(null, fm);
-			return;
-		} else if (this.isEdicao() && dao.emailJaExisteEmOutroUsuario(this.getUsuario().getEmail(), this.getUsuario().getId())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.emailJaExiste", this.getUsuario().getEmail()));
-			FacesContext.getCurrentInstance().addMessage(null, fm);
-			return;
-		}
-		if (!this.getUsuario().getSenha().equals(this.getUsuario().getConfirmeSenha())) {
-			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.atencao"), this.appMessage.getString("message.senhasNaoConferem", this.getUsuario().getEmail()));
-			FacesContext.getCurrentInstance().addMessage("senha", fm);
-			FacesContext.getCurrentInstance().addMessage("confirmeSenha", fm);
-			return;
-		}
-		this.getUsuario().setDataCadastro(new Date());
-		if (isAdicao())
-			this.getUsuario().setSenha(new CriptografiaUtil().criptografar(this.getUsuario().getSenha()));
-		this.dao.salvar(this.getUsuario());
-		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
-		FacesContext.getCurrentInstance().addMessage(null, fm);
-		this.adicionando();
-		this.setUsuario(new Usuario());
+		// if (this.isAdicao() &&
+		// dao.emailJaExiste(this.getUsuario().getEmail())) {
+		// FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN,
+		// this.appMessage.getString("label.atencao"),
+		// this.appMessage.getString("message.emailJaExiste",
+		// this.getUsuario().getEmail()));
+		// FacesContext.getCurrentInstance().addMessage(null, fm);
+		// return;
+		// } else if (this.isEdicao() &&
+		// dao.emailJaExisteEmOutroUsuario(this.getUsuario().getEmail(),
+		// this.getUsuario().getId())) {
+		// FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN,
+		// this.appMessage.getString("label.atencao"),
+		// this.appMessage.getString("message.emailJaExiste",
+		// this.getUsuario().getEmail()));
+		// FacesContext.getCurrentInstance().addMessage(null, fm);
+		// return;
+		// }
+		// if
+		// (!this.getUsuario().getSenha().equals(this.getUsuario().getConfirmeSenha()))
+		// {
+		// FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN,
+		// this.appMessage.getString("label.atencao"),
+		// this.appMessage.getString("message.senhasNaoConferem",
+		// this.getUsuario().getEmail()));
+		// FacesContext.getCurrentInstance().addMessage("senha", fm);
+		// FacesContext.getCurrentInstance().addMessage("confirmeSenha", fm);
+		// return;
+		// }
+		// this.getUsuario().setDataCadastro(new Date());
+		// if (isAdicao())
+		// this.getUsuario().setSenha(new
+		// CriptografiaUtil().criptografar(this.getUsuario().getSenha()));
+		// this.dao.salvar(this.getUsuario());
+		// FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO,
+		// this.appMessage.getString("message.sucesso"),
+		// this.appMessage.getString("message.salvoComSucesso"));
+		// FacesContext.getCurrentInstance().addMessage(null, fm);
+		// this.adicionando();
+		// this.setUsuario(new Usuario());
 	}
 
 	public void remover(Usuario usuario) {

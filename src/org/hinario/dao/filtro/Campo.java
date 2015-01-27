@@ -36,7 +36,7 @@ public class Campo {
 		this.descricao = descricao;
 	}
 
-	public Class<? extends Object> getType() {
+	public Class<? extends Object> getTipo() {
 		Class<? extends Object> classe;
 		try {
 			classe = Class.forName(this.getClassName());

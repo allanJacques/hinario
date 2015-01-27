@@ -1,6 +1,8 @@
 package org.hinario.dao;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,23 +16,7 @@ import org.primefaces.model.SortMeta;
 
 public class QueryConstrutor {
 
-	private String getQueryOrdenada(final String sQuery, final List<SortMeta> multiSortMeta, final String alias) {
-		if (multiSortMeta != null && sQuery != null && !multiSortMeta.isEmpty() && !sQuery.isEmpty()) {
-			StringBuilder sbQuery = new StringBuilder(sQuery);
-			for (SortMeta sortMetaTemp : multiSortMeta) {
-				if (!sbQuery.toString().contains("order by")) {
-					sbQuery.append(" order by ");
-				} else {
-					sbQuery.append(" , ");
-				}
-				sbQuery.append(alias).append(".").append(sortMetaTemp.getSortField());
-				sbQuery.append((sortMetaTemp.getSortOrder().toString().equals("ASCENDING") ? " asc " : " desc "));
-			}
-			return sbQuery.toString();
-		} else {
-			return sQuery;
-		}
-	}
+	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	private String getQueryFiltrada(final String query, final Filtro filtro, final String alias) {
 
@@ -58,8 +44,68 @@ public class QueryConstrutor {
 		return sbQuery.toString();
 	}
 
+	private String getQueryOrdenada(final String sQuery, final List<SortMeta> multiSortMeta, final String alias) {
+		if (multiSortMeta != null && sQuery != null && !multiSortMeta.isEmpty() && !sQuery.isEmpty()) {
+			StringBuilder sbQuery = new StringBuilder(sQuery);
+			for (SortMeta sortMetaTemp : multiSortMeta) {
+				if (!sbQuery.toString().contains("order by")) {
+					sbQuery.append(" order by ");
+				} else {
+					sbQuery.append(" , ");
+				}
+				sbQuery.append(alias).append(".").append(sortMetaTemp.getSortField());
+				sbQuery.append((sortMetaTemp.getSortOrder().toString().equals("ASCENDING") ? " asc " : " desc "));
+			}
+			return sbQuery.toString();
+		} else {
+			return sQuery;
+		}
+	}
+
+	public Query getQueryOrdenadaEFiltrada(String stringQuery, String alias, EntityManager entityManager, Filtro filtro, List<SortMeta> multiSortMeta, Class<? extends Object> clazz) {
+		String sQuery = getQueryFiltrada(getQueryOrdenada(stringQuery, multiSortMeta, alias), filtro, alias);
+		Query returN;
+		if (clazz != null) {
+			returN = entityManager.createQuery(sQuery, clazz);
+		} else {
+			returN = entityManager.createQuery(sQuery);
+		}
+		setaParametros(returN, filtro);
+		return returN;
+	}
+
+	private void setaParametros(Query query, Filtro filtro) {
+		if (filtro != null && query != null && !filtro.getCondicoes().isEmpty()) {
+			for (Condicao condTemp : filtro.getCondicoes()) {
+				if (condTemp.getCampo().getTipo().equals((Date.class))) {
+					query.setParameter(condTemp.getCampo().getNome(), getValorDate(condTemp.getValor()));
+				}
+			}
+		}
+
+	}
+
 	private String getCondicao(final Condicao condicao, final String alias) {
-		return (alias + "." + condicao.getCampo().getNome() + this.getOperador(condicao.getOperador()) + getValor(condicao));
+		if (!condicao.getOperador().equals(Operador.CONTEMPALAVRAS))
+			return (alias + "." + condicao.getCampo().getNome() + this.getOperador(condicao.getOperador()) + getValor(condicao));
+		else
+			return getCondicaoCONTEMPALAVRAS(condicao, alias);
+	}
+
+	private String getCondicaoCONTEMPALAVRAS(Condicao condicao, String alias) {
+		if (condicao != null) {
+			String valor = condicao.getValor().toString().trim();
+			String[] palavras = valor.split(" ");
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < palavras.length; i++) {
+				sb.append(((alias != null && !alias.isEmpty()) ? (alias + "." + condicao.getCampo().getNome()) : "") + " like '%" + palavras[i] + "%' ");
+				if ((palavras.length - i) > 1) {
+					sb.append(" and ");
+				}
+			}
+			return sb.toString();
+		}
+		return "";
 	}
 
 	private String getOperador(final Operador operador) {
@@ -92,7 +138,7 @@ public class QueryConstrutor {
 	}
 
 	private String getValor(Condicao condicao) {
-		if (!condicao.getCampo().getType().equals(Date.class))
+		if (!condicao.getCampo().getTipo().equals((Date.class)))
 			switch (condicao.getOperador()) {
 			case IGUAL:
 				return valorVARCHAR(condicao);
@@ -142,13 +188,13 @@ public class QueryConstrutor {
 		return ":" + condicao.getCampo().getNome();
 	}
 
-	public Query getQueryOrdenadaEFiltrada(String stringQuery, String alias, EntityManager entityManager, Filtro filtro, List<SortMeta> multiSortMeta, Class<? extends Object> clazz) {
-		String sQuery = getQueryFiltrada(getQueryOrdenada(stringQuery, multiSortMeta, alias), filtro, alias);
-		if (clazz != null) {
-			return entityManager.createQuery(sQuery, clazz);
-		} else {
-			return entityManager.createQuery(sQuery);
+	private Date getValorDate(Object valor) {
+		try {
+			return this.sdf.parse(valor.toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 }

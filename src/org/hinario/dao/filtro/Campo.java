@@ -1,5 +1,8 @@
 package org.hinario.dao.filtro;
 
+import java.lang.reflect.Field;
+import java.util.Iterator;
+
 import org.hinario.app.AppMessage;
 
 public class Campo {
@@ -31,6 +34,35 @@ public class Campo {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public Class<? extends Object> getType() {
+		Class<? extends Object> classe;
+		try {
+			classe = Class.forName(this.getClassName());
+			String[] campos = this.chave.split("[*]")[0].split("[.]");
+			for (int i = campos.length > 1 ? 1 : 0; i < campos.length; i++) {
+				classe = classe.getDeclaredField(campos[i]).getType();
+			}
+			return classe;
+		} catch (ClassNotFoundException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+		return String.class;
+	}
+
+	private String getClassName() {
+		String atributoAbsoluto = this.chave.split("[*]")[1];
+		String[] paths = atributoAbsoluto.split("[.]");
+		String className = "";
+		for (int i = 0; i < paths.length - 1; i++) {
+			className += paths[i];
+			if ((paths.length - i) > 2) {
+				className += ".";
+			}
+		}
+
+		return className;
 	}
 
 	@Override

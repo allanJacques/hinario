@@ -1,7 +1,11 @@
 package org.hinario.dao;
 
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.hinario.dao.filtro.Condicao;
 import org.hinario.dao.filtro.Filtro;
@@ -10,7 +14,7 @@ import org.primefaces.model.SortMeta;
 
 public class QueryConstrutor {
 
-	public String getQueryOrdenada(final String sQuery, final List<SortMeta> multiSortMeta, final String alias) {
+	private String getQueryOrdenada(final String sQuery, final List<SortMeta> multiSortMeta, final String alias) {
 		if (multiSortMeta != null && sQuery != null && !multiSortMeta.isEmpty() && !sQuery.isEmpty()) {
 			StringBuilder sbQuery = new StringBuilder(sQuery);
 			for (SortMeta sortMetaTemp : multiSortMeta) {
@@ -28,7 +32,7 @@ public class QueryConstrutor {
 		}
 	}
 
-	public String getQueryFiltrada(final String query, final Filtro filtro, final String alias) {
+	private String getQueryFiltrada(final String query, final Filtro filtro, final String alias) {
 
 		StringBuilder clausulaWhere = new StringBuilder();
 		StringBuilder sbQuery = new StringBuilder(query);
@@ -88,46 +92,63 @@ public class QueryConstrutor {
 	}
 
 	private String getValor(Condicao condicao) {
-		switch (condicao.getOperador()) {
-		case IGUAL:
-			return valorVARCHAR(condicao.getValor().toString());
-		case COMECACOM:
-			return valorVARCHARComecaCom(condicao.getValor().toString());
-		case CONTEM:
-			return valorVARCHARContem(condicao.getValor().toString());
-		case DIFERENTE:
-			return valorVARCHAR(condicao.getValor().toString());
-		case MAIOR:
-			return valorVARCHAR(condicao.getValor().toString());
-		case MAIORIGUAL:
-			return valorVARCHAR(condicao.getValor().toString());
-		case MENOR:
-			return valorVARCHAR(condicao.getValor().toString());
-		case MENORIGUAL:
-			return valorVARCHAR(condicao.getValor().toString());
-		case NAOCONTEM:
-			return valorVARCHARContem(condicao.getValor().toString());
-		case TERMINACOM:
-			return valorVARCHARTerminaCom(condicao.getValor().toString());
-		default:
-			return "";
+		if (!condicao.getCampo().getType().equals(Date.class))
+			switch (condicao.getOperador()) {
+			case IGUAL:
+				return valorVARCHAR(condicao);
+			case COMECACOM:
+				return valorVARCHARComecaCom(condicao);
+			case CONTEM:
+				return valorVARCHARContem(condicao);
+			case DIFERENTE:
+				return valorVARCHAR(condicao);
+			case MAIOR:
+				return valorVARCHAR(condicao);
+			case MAIORIGUAL:
+				return valorVARCHAR(condicao);
+			case MENOR:
+				return valorVARCHAR(condicao);
+			case MENORIGUAL:
+				return valorVARCHAR(condicao);
+			case NAOCONTEM:
+				return valorVARCHARContem(condicao);
+			case TERMINACOM:
+				return valorVARCHARTerminaCom(condicao);
+			default:
+				return "";
+			}
+		else
+			return valorParametrizado(condicao);
+
+	}
+
+	private String valorVARCHAR(final Condicao condicao) {
+		return "'" + condicao.getValor() + "'";
+	}
+
+	private String valorVARCHARComecaCom(final Condicao condicao) {
+		return "'" + condicao.getValor() + "%'";
+	}
+
+	private String valorVARCHARTerminaCom(final Condicao condicao) {
+		return "'%" + condicao.getValor() + "'";
+	}
+
+	private String valorVARCHARContem(final Condicao condicao) {
+		return "'%" + condicao.getValor() + "%'";
+	}
+
+	private String valorParametrizado(Condicao condicao) {
+		return ":" + condicao.getCampo().getNome();
+	}
+
+	public Query getQueryOrdenadaEFiltrada(String stringQuery, String alias, EntityManager entityManager, Filtro filtro, List<SortMeta> multiSortMeta, Class<? extends Object> clazz) {
+		String sQuery = getQueryFiltrada(getQueryOrdenada(stringQuery, multiSortMeta, alias), filtro, alias);
+		if (clazz != null) {
+			return entityManager.createQuery(sQuery, clazz);
+		} else {
+			return entityManager.createQuery(sQuery);
 		}
-
 	}
 
-	private String valorVARCHAR(final String valor) {
-		return "'" + valor + "'";
-	}
-
-	private String valorVARCHARComecaCom(final String valor) {
-		return "'" + valor + "%'";
-	}
-
-	private String valorVARCHARTerminaCom(final String valor) {
-		return "'%" + valor + "'";
-	}
-
-	private String valorVARCHARContem(final String valor) {
-		return "'%" + valor + "%'";
-	}
 }

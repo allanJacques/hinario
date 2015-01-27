@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hinario.model.Usuario;
@@ -27,12 +28,18 @@ public class Teste {
 		// }
 		// System.out.println("resultado: " + idDeUsuarios.size());
 
-		TypedQuery<Usuario> qu = (TypedQuery<Usuario>) em.createQuery("select usuario from Usuario usuario join fetch usuario.irmao where  (usuario.email like '%gmail%')  order by usuario.irmao.nome asc", Usuario.class);
-		List<Usuario> usuarios = qu.getResultList();
-		for (Usuario uTemp : usuarios) {
-			System.out.println(uTemp.getEmail());
-		}
-		System.out.println("resultado: " + usuarios.size());
+		// TypedQuery<Usuario> qu = (TypedQuery<Usuario>)
+		// em.createQuery("select usuario from Usuario usuario join fetch usuario.irmao where  (usuario.email like '%gmail%')  order by usuario.irmao.nome asc",
+		// Usuario.class);
+		// List<Usuario> usuarios = qu.getResultList();
+		// for (Usuario uTemp : usuarios) {
+		// System.out.println(uTemp.getEmail());
+		// }
+		// System.out.println("resultado: " + usuarios.size());
+
+		Query q = em.createQuery("select COUNT(u) from Usuario u where  (u.id like :id)");
+		q.setParameter("id", new Long(1L));
+		System.out.println(q.getResultList());
 
 		em.getTransaction().commit();
 		em.close();

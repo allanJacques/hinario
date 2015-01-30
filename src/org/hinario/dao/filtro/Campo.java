@@ -1,8 +1,5 @@
 package org.hinario.dao.filtro;
 
-import java.lang.reflect.Field;
-import java.util.Iterator;
-
 import org.hinario.app.AppMessage;
 
 public class Campo {
@@ -81,11 +78,11 @@ public class Campo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Campo outro = (Campo) obj;
+		Campo other = (Campo) obj;
 		if (chave == null) {
-			if (outro.chave != null)
+			if (other.chave != null)
 				return false;
-		} else if (!chave.equals(outro.chave))
+		} else if (!chave.equals(other.chave))
 			return false;
 		return true;
 	}

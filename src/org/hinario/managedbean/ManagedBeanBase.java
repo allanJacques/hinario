@@ -1,9 +1,13 @@
 package org.hinario.managedbean;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
 import org.hinario.dao.filtro.Condicao;
 import org.hinario.dao.filtro.Filtro;
+import org.hinario.dao.filtro.StatusCondicao;
 
 public class ManagedBeanBase {
 	protected AppMessage appMessage;
@@ -35,14 +39,18 @@ public class ManagedBeanBase {
 	}
 
 	public void adicionarCondicao() {
-		this.filtro.getCondicoes().add(this.condicaoAAdicionar);
-		this.condicaoAAdicionar = new Condicao();
+		if (this.condicaoAAdicionar.getStatusCondicao().equals(StatusCondicao.SUCESSO)) {
+			this.filtro.getCondicoes().add(this.condicaoAAdicionar);
+			this.condicaoAAdicionar = new Condicao();
+		} else {
+			FacesContext.getCurrentInstance().addMessage("condicaoMsg", new FacesMessage(FacesMessage.SEVERITY_ERROR, this.condicaoAAdicionar.getStatusCondicao().getMensagem(), ""));
+		}
 	}
 
-	public void removerCondicao(final Condicao condicao){
+	public void removerCondicao(final Condicao condicao) {
 		this.filtro.getCondicoes().remove(condicao);
 	}
-	
+
 	public AppMessage getAppMessage() {
 		return appMessage;
 	}

@@ -68,13 +68,17 @@
 							<p:outputLabel value="#{strg['label.condicao']}" />
 							<p:outputLabel value="#{strg['label.valor']}" />
 
-							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo}">
-								<f:converter converterId="campoConverter" />
+							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo}" validatorMessage="#{strg['message.condicao.valorNulo']}">
+								<f:validator disabled="true" />
+								<f:ajax render="operador"></f:ajax>
+								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true"></f:selectItem>
 								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo}" />
+								<f:converter converterId="campoConverter" />
 							</p:selectOneMenu>
 
 							<p:selectOneMenu id="operador" value="#{usuarioBean.condicaoAAdicionar.operador}">
-								<f:selectItems value="#{condicoesBean.operadores}" />
+								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true"></f:selectItem>
+								<f:selectItems value="#{usuarioBean.condicaoAAdicionar.operadoresValidos}" />
 							</p:selectOneMenu>
 							<h:panelGroup>
 								<p:inputText id="valor" value="#{usuarioBean.condicaoAAdicionar.valor}" />
@@ -83,7 +87,8 @@
 								</h:commandButton>
 							</h:panelGroup>
 						</h:panelGrid>
-						<p:dataTable value="#{usuarioBean.filtro.condicoes}" var="condicao" rendered="#{!usuarioBean.filtro.condicoes.isEmpty()}">
+						<p:messages id="condicaoMsg" globalOnly="false"></p:messages>
+						<p:dataTable id="tabelaFiltros" value="#{usuarioBean.filtro.condicoes}" var="condicao" rendered="#{!usuarioBean.filtro.condicoes.isEmpty()}">
 							<p:column headerText="#{strg['label.campo']}" width="30%">
 								<h:outputText value="#{condicao.campo.descricao}" />
 							</p:column>
@@ -96,7 +101,7 @@
 							<p:column headerText="#{strg['label.acoes']}" width="10%">
 								<div class="colunaData">
 									<h:commandLink action="#{usuarioBean.removerCondicao(condicao)}">
-										<f:ajax render="pagina" execute="painelFiltro"></f:ajax>
+										<f:ajax render="pagina" execute="tabelaFiltros"></f:ajax>
 										<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
 									</h:commandLink>
 								</div>

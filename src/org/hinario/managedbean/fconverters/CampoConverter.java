@@ -17,6 +17,9 @@ public class CampoConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object valor) {
-		return ((Campo) valor).getChave();
+		if (valor != null)
+			return ((Campo) valor).getChave();
+		else
+			return null;
 	}
 }

@@ -1,5 +1,6 @@
 package org.hinario.dao;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +15,9 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.dao.filtro.Operador;
 import org.primefaces.model.SortMeta;
 
-public class QueryConstrutor {
+public class QueryConstrutor implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 

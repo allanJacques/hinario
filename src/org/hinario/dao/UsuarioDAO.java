@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -44,6 +43,7 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 		return getListaUsuario(null, null, null, null);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsuario(final Integer inicio, final Integer limite, final List<SortMeta> multiSortMeta, final Filtro filtro) {
 		TypedQuery<Usuario> q = (TypedQuery<Usuario>) getQueryOrdenadaEFiltrada("select usuario from Usuario usuario join fetch usuario.irmao", "usuario", em, filtro, multiSortMeta, Usuario.class);
 		if (inicio != null)

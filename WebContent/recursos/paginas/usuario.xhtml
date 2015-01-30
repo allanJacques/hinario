@@ -39,12 +39,12 @@
 								<p:inputTextarea id="observacao" value="#{usuarioBean.usuario.irmao.observacao}" cols="53" rows="2" />
 								<p:message for="observacao" />
 							</h:panelGrid>
-							<h:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;" styleClass="botao">
+							<p:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;" styleClass="botao" ajax="false">
 								<f:ajax execute="usuarioEditor" render="pagina" />
-							</h:commandButton>
-							<h:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}" styleClass="botao">
+							</p:commandButton>
+							<p:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false">
 								<f:ajax render="usuarioEditor" />
-							</h:commandButton>
+							</p:commandButton>
 						</h:form>
 						<h:panelGroup rendered="#{usuarioBean.edicao}">
 							<div align="center" style="border: 1px solid gray; margin: -25px 30px 30px 30px; padding: 5px;">
@@ -82,9 +82,9 @@
 							</p:selectOneMenu>
 							<h:panelGroup>
 								<p:inputText id="valor" value="#{usuarioBean.condicaoAAdicionar.valor}" />
-								<h:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao">
+								<p:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" ajax="false">
 									<f:ajax render="pagina" execute="campo operador valor"></f:ajax>
-								</h:commandButton>
+								</p:commandButton>
 							</h:panelGroup>
 						</h:panelGrid>
 						<p:messages id="condicaoMsg" globalOnly="false"></p:messages>

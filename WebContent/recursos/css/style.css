@@ -37,6 +37,13 @@ select.ui-paginator-rpp-options {
 	margin-top: 3px
 }
 
-input.botao {
-	margin: 10px
+button.botao {
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+	height: 32px;
+}
+
+span.ui-button-text {
+	padding: 3px !important;
+	height: 30px;
 }

@@ -7,7 +7,7 @@ import javax.faces.convert.FacesConverter;
 
 import org.hinario.dao.filtro.Campo;
 
-@FacesConverter(value = "campoConverter")
+@FacesConverter(forClass = Campo.class)
 public class CampoConverter implements Converter {
 
 	@Override

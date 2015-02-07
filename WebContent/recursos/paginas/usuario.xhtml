@@ -56,6 +56,26 @@
 
 				<p:spacer height="15" />
 				<!-- ======================================================== FILTRO ======================================================== -->
+				<p:ajaxStatus>
+					<f:facet name="start">
+						<h:outputText value="start" />
+					</f:facet>
+					<f:facet name="error">
+						<h:outputText value="Error. " />
+					</f:facet>
+					<f:facet name="complete">
+						<h:outputText value="complete" />
+					</f:facet>
+				</p:ajaxStatus>
+
+				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="true" closable="false" resizable="false" showHeader="true">
+					<f:facet name="header">Header</f:facet>
+					<p:outputLabel value="isso ai" />
+
+				</p:dialog>
+
 				<h:form id="painelFiltro" prependId="false" acceptcharset="UTF-8">
 					<f:ajax render="painelFiltro">
 						<h:commandLink action="#{usuarioBean.inverteFiltro()}" style="float:right;" rendered="#{usuarioBean.exibindoFiltro}" value="#{strg['label.esconderFiltros']}" />
@@ -73,7 +93,6 @@
 								<f:ajax render="operador"></f:ajax>
 								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true"></f:selectItem>
 								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo}" />
-								<f:converter converterId="campoConverter" />
 							</p:selectOneMenu>
 
 							<p:selectOneMenu id="operador" value="#{usuarioBean.condicaoAAdicionar.operador}">
@@ -151,5 +170,6 @@
 				</h:form>
 			</h:panelGroup>
 		</h:panelGrid>
+		<ui:debug hotkey="x" />
 	</ui:define>
 </ui:composition>

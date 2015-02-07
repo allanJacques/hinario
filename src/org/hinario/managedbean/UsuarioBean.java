@@ -157,7 +157,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		public Object getRowKey(Usuario usuario) {
 			return usuario.getId();
 		}
-
 	}
 
 }

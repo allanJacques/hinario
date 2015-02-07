@@ -117,4 +117,5 @@ public class Usuario extends Entidade implements Serializable {
 	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
+
 }

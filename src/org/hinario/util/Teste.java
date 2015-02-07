@@ -12,20 +12,20 @@ import org.hinario.dao.filtro.Operador;
 public class Teste {
 
 	public static void main(String[] args) {
-		System.out.println("iniciando");
-		try {
-			System.out.println(Class.forName("org.hinario.dao.filtro.Operador").getMethod("values", null).invoke(null, null));
-			Operador[] array = (Operador[]) Class.forName("org.hinario.dao.filtro.Operador").getMethod("values", null).invoke(null, null);
-			for (Object o : array) {
-				System.out.println(o);
-			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("finalizando");
-
-		System.exit(0);
+//		System.out.println("iniciando");
+//		try {
+//			System.out.println(Class.forName("org.hinario.dao.filtro.Operador").getMethod("values", null).invoke(null, null));
+//			Operador[] array = (Operador[]) Class.forName("org.hinario.dao.filtro.Operador").getMethod("values", null).invoke(null, null);
+//			for (Object o : array) {
+//				System.out.println(o);
+//			}
+//		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("finalizando");
+//
+//		System.exit(0);
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hinario");
 		EntityManager em = emf.createEntityManager();
 

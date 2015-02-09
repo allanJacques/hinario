@@ -38,10 +38,14 @@ public class AppMessage {
 	}
 
 	public static String getStaticString(final String chave) {
-		String returN = AppMessage.resourceBundleStatic.getString(chave);
-		if (returN.equals(null)) {
+		try {
+			String returN = resourceBundleStatic.getString(chave);
+			if (returN.equals(null)) {
+				return "*" + chave + "*";
+			}
+			return returN;
+		} catch (MissingResourceException ex) {
 			return "*" + chave + "*";
 		}
-		return returN;
 	}
 }

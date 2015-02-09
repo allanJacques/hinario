@@ -18,6 +18,7 @@ import org.hinario.dao.UsuarioDAO;
 import org.hinario.dao.filtro.Campo;
 import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Usuario;
+import org.hinario.model.enums.Sexo;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
 import org.primefaces.model.LazyDataModel;
@@ -60,7 +61,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 			FacesContext.getCurrentInstance().addMessage("confirmeSenha", fm);
 			return;
 		}
-		this.getUsuario().setDataCadastro(new Date());
+		this.getUsuario().getIrmao().setDataCadastro(new Date());
 		if (isAdicao())
 			this.getUsuario().setSenha(new CriptografiaUtil().criptografar(this.getUsuario().getSenha()));
 		this.dao.salvar(this.getUsuario());
@@ -121,6 +122,10 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	public void setCampo(Campo campo) {
 		this.campo = campo;
+	}
+
+	public Sexo[] getSexos() {
+		return Sexo.values();
 	}
 
 	public class UsuarioDataModel extends LazyDataModel<Usuario> {

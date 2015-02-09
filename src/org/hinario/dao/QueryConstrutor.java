@@ -81,7 +81,7 @@ public class QueryConstrutor implements Serializable {
 		if (filtro != null && query != null && !filtro.getCondicoes().isEmpty()) {
 			for (Condicao condTemp : filtro.getCondicoes()) {
 				if (condTemp.getCampo().getTipo().equals((Date.class))) {
-					query.setParameter(condTemp.getCampo().getNome(), getValorDate(condTemp.getValor()));
+					query.setParameter(this.getNomeParametro(condTemp.getCampo().getNome()), getValorDate(condTemp.getValor()));
 				}
 			}
 		}
@@ -90,7 +90,7 @@ public class QueryConstrutor implements Serializable {
 
 	private String getCondicao(final Condicao condicao, final String alias) {
 		if (!condicao.getOperador().equals(Operador.CONTEMPALAVRAS))
-			return (alias + "." + condicao.getCampo().getNome() + this.getOperador(condicao.getOperador()) + getValor(condicao));
+			return (alias + "." + condicao.getCampo().getNome() + this.getOperador(condicao.getOperador()) + this.getValor(condicao));
 		else
 			return getCondicaoCONTEMPALAVRAS(condicao, alias);
 	}
@@ -188,7 +188,7 @@ public class QueryConstrutor implements Serializable {
 	}
 
 	private String valorParametrizado(Condicao condicao) {
-		return ":" + condicao.getCampo().getNome();
+		return ":" + this.getNomeParametro(condicao.getCampo().getNome());
 	}
 
 	private Date getValorDate(Object valor) {
@@ -198,6 +198,10 @@ public class QueryConstrutor implements Serializable {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String getNomeParametro(String campo) {
+		return campo.replace('.', '_');
 	}
 
 }

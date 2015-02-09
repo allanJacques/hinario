@@ -1,11 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/recursos/imagens/favicon2.gif" />
-	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/recursos/css/style.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/imagens/favicon2.gif" />
+	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/style.css" />
 	<title><ui:insert name="title"></ui:insert></title>
 </h:head>
 <h:body>
+	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="true" closable="false" resizable="false" showHeader="true">
+		<p:graphicImage library="imagens" name="load.gif" style="margin-left: 100px;" />
+		<br />
+		<h:outputText value="#{strg['message.processandoRequisicao']}" />
+	</p:dialog>
 	<div id="topo">
 		<ui:insert name="topo">
 			<ui:include src="/WEB-INF/paginas/topo.xhtml" />

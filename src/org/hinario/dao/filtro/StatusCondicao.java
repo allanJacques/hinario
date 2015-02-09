@@ -4,7 +4,7 @@ import org.hinario.app.AppMessage;
 
 public enum StatusCondicao {
 
-	CAMPO_OPERADOR_IMCOMPATIVEIS("message.condicao.campoOperadorIncompativeis"), VALOR_NULO("message.condicao.valorNulo"), SUCESSO("message.condicao.sucesso");
+	CAMPO_OPERADOR_IMCOMPATIVEIS("message.condicao.campoOperadorIncompativeis"), VALOR_NULO("message.condicao.valorNulo"), SUCESSO("message.condicao.sucesso"), VALOR_INVALIDO("message.condicao.valorInvalido");
 
 	private AppMessage appMessage = new AppMessage();
 

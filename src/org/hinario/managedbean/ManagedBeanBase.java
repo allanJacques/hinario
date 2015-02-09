@@ -43,7 +43,7 @@ public class ManagedBeanBase {
 			this.filtro.getCondicoes().add(this.condicaoAAdicionar);
 			this.condicaoAAdicionar = new Condicao();
 		} else {
-			FacesContext.getCurrentInstance().addMessage("condicaoMsg", new FacesMessage(FacesMessage.SEVERITY_ERROR, this.condicaoAAdicionar.getStatusCondicao().getMensagem(), ""));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, this.condicaoAAdicionar.getStatusCondicao().getMensagem(), " "));
 		}
 	}
 

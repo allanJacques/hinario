@@ -1,7 +1,6 @@
 package org.hinario.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -13,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -47,11 +44,6 @@ public class Usuario extends Entidade implements Serializable {
 	@NotNull
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Irmao irmao;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	@Column(updatable = false)
-	private Date dataCadastro;
 
 	@Lob
 	@Basic(fetch = FetchType.EAGER)
@@ -101,15 +93,7 @@ public class Usuario extends Entidade implements Serializable {
 		this.irmao = irmao;
 	}
 
-	public Date getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
-	@Basic(fetch = FetchType.EAGER)
+	@Basic(fetch = FetchType.LAZY)
 	public byte[] getImagem() {
 		return imagem;
 	}

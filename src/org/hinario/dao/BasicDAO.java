@@ -33,17 +33,6 @@ public class BasicDAO implements Serializable {
 		em.getTransaction().commit();
 	}
 
-	// private String getQueryOrdenada(String sQuery, final List<SortMeta>
-	// multiSortMeta, final String alias) {
-	// return this.queryConstrutor.getQueryOrdenada(sQuery, multiSortMeta,
-	// alias);
-	// }
-	//
-	// private String getQueryFiltrada(String query, final Filtro filtro, final
-	// String alias) {
-	// return this.queryConstrutor.getQueryFiltrada(query, filtro, alias);
-	// }
-
 	public Query getQueryOrdenadaEFiltrada(final String stringQuery, final String alias, final EntityManager entityManager, final Filtro filtro, final List<SortMeta> multiSortMeta, final Class<? extends Object> clazz) {
 		return this.queryConstrutor.getQueryOrdenadaEFiltrada(stringQuery, alias, entityManager, filtro, multiSortMeta, clazz);
 	}

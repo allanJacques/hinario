@@ -47,3 +47,7 @@ span.ui-button-text {
 	padding: 3px !important;
 	height: 30px;
 }
+
+div.ui-dialog-content {
+	margin: auto;
+}

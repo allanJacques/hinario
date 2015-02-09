@@ -18,6 +18,13 @@
 								<p:inputText id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" size="50" />
 								<p:message for="nome" />
 
+								<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
+								<p:selectOneMenu id="sexo" value="#{usuarioBean.usuario.irmao.sexo}" required="true" style="width:496px;">
+									<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="" />
+									<f:selectItems value="#{usuarioBean.sexos}" var="sexoTemp" />
+								</p:selectOneMenu>
+								<p:message for="sexo" />
+
 								<p:outputLabel value="#{strg['label.email']}" for="email" />
 								<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" size="50" />
 								<p:message for="email" />
@@ -56,26 +63,6 @@
 
 				<p:spacer height="15" />
 				<!-- ======================================================== FILTRO ======================================================== -->
-				<p:ajaxStatus>
-					<f:facet name="start">
-						<h:outputText value="start" />
-					</f:facet>
-					<f:facet name="error">
-						<h:outputText value="Error. " />
-					</f:facet>
-					<f:facet name="complete">
-						<h:outputText value="complete" />
-					</f:facet>
-				</p:ajaxStatus>
-
-				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-
-				<p:dialog widgetVar="statusDialog" modal="true" draggable="true" closable="false" resizable="false" showHeader="true">
-					<f:facet name="header">Header</f:facet>
-					<p:outputLabel value="isso ai" />
-
-				</p:dialog>
-
 				<h:form id="painelFiltro" prependId="false" acceptcharset="UTF-8">
 					<f:ajax render="painelFiltro">
 						<h:commandLink action="#{usuarioBean.inverteFiltro()}" style="float:right;" rendered="#{usuarioBean.exibindoFiltro}" value="#{strg['label.esconderFiltros']}" />
@@ -100,13 +87,15 @@
 								<f:selectItems value="#{usuarioBean.condicaoAAdicionar.operadoresValidos}" />
 							</p:selectOneMenu>
 							<h:panelGroup>
-								<p:inputText id="valor" value="#{usuarioBean.condicaoAAdicionar.valor}" />
-								<p:commandButton action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" ajax="false">
-									<f:ajax render="pagina" execute="campo operador valor"></f:ajax>
+								<h:inputText id="valorAlfanumerico" value="ALFANUMERICO" rendered="#{usuarioBean.condicaoAAdicionar.valorAlfanumerico}" />
+								<h:inputText id="valorNumerico" value="NUMERICO" rendered="#{usuarioBean.condicaoAAdicionar.valorNumerico}" />
+								<h:inputText id="valorTemporal" value="TEMPORAL" rendered="#{usuarioBean.condicaoAAdicionar.valorTemporal}" />
+								<h:inputText id="valorEnumerado" value="ENUMERADO" rendered="#{usuarioBean.condicaoAAdicionar.valorEnumerado}" />
+								<p:commandButton id="adicionarCondicao" action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" ajax="false">
+									<f:ajax render="pagina" execute="painelFiltro" />
 								</p:commandButton>
 							</h:panelGroup>
 						</h:panelGrid>
-						<p:messages id="condicaoMsg" globalOnly="false"></p:messages>
 						<p:dataTable id="tabelaFiltros" value="#{usuarioBean.filtro.condicoes}" var="condicao" rendered="#{!usuarioBean.filtro.condicoes.isEmpty()}">
 							<p:column headerText="#{strg['label.campo']}" width="30%">
 								<h:outputText value="#{condicao.campo.descricao}" />
@@ -150,7 +139,7 @@
 						<p:column width="15%" sortBy="#{usuarioTemp.dataCadastro}">
 							<f:facet name="header">#{strg['label.dataCadastro']}</f:facet>
 							<div class="colunaData">
-								<h:outputFormat value="#{formatsBean.getTimestamp(usuarioTemp.dataCadastro)}" title="#{formatsBean.getTimestamp(usuarioTemp.dataCadastro)}" />
+								<h:outputFormat value="#{formatsBean.getTimestamp(usuarioTemp.irmao.dataCadastro)}" title="#{formatsBean.getTimestamp(usuarioTemp.irmao.dataCadastro)}" />
 							</div>
 						</p:column>
 						<p:column sortBy="#{usuarioTemp.irmao.observacao}">

@@ -1,4 +1,4 @@
-<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="title">#{strg['label.usuarios']}</ui:define>
 	<ui:define name="body">
@@ -77,8 +77,8 @@
 
 							<p:selectOneMenu id="campo" value="#{usuarioBean.condicaoAAdicionar.campo}" validatorMessage="#{strg['message.condicao.valorNulo']}">
 								<f:validator disabled="true" />
-								<f:ajax render="operador"></f:ajax>
-								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true"></f:selectItem>
+								<f:ajax render="painelFiltro" />
+								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true" />
 								<f:selectItems value="#{usuarioBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo}" />
 							</p:selectOneMenu>
 
@@ -87,10 +87,21 @@
 								<f:selectItems value="#{usuarioBean.condicaoAAdicionar.operadoresValidos}" />
 							</p:selectOneMenu>
 							<h:panelGroup>
-								<h:inputText id="valorAlfanumerico" value="ALFANUMERICO" rendered="#{usuarioBean.condicaoAAdicionar.valorAlfanumerico}" />
-								<h:inputText id="valorNumerico" value="NUMERICO" rendered="#{usuarioBean.condicaoAAdicionar.valorNumerico}" />
-								<h:inputText id="valorTemporal" value="TEMPORAL" rendered="#{usuarioBean.condicaoAAdicionar.valorTemporal}" />
-								<h:inputText id="valorEnumerado" value="ENUMERADO" rendered="#{usuarioBean.condicaoAAdicionar.valorEnumerado}" />
+
+
+								<pe:inputNumber></pe:inputNumber>
+
+
+								<p:inputText id="valorAlfanumerico" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorAlfanumerico}" />
+								<p:inputMask id="valorNumerico" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorNumerico}" mask="9**" />
+								<p:calendar id="valorTemporal" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorTemporal}" effect="show" pattern="dd/MM/yyyy HH:mm:ss" locale="pt" navigator="true" mask="true" />
+								<p:selectOneMenu id="valorEnumerado" rendered="#{usuarioBean.condicaoAAdicionar.valorEnumerado}" value="#{usuarioBean.condicaoAAdicionar.valor}">
+									<f:selectItems />
+								</p:selectOneMenu>
+
+
+
+
 								<p:commandButton id="adicionarCondicao" action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" ajax="false">
 									<f:ajax render="pagina" execute="painelFiltro" />
 								</p:commandButton>

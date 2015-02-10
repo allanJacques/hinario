@@ -19,7 +19,7 @@ public class QueryConstrutor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 	private String getQueryFiltrada(final String query, final Filtro filtro, final String alias) {
 

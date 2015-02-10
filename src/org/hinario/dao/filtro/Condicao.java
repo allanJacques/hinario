@@ -86,14 +86,14 @@ public class Condicao {
 
 	public boolean isValorNumerico() {
 		System.out.print("Verificando Numerico ");
-		boolean returN = this.getCampo() != null && this.getCampo().getTipo().isInstance(Number.class);
+		boolean returN = this.getCampo() != null && (this.getCampo().getTipo().equals(Number.class) || this.getCampo().getTipo().equals(Long.class) || this.getCampo().getTipo().equals(Integer.class) || this.getCampo().getTipo().equals(Double.class));
 		System.out.println(returN);
 		return returN;
 	}
 
 	public boolean isValorAlfanumerico() {
 		System.out.print("Verificando Alfanumerico ");
-		boolean returN = this.getCampo() == null || this.getCampo().getTipo().isInstance(String.class);
+		boolean returN = this.getCampo() == null || this.getCampo().getTipo().equals(String.class);
 		System.out.println(returN);
 		return returN;
 
@@ -101,7 +101,7 @@ public class Condicao {
 
 	public boolean isValorTemporal() {
 		System.out.print("Verificando Temporal ");
-		boolean returN = this.getCampo() != null && this.getCampo().getTipo().isInstance(Date.class);
+		boolean returN = this.getCampo() != null && this.getCampo().getTipo().equals(Date.class);
 		System.out.println(returN);
 		return returN;
 

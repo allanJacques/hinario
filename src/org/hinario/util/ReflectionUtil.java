@@ -19,11 +19,19 @@ public class ReflectionUtil {
 	}
 
 	public Object getEnumPorDescricao(final Class<? extends Object> classeDoEnum, final String descricao) {
+		System.out.println("classe do Enum: " + classeDoEnum);
+		System.out.println("Descrição: " + descricao);
 		try {
-			for (Object oTemp : (Object[]) classeDoEnum.getMethod("values", null).invoke(null, null)) {
+			Object[] valores = (Object[]) classeDoEnum.getMethod("values", null).invoke(null, null);
+			for (Object oTemp : valores) {
+				System.out.println(oTemp.getClass() + oTemp.toString());
 				String descricaoTemp = oTemp.getClass().getMethod("getDescricao").invoke(oTemp).toString();
-				if (descricao.equals(descricaoTemp))
+				System.out.println(descricaoTemp);
+				System.out.println("Chegou no if");
+				if (descricao.equals(descricaoTemp)) {
+					System.out.println("=====================================================================================================Passou no if, retornado " + oTemp);
 					return oTemp;
+				}
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();

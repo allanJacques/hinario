@@ -9,8 +9,8 @@ import org.hinario.app.AppMessage;
 public enum Sexo {
 	MASCULINO(0, AppMessage.getStaticString("enum.sexo.masculino")), FEMININO(1, AppMessage.getStaticString("enum.sexo.feminino"));
 
-	private Sexo(final int chave, final String descricao) {
-		this.descricao = descricao;
+	private Sexo(final int chaveP, final String descricaoP) {
+		descricao = descricaoP;
 	}
 
 	private String descricao;
@@ -26,6 +26,6 @@ public enum Sexo {
 
 	@Override
 	public String toString() {
-		return this.getDescricao();
+		return descricao;
 	}
 }

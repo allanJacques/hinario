@@ -142,7 +142,7 @@ public class QueryConstrutor implements Serializable {
 	}
 
 	private String getValor(Condicao condicao) {
-		if (!condicao.getCampo().getTipo().equals((Date.class)))
+		if (!condicao.isValorTemporal() && !condicao.isValorEnumerado())
 			switch (condicao.getOperador()) {
 			case IGUAL:
 				return valorVARCHAR(condicao);

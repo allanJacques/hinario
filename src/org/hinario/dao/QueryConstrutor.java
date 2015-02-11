@@ -1,8 +1,6 @@
 package org.hinario.dao;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -13,13 +11,13 @@ import javax.persistence.Query;
 import org.hinario.dao.filtro.Condicao;
 import org.hinario.dao.filtro.Filtro;
 import org.hinario.dao.filtro.Operador;
+import org.hinario.util.ReflectionUtil;
 import org.primefaces.model.SortMeta;
 
 public class QueryConstrutor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	private final ReflectionUtil reflectionUtil = new ReflectionUtil();
 
 	private String getQueryFiltrada(final String query, final Filtro filtro, final String alias) {
 
@@ -80,8 +78,11 @@ public class QueryConstrutor implements Serializable {
 	private void setaParametros(Query query, Filtro filtro) {
 		if (filtro != null && query != null && !filtro.getCondicoes().isEmpty()) {
 			for (Condicao condTemp : filtro.getCondicoes()) {
-				if (condTemp.getCampo().getTipo().equals((Date.class))) {
-					query.setParameter(this.getNomeParametro(condTemp.getCampo().getNome()), getValorDate(condTemp.getValor()));
+				if (condTemp.isValorTemporal()) {
+					query.setParameter(this.getNomeParametro(condTemp.getCampo().getNome()), ((Date) condTemp.getValor()));
+				}
+				if (condTemp.isValorEnumerado()) {
+					query.setParameter(this.getNomeParametro(condTemp.getCampo().getNome()), this.reflectionUtil.getEnumPorDescricao(condTemp.getCampo().getTipo(), condTemp.getValor().toString()));
 				}
 			}
 		}
@@ -189,15 +190,6 @@ public class QueryConstrutor implements Serializable {
 
 	private String valorParametrizado(Condicao condicao) {
 		return ":" + this.getNomeParametro(condicao.getCampo().getNome());
-	}
-
-	private Date getValorDate(Object valor) {
-		try {
-			return this.sdf.parse(valor.toString());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	private String getNomeParametro(String campo) {

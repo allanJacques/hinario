@@ -1,14 +1,23 @@
 package org.hinario.dao.filtro;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hinario.util.ReflectionUtil;
+
 public class Condicao {
 
+	private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	private final ReflectionUtil reflectionUtil = new ReflectionUtil();
 	private Campo campo;
 	private Operador operador;
 	private Object valor;
+
+	public Condicao() {
+		this.sdf.setLenient(true);
+	}
 
 	public List<Operador> getOperadoresValidos() {
 
@@ -41,12 +50,20 @@ public class Condicao {
 		return operadoresValidos;
 	}
 
+	public List<String> getValoresEnumerados() {
+		ArrayList<String> returN = new ArrayList<String>();
+		if (this.getCampo() != null && this.isValorEnumerado())
+			for (Object oTemp : reflectionUtil.getDescricoesDoEnum(this.getCampo().getTipo())) {
+				returN.add(oTemp.toString());
+			}
+		return returN;
+	}
+
 	public Campo getCampo() {
 		return campo;
 	}
 
 	public void setCampo(Campo campo) {
-		System.out.println("Setando campo: " + campo);
 		this.campo = campo;
 	}
 
@@ -85,33 +102,27 @@ public class Condicao {
 	}
 
 	public boolean isValorNumerico() {
-		System.out.print("Verificando Numerico ");
-		boolean returN = this.getCampo() != null && (this.getCampo().getTipo().equals(Number.class) || this.getCampo().getTipo().equals(Long.class) || this.getCampo().getTipo().equals(Integer.class) || this.getCampo().getTipo().equals(Double.class));
-		System.out.println(returN);
-		return returN;
+		return this.getCampo() != null && (this.getCampo().getTipo().equals(Number.class) || this.getCampo().getTipo().equals(Long.class) || this.getCampo().getTipo().equals(Integer.class) || this.getCampo().getTipo().equals(Double.class));
 	}
 
 	public boolean isValorAlfanumerico() {
-		System.out.print("Verificando Alfanumerico ");
-		boolean returN = this.getCampo() == null || this.getCampo().getTipo().equals(String.class);
-		System.out.println(returN);
-		return returN;
+		return this.getCampo() == null || this.getCampo().getTipo().equals(String.class);
 
 	}
 
 	public boolean isValorTemporal() {
-		System.out.print("Verificando Temporal ");
-		boolean returN = this.getCampo() != null && this.getCampo().getTipo().equals(Date.class);
-		System.out.println(returN);
-		return returN;
+		return this.getCampo() != null && this.getCampo().getTipo().equals(Date.class);
 
 	}
 
 	public boolean isValorEnumerado() {
-		System.out.print("Verificando Enumerado ");
-		boolean returN = this.getCampo() != null && this.getCampo().getTipo().isEnum();
-		System.out.println(returN);
-		return returN;
+		return this.getCampo() != null && this.getCampo().getTipo().isEnum();
 	}
 
+	public String getValorFormatado() {
+		if (isValorTemporal())
+			return this.sdf.format(this.getValor());
+		else
+			return this.getValor().toString();
+	}
 }

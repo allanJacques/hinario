@@ -87,24 +87,20 @@
 								<f:selectItems value="#{usuarioBean.condicaoAAdicionar.operadoresValidos}" />
 							</p:selectOneMenu>
 							<h:panelGroup>
-
-
-								<pe:inputNumber></pe:inputNumber>
-
-
-								<p:inputText id="valorAlfanumerico" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorAlfanumerico}" />
-								<p:inputMask id="valorNumerico" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorNumerico}" mask="9**" />
-								<p:calendar id="valorTemporal" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorTemporal}" effect="show" pattern="dd/MM/yyyy HH:mm:ss" locale="pt" navigator="true" mask="true" />
-								<p:selectOneMenu id="valorEnumerado" rendered="#{usuarioBean.condicaoAAdicionar.valorEnumerado}" value="#{usuarioBean.condicaoAAdicionar.valor}">
-									<f:selectItems />
-								</p:selectOneMenu>
-
-
-
-
-								<p:commandButton id="adicionarCondicao" action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" ajax="false">
-									<f:ajax render="pagina" execute="painelFiltro" />
-								</p:commandButton>
+								<h:panelGrid columns="10">
+									<p:inputText id="valorAlfanumerico" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorAlfanumerico}" style="margin-top:-20px;" />
+									<p:inputText id="valorNumerico" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorNumerico}" style="margin-top:-20px;">
+										<pe:keyFilter mask="num"></pe:keyFilter>
+									</p:inputText>
+									<p:calendar id="valorTemporal" value="#{usuarioBean.condicaoAAdicionar.valor}" rendered="#{usuarioBean.condicaoAAdicionar.valorTemporal}" effect="show" pattern="dd/MM/yyyy HH:mm:ss" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" />
+									<p:selectOneMenu id="valorEnumerado" rendered="#{usuarioBean.condicaoAAdicionar.valorEnumerado}" value="#{usuarioBean.condicaoAAdicionar.valor}">
+										<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true" />
+										<f:selectItems value="#{usuarioBean.condicaoAAdicionar.valoresEnumerados}" var="valor" itemValue="#{valor}" />
+									</p:selectOneMenu>
+									<p:commandButton id="adicionarCondicao" action="#{usuarioBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" style="margin-top:-2px;" ajax="false">
+										<f:ajax render="pagina" execute="painelFiltro" />
+									</p:commandButton>
+								</h:panelGrid>
 							</h:panelGroup>
 						</h:panelGrid>
 						<p:dataTable id="tabelaFiltros" value="#{usuarioBean.filtro.condicoes}" var="condicao" rendered="#{!usuarioBean.filtro.condicoes.isEmpty()}">
@@ -115,7 +111,9 @@
 								<h:outputText value="#{condicao.operador.descricao}" />
 							</p:column>
 							<p:column headerText="#{strg['label.valor']}" width="30%">
-								<h:outputText value="#{condicao.valor}" />
+								<div class="colunaData">
+									<h:outputText value="#{condicao.valorFormatado}" />
+								</div>
 							</p:column>
 							<p:column headerText="#{strg['label.acoes']}" width="10%">
 								<div class="colunaData">

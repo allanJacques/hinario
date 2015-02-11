@@ -2,21 +2,26 @@ package org.hinario.model.enums;
 
 import org.hinario.app.AppMessage;
 
+/**
+ * @author AllanJacques
+ *
+ */
 public enum Sexo {
-	MASCULINO(AppMessage.getStaticString("enum.sexo.masculino")), FEMININO(AppMessage.getStaticString("enum.sexo.feminino"));
+	MASCULINO(0, AppMessage.getStaticString("enum.sexo.masculino")), FEMININO(1, AppMessage.getStaticString("enum.sexo.feminino"));
 
-	private Sexo(final String descricao) {
+	private Sexo(final int chave, final String descricao) {
 		this.descricao = descricao;
 	}
 
 	private String descricao;
+	private int chave;
 
 	public String getDescricao() {
 		return descricao;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public int getChave() {
+		return chave;
 	}
 
 	@Override

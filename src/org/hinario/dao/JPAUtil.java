@@ -21,16 +21,13 @@ public class JPAUtil {
 
 	public static EntityManager getEntityManager() {
 		if (JPAUtil.uniqueEntityManager == null) {
-			JPAUtil.uniqueEntityManager = Persistence
-					.createEntityManagerFactory("hinario")
-					.createEntityManager();
+			JPAUtil.uniqueEntityManager = Persistence.createEntityManagerFactory("hinario").createEntityManager();
 		}
 		return JPAUtil.uniqueEntityManager;
 	}
 
 	public static void closeEntityManager() {
-		if (JPAUtil.uniqueEntityManager != null
-				&& JPAUtil.uniqueEntityManager.isOpen()) {
+		if (JPAUtil.uniqueEntityManager != null && JPAUtil.uniqueEntityManager.isOpen()) {
 			JPAUtil.uniqueEntityManager.close();
 		}
 	}

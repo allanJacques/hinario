@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hinario.dao.UsuarioDAO;
 import org.hinario.model.Usuario;
-import org.hinario.util.NumberUtil;
+import org.hinario.util.NumericoUtil;
 
 @WebServlet(name = "ImagemServlet", urlPatterns = "/imagemstream/usuario/*")
 public class ImagemStream extends HttpServlet {
@@ -25,7 +25,7 @@ public class ImagemStream extends HttpServlet {
 			String requestString = request.getRequestURL().toString();
 			String[] urlParts = requestString.split("/");
 			int tamanhoParts = urlParts.length;
-			if (!(tamanhoParts < 7) || NumberUtil.isNumber(urlParts[tamanhoParts - 1])) {
+			if (!(tamanhoParts < 7) || NumericoUtil.isNumber(urlParts[tamanhoParts - 1])) {
 				Long id = this.getId(urlParts[tamanhoParts - 1]);
 
 				UsuarioDAO usuarioDao = new UsuarioDAO();

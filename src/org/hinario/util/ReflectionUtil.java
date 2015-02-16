@@ -1,11 +1,15 @@
 package org.hinario.util;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReflectionUtil {
+public class ReflectionUtil implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("all")
 	public List<String> getDescricoesDoEnum(final Class<? extends Object> classeDoEnum) {
 		ArrayList<String> returN = new ArrayList<>();
 		try {
@@ -18,6 +22,7 @@ public class ReflectionUtil {
 		return returN;
 	}
 
+	@SuppressWarnings("all")
 	public Object getEnumPorDescricao(final Class<? extends Object> classeDoEnum, final String descricao) {
 		System.out.println("classe do Enum: " + classeDoEnum);
 		System.out.println("Descrição: " + descricao);

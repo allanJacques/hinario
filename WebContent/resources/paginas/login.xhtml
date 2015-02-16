@@ -1,0 +1,28 @@
+<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">#{strg['label.login']}</ui:define>
+	<ui:define name="body">
+		<div id="divCentralizadora" style="width: 350px; margin-right: auto; margin-left: auto;">
+			<h:form>
+				<p:panel style="width:330px;">
+					<h:panelGrid columns="2">
+						<p:spacer />
+						<p:spacer />
+						<p:outputLabel for="emailLogin" value="#{strg['label.email']}" />
+						<p:inputText id="emailLogin" value="#{usuarioLoginBean.email}" />
+						<p:outputLabel for="senhaLogin" value="#{strg['label.senha']}" />
+						<p:password id="senhaLogin" value="#{usuarioLoginBean.senha}" />
+						<p:spacer />
+						<h:panelGroup>
+							<div style="float: right;">
+								<p:commandButton value="#{strg['label.entrar']}" action="#{usuarioLoginBean.login()}" ajax="false" styleClass="botao" style=" margin-right:0px !important;" />
+							</div>
+						</h:panelGroup>
+						<p:spacer />
+						<p:spacer />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+			<a href="mailto:allanjnofs@gmail.com?Subject=Esqueci minha senha"> <span>#{strg['message.esqueceuSenha']}</span></a>
+		</div>
+	</ui:define>
+</ui:composition>

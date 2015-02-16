@@ -46,7 +46,7 @@ public class Usuario extends Entidade implements Serializable {
 	private Irmao irmao;
 
 	@Lob
-	@Basic(fetch = FetchType.EAGER)
+	@Basic(fetch = FetchType.LAZY)
 	private byte[] imagem;
 
 	public Usuario() {

@@ -12,7 +12,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
-import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
 import org.hinario.dao.UsuarioDAO;
 import org.hinario.dao.filtro.Campo;
@@ -40,7 +39,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		System.out.println("-----------------------------------------Novo UsuarioBean-----------------------------------------");
 		this.setUsuario(new Usuario());
 		this.dao = new UsuarioDAO();
-		this.appMessage = new AppMessage();
 		this.usuarioDataModel = new UsuarioDataModel();
 		this.filtro = new Filtro(Usuario.class);
 	}

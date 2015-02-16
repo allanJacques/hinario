@@ -20,6 +20,7 @@ public class ManagedBeanBase {
 		this.appMessage = new AppMessage();
 		this.modoEditor = ModoEditor.ADICAO;
 		this.condicaoAAdicionar = new Condicao();
+		this.appMessage = new AppMessage();
 	}
 
 	public void adicionando() {

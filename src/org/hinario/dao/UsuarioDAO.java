@@ -16,6 +16,7 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public UsuarioDAO() {
+		super();
 	}
 
 	public boolean emailJaExiste(final String email) {
@@ -60,5 +61,12 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 
 	public Long count(final Filtro filtro) {
 		return (Long) getQueryOrdenadaEFiltrada("select COUNT(u) from Usuario u", "u", em, filtro, null, Long.class).getSingleResult();
+	}
+
+	public Usuario valida(String email, String senha) {
+		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u where email = :email and senha = :senha", Usuario.class);
+		q.setParameter("email", email);
+		q.setParameter("senha", senha);
+		return q.getSingleResult();
 	}
 }

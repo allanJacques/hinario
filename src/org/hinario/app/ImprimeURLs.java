@@ -3,6 +3,7 @@ package org.hinario.app;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,6 +26,21 @@ public class ImprimeURLs implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		if (true) {
+			Enumeration<String> enumRequest = request.getParameterNames();
+			while (enumRequest.hasMoreElements()) {
+				String parameterName = enumRequest.nextElement();
+				System.out.println(parameterName + "=" + request.getAttribute(parameterName));
+			}
+		}
+
+		if (true) {
+			Enumeration<String> enumSession = ((HttpServletRequest) request).getSession().getAttributeNames();
+			while (enumSession.hasMoreElements()) {
+				String parameterName = enumSession.nextElement();
+				System.out.println(parameterName + "=" + ((HttpServletRequest) request).getSession().getAttribute(parameterName));
+			}
+		}
 		System.out.println(sdf.format(new Date()) + "\t" + ((HttpServletRequest) request).getRequestURL() + "\t" + ((HttpServletRequest) request).getMethod());
 		chain.doFilter(request, response);
 	}

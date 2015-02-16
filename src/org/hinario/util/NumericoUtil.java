@@ -1,6 +1,6 @@
 package org.hinario.util;
 
-public class NumberUtil {
+public class NumericoUtil {
 
 	public static boolean isNumber(final Object trY) {
 		try {

@@ -139,7 +139,8 @@
 						<p:column width="28%" sortBy="#{usuarioTemp.irmao.nome}">
 							<f:facet name="header"> #{strg['label.nome']} </f:facet>
 							<h:graphicImage value="../../imagemstream/usuario/#{usuarioTemp.id}:#{formatsBean.currentTimeMillis}" height="20" width="20" styleClass="iconeUsuarioTabela" />
-							<h:outputText value="#{usuarioTemp.irmao.nome}" title="#{usuarioTemp.irmao.nome}" />
+							<h:outputText value=" #{strg['label.voce']}" title="#{usuarioTemp.irmao.nome}" rendered="#{usuarioLoginBean.usuario.id.equals(usuarioTemp.id)}" />
+							<h:outputText value=" #{usuarioTemp.irmao.nome}" title="#{usuarioTemp.irmao.nome}" rendered="#{!usuarioLoginBean.usuario.id.equals(usuarioTemp.id)}" />
 						</p:column>
 						<p:column width="15%" sortBy="#{usuarioTemp.email}">
 							<f:facet name="header"> #{strg['label.email']} </f:facet>

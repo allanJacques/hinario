@@ -6,6 +6,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hinario.dao.UsuarioDAO;
 import org.hinario.model.Usuario;
@@ -32,21 +33,22 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 	public String login() {
 		if (!this.usuarioDAO.emailJaExiste(this.email)) {
 			FacesContext fc = FacesContext.getCurrentInstance();
-			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, null, this.appMessage.getString("")));
+			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", this.appMessage.getString("message.emailNaoCadastrado")));
 		} else {
 			this.usuario = this.usuarioDAO.valida(this.email, new CriptografiaUtil().criptografar(this.senha));
 			if (this.usuario == null) {
 				FacesContext fc = FacesContext.getCurrentInstance();
-				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, null, this.appMessage.getString("")));
+				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", this.appMessage.getString("message.senhaIncorreta")));
 			} else {
-				return "index?faces-redirect=true";
+				return "home?faces-redirect=true";
 			}
 		}
 		return null;
 	}
 
 	public String logout() {
-		return null;
+		((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().invalidate();
+		return "login?faces-redirect=true";
 	}
 
 	public String getEmail() {

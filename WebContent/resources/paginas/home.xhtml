@@ -1,0 +1,10 @@
+<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">#{strg['label.nomeApp']}</ui:define>
+	<ui:define name="body">
+		<div id="divCentralizadora" style="line-height: 640px; height: 640px; width: 1300px; margin: auto;">
+			<div>
+				<p style="text-align: center;">Em implementação, #{usuarioLoginBean.usuario.irmao.nome}</p>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

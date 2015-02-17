@@ -1,5 +1,68 @@
 body {
 	zoom: 100%;
+	margin: 0;
+}
+
+div#topo {
+	display: block;
+	padding: 10px;
+	height: 40px;
+	z-index: 10;
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #CFCFCF;
+	top: 0px;
+	line-height: 60px;
+}
+
+img#logo {
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+
+img#logout {
+	width: 40px;
+	height: 40px;
+	float: right;
+}
+
+img#fotoLogin {
+	width: 40px;
+	height: 40px;
+	float: right;
+	margin-right: -10px;
+	border-radius: 10px;
+	border: 0px;
+	background-color: #CFCFCF;
+}
+
+p#appDescricao {
+	float: left;
+	line-height: 10px;
+	margin: 15px;
+	font: normal normal 900 50px/15px "Kunstler Script", Georgia, Serif;
+	color: #ffffff;
+}
+
+p#nomeUsuarioLogado {
+	float: right;
+	line-height: 10px;
+	margin: 15px;
+	font: normal normal 600 12px/12px Arial, serif;
+	color: #ffffff;
+}
+
+div#rodape {
+	display: block;
+	position: fixed;
+	line-height: 27px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 10;
+	border-top: 1px solid #e5e5e5;
+	background-color: #f1f1f1;
+	text-align: center;
 }
 
 .inputFile {

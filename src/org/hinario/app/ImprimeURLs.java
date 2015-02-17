@@ -26,22 +26,27 @@ public class ImprimeURLs implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		if (true) {
+		boolean imprimeParametrosDeRequisicao = true;
+		boolean imprimeAtributosDeSessao = false;
+
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println(sdf.format(new Date()) + "\t" + ((HttpServletRequest) request).getRequestURL() + "\t" + ((HttpServletRequest) request).getMethod());
+		if (imprimeParametrosDeRequisicao) {
 			Enumeration<String> enumRequest = request.getParameterNames();
 			while (enumRequest.hasMoreElements()) {
-				String parameterName = enumRequest.nextElement();
-				System.out.println(parameterName + "=" + request.getAttribute(parameterName));
+				String nomeDoParametro = enumRequest.nextElement();
+				System.out.println(nomeDoParametro + "=" + request.getAttribute(nomeDoParametro));
 			}
 		}
 
-		if (true) {
+		if (imprimeAtributosDeSessao) {
 			Enumeration<String> enumSession = ((HttpServletRequest) request).getSession().getAttributeNames();
 			while (enumSession.hasMoreElements()) {
-				String parameterName = enumSession.nextElement();
-				System.out.println(parameterName + "=" + ((HttpServletRequest) request).getSession().getAttribute(parameterName));
+				String nomeDoAtributo = enumSession.nextElement();
+				System.out.println(nomeDoAtributo + "=" + ((HttpServletRequest) request).getSession().getAttribute(nomeDoAtributo));
 			}
 		}
-		System.out.println(sdf.format(new Date()) + "\t" + ((HttpServletRequest) request).getRequestURL() + "\t" + ((HttpServletRequest) request).getMethod());
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		chain.doFilter(request, response);
 	}
 

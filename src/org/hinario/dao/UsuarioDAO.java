@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -64,9 +65,15 @@ public class UsuarioDAO extends BasicDAO implements Serializable {
 	}
 
 	public Usuario valida(String email, String senha) {
-		TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u where email = :email and senha = :senha", Usuario.class);
-		q.setParameter("email", email);
-		q.setParameter("senha", senha);
-		return q.getSingleResult();
+		Usuario returN = null;
+		try {
+			TypedQuery<Usuario> q = this.em.createQuery("select u from Usuario u where email = :email and senha = :senha", Usuario.class);
+			q.setParameter("email", email);
+			q.setParameter("senha", senha);
+			returN = q.getSingleResult();
+		} catch (NoResultException nre) {
+			System.out.println(nre.getClass() + ": " + "Senha incorreta");
+		}
+		return returN;
 	}
 }

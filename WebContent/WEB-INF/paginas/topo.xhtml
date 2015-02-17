@@ -1,6 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
-<ui:composition>
-	Topo
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<div id="topo">
+		<h:form prependId="false">
+			<p:graphicImage id="logo" name="favicon2.gif" library="imagens" />
+			<p id="appDescricao">Hinario da Sã Doutrina Espiritual do Sétimo Dia</p>
+			<p:commandLink id="linkLogout" action="#{usuarioLoginBean.logout()}" title="#{strg['label.sair']}" ajax="false" rendered="#{usuarioLoginBean.logado}">
+				<p:graphicImage id="logout" name="power4.png" library="imagens" />
+			</p:commandLink>
+			<p:tooltip id="toolTipGrow" for="linkLogout" value="#{strg['message.cliqueParaSair']}" showEffect="explode" hideEffect="explode" rendered="#{usuarioLoginBean.logado}" />
+			<p id="nomeUsuarioLogado">
+				<h:outputText value="#{usuarioLoginBean.usuario.irmao.nome}" rendered="#{usuarioLoginBean.logado}" />
+			</p>
+			<h:graphicImage id="fotoLogin" value="../../imagemstream/usuario/#{usuarioLoginBean.usuario.id}:#{formatsBean.currentTimeMillis}" rendered="#{usuarioLoginBean.logado}" />
+		</h:form>
+	</div>
 </ui:composition>
-</html>

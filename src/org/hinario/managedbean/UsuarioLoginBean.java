@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hinario.dao.UsuarioDAO;
+import org.hinario.model.EntidadeBase;
 import org.hinario.model.Usuario;
 import org.hinario.util.CriptografiaUtil;
 
@@ -73,6 +74,16 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	@Override
+	public void setEntidade(EntidadeBase entidade) {
+		this.usuario = (Usuario) entidade;
+	}
+
+	@Override
+	public EntidadeBase getEntidade() {
+		return this.usuario;
 	}
 
 }

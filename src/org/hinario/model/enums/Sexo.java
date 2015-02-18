@@ -4,9 +4,8 @@ import org.hinario.app.AppMessage;
 
 /**
  * @author AllanJacques
- *
  */
-public enum Sexo {
+public enum Sexo implements EnumBase {
 	MASCULINO(0, AppMessage.getStaticString("enum.sexo.masculino")), FEMININO(1, AppMessage.getStaticString("enum.sexo.feminino"));
 
 	private Sexo(final int chaveP, final String descricaoP) {

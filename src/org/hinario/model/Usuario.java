@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hinario.dao.filtro.CampoNaoFiltravel;
 
 @Entity
-public class Usuario extends Entidade implements Serializable {
+public class Usuario extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +53,7 @@ public class Usuario extends Entidade implements Serializable {
 		this.irmao = new Irmao();
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}

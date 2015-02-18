@@ -8,8 +8,10 @@ import org.hinario.app.ModoEditor;
 import org.hinario.dao.filtro.Condicao;
 import org.hinario.dao.filtro.Filtro;
 import org.hinario.dao.filtro.StatusCondicao;
+import org.hinario.model.EntidadeBase;
 
-public class ManagedBeanBase {
+public abstract class ManagedBeanBase {
+	protected EntidadeDataModel usuarioDataModel;
 	protected AppMessage appMessage;
 	protected ModoEditor modoEditor;
 	protected Filtro filtro;
@@ -96,4 +98,7 @@ public class ManagedBeanBase {
 		this.condicaoAAdicionar = condicaoAAdicionar;
 	}
 
+	public abstract void setEntidade(final EntidadeBase entidadePorId);
+
+	public abstract EntidadeBase getEntidade();
 }

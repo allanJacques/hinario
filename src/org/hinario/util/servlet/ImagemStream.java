@@ -29,7 +29,7 @@ public class ImagemStream extends HttpServlet {
 				Long id = this.getId(urlParts[tamanhoParts - 1]);
 
 				UsuarioDAO usuarioDao = new UsuarioDAO();
-				Usuario usuario = usuarioDao.getUsuarioPorId(id);
+				Usuario usuario = usuarioDao.getEntidadePorId(id);
 				if (usuario != null && usuario.getImagem() != null) {
 					for (byte byteTemp : usuario.getImagem()) {
 						response.getOutputStream().write(byteTemp);

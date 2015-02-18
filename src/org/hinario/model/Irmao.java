@@ -21,7 +21,7 @@ import org.hinario.dao.filtro.CampoNaoFiltravel;
 import org.hinario.model.enums.Sexo;
 
 @Entity
-public class Irmao extends Entidade implements Serializable {
+public class Irmao extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

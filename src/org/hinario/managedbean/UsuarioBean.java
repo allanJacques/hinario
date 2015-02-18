@@ -3,43 +3,37 @@ package org.hinario.managedbean;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
-import org.hinario.app.ModoEditor;
 import org.hinario.dao.UsuarioDAO;
 import org.hinario.dao.filtro.Campo;
 import org.hinario.dao.filtro.Filtro;
+import org.hinario.model.EntidadeBase;
 import org.hinario.model.Usuario;
 import org.hinario.model.enums.Sexo;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortMeta;
-import org.primefaces.model.SortOrder;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario = null;
 	private UsuarioDAO dao;
 	private Part imageFile;
-	private UsuarioDataModel usuarioDataModel;
 	private Campo campo;
 
 	public UsuarioBean() {
 		System.out.println("-----------------------------------------Novo UsuarioBean-----------------------------------------");
 		this.setUsuario(new Usuario());
 		this.dao = new UsuarioDAO();
-		this.usuarioDataModel = new UsuarioDataModel();
+		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
 		this.filtro = new Filtro(Usuario.class);
 	}
 
@@ -79,10 +73,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		this.adicionando();
 	}
 
-	public List<Usuario> getListaUsuario() {
-		return dao.getListaUsuario();
-	}
-
 	public Part getImageFile() {
 		return imageFile;
 	}
@@ -106,11 +96,11 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public UsuarioDataModel getUsuarioDataModel() {
+	public EntidadeDataModel getUsuarioDataModel() {
 		return usuarioDataModel;
 	}
 
-	public void setUsuarioDataModel(UsuarioDataModel usuarioDataModel) {
+	public void setUsuarioDataModel(EntidadeDataModel usuarioDataModel) {
 		this.usuarioDataModel = usuarioDataModel;
 	}
 
@@ -126,40 +116,15 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		return Sexo.values();
 	}
 
-	public class UsuarioDataModel extends LazyDataModel<Usuario> {
+	@Override
+	public void setEntidade(EntidadeBase entidade) {
+		this.usuario = (Usuario) entidade;
+		this.getUsuario().setConfirmeSenha(this.getUsuario().getSenha());
+	}
 
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public List<Usuario> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
-			setRowCount(dao.count(UsuarioBean.this.filtro).intValue());
-			List<Usuario> returN = dao.getListaUsuario(first, pageSize, multiSortMeta, UsuarioBean.this.filtro);
-			return returN;
-		}
-
-		@Override
-		public List<Usuario> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-			setRowCount(dao.count(UsuarioBean.this.filtro).intValue());
-			List<Usuario> returN = dao.getListaUsuario(first, pageSize, null, UsuarioBean.this.filtro);
-			return returN;
-		}
-
-		@Override
-		public Usuario getRowData(String rowKey) {
-			try {
-				UsuarioBean.this.setUsuario(dao.getUsuarioPorId(Long.parseLong(rowKey)));
-				UsuarioBean.this.getUsuario().setConfirmeSenha(UsuarioBean.this.getUsuario().getSenha());
-				setModoEditor(ModoEditor.EDICAO);
-			} catch (NumberFormatException nfe) {
-				nfe.printStackTrace();
-			}
-			return UsuarioBean.this.getUsuario();
-		}
-
-		@Override
-		public Object getRowKey(Usuario usuario) {
-			return usuario.getId();
-		}
+	@Override
+	public EntidadeBase getEntidade() {
+		return this.usuario;
 	}
 
 }

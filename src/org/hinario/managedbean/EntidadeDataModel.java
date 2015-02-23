@@ -24,7 +24,7 @@ public class EntidadeDataModel extends LazyDataModel<EntidadeBase> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EntidadeBase> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) {
-		setRowCount(dao.count(managedBean.getFiltro()));
+		setRowCount(dao.count(managedBean.getFiltro()).intValue());
 		List<EntidadeBase> returN = (List<EntidadeBase>) dao.getLista(first, pageSize, multiSortMeta, this.managedBean.getFiltro());
 		return returN;
 	}
@@ -32,7 +32,7 @@ public class EntidadeDataModel extends LazyDataModel<EntidadeBase> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EntidadeBase> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-		setRowCount(dao.count(this.managedBean.getFiltro()));
+		setRowCount(dao.count(this.managedBean.getFiltro()).intValue());
 		List<EntidadeBase> returN = (List<EntidadeBase>) dao.getLista(first, pageSize, null, this.managedBean.getFiltro());
 		return returN;
 	}
@@ -50,6 +50,6 @@ public class EntidadeDataModel extends LazyDataModel<EntidadeBase> {
 
 	@Override
 	public Object getRowKey(final EntidadeBase entidadeBase) {
-		return this.managedBean.getEntidade().getId();
+		return entidadeBase.getId();
 	}
 }

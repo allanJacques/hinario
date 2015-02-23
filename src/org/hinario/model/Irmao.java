@@ -65,6 +65,7 @@ public class Irmao extends EntidadeBase implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+		System.out.println("Setando usuario/irmão com nome: " + nome);
 	}
 
 	public Sexo getSexo() {

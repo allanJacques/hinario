@@ -6,7 +6,7 @@ import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
@@ -20,7 +20,7 @@ import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,7 +30,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	private Campo campo;
 
 	public UsuarioBean() {
-		System.out.println("-----------------------------------------Novo UsuarioBean-----------------------------------------");
+		System.out.println("----------------------------------------------------------------------------------Novo UsuarioBean----------------------------------------------------------------------------------");
 		this.setUsuario(new Usuario());
 		this.dao = new UsuarioDAO();
 		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
@@ -93,6 +93,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void setUsuario(Usuario usuario) {
+		System.out.println("Setando usuario com nome: " + usuario.getIrmao().getNome());
 		this.usuario = usuario;
 	}
 

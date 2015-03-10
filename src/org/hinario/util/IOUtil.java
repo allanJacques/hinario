@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 public class IOUtil {
 
-	public byte[] InputStreamToArray(final InputStream is, final long tamanho) {
+	public byte[] InputStreamToByteArray(final InputStream is, final long tamanho) {
 		byte[] returN = new byte[(int) tamanho];
 		try {
 			is.read(returN, 0, (int) tamanho);

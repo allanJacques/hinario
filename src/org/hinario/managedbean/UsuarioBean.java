@@ -81,7 +81,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		if (imageFile != null) {
 			this.imageFile = imageFile;
 			try {
-				this.getUsuario().setImagem(new IOUtil().InputStreamToArray(this.imageFile.getInputStream(), this.imageFile.getSize()));
+				this.getUsuario().setImagem(new IOUtil().InputStreamToByteArray(this.imageFile.getInputStream(), this.imageFile.getSize()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

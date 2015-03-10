@@ -7,43 +7,43 @@
 			<h:panelGroup>
 				<p:panel id="usuarioEditor">
 					<h:panelGrid columns="2">
-						<h:form id="usuarioForm" prependId="false" enctype="multipart/mixed" acceptcharset="UTF-8">
+						<h:form id="usuarioForm" prependId="false" enctype="multipart/form-data" acceptcharset="UTF-8">
 							<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 							<h:panelGrid columns="3" layout="grid">
 								<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{usuarioBean.edicao}" />
-								<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" disabled="true" rendered="#{usuarioBean.edicao}" />
+								<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" disabled="true" rendered="#{usuarioBean.edicao}" style="width:500px;" />
 								<p:message for="codigo" rendered="#{usuarioBean.edicao}" />
 
 								<p:outputLabel value="#{strg['label.nome']}" for="nome" />
-								<p:inputText id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" size="50" />
+								<p:inputText id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" size="50" style="width:500px;" />
 								<p:message for="nome" />
 
 								<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
-								<p:selectOneMenu id="sexo" value="#{usuarioBean.usuario.irmao.sexo}" required="true" style="width:496px;">
+								<p:selectOneMenu id="sexo" value="#{usuarioBean.usuario.irmao.sexo}" required="true" style="width:508px;">
 									<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="" />
 									<f:selectItems value="#{usuarioBean.sexos}" var="sexoTemp" />
 								</p:selectOneMenu>
 								<p:message for="sexo" />
 
 								<p:outputLabel value="#{strg['label.email']}" for="email" />
-								<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" size="50" />
+								<p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" size="50" style="width:500px;" />
 								<p:message for="email" />
 
 								<p:outputLabel value="#{strg['label.senha']}" for="senha" rendered="#{!usuarioBean.edicao}" />
-								<p:password id="senha" redisplay="true" value="#{usuarioBean.usuario.senha}" inline="true" feedback="true" required="true" goodLabel="#{strg['label.bom']}" weakLabel="#{strg['label.fraco']}" strongLabel="#{strg['label.excelente']}" promptLabel="#{strg['label.senha']}" size="50" rendered="#{!usuarioBean.edicao}" />
+								<p:password id="senha" redisplay="true" value="#{usuarioBean.usuario.senha}" inline="true" feedback="true" required="true" goodLabel="#{strg['label.bom']}" weakLabel="#{strg['label.fraco']}" strongLabel="#{strg['label.excelente']}" promptLabel="#{strg['label.senha']}" size="50" rendered="#{!usuarioBean.edicao}" style="width:500px;" />
 								<p:message for="senha" rendered="#{!usuarioBean.edicao}" />
 								<p:outputLabel value="#{strg['label.confimeASenha']}" for="confirmeSenha" rendered="#{!usuarioBean.edicao}" />
-								<p:password id="confirmeSenha" redisplay="true" value="#{usuarioBean.usuario.confirmeSenha}" required="true" size="50" rendered="#{!usuarioBean.edicao}" />
+								<p:password id="confirmeSenha" redisplay="true" value="#{usuarioBean.usuario.confirmeSenha}" required="true" size="50" rendered="#{!usuarioBean.edicao}" style="width:500px;" />
 								<p:message for="confirmeSenha" rendered="#{!usuarioBean.edicao}" />
 
 								<p:outputLabel value="#{strg['label.foto']}" for="imagem" />
-								<h:inputFile id="imagem" styleClass="inputFile" value="#{usuarioBean.imageFile}" autocomplete="off">
+								<h:inputFile id="imagem" styleClass="inputFile" value="#{usuarioBean.imageFile}" autocomplete="off" style="width:500px;">
 									<f:validator validatorId="imageValidator" />
 								</h:inputFile>
 								<p:message for="imagem" />
 
 								<p:outputLabel value="#{strg['label.observacao']}" for="observacao" />
-								<p:inputTextarea id="observacao" value="#{usuarioBean.usuario.irmao.observacao}" cols="53" rows="2" />
+								<p:inputTextarea id="observacao" value="#{usuarioBean.usuario.irmao.observacao}" cols="53" rows="2" style="width:500px;" />
 								<p:message for="observacao" />
 							</h:panelGrid>
 							<p:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;" styleClass="botao" ajax="false">

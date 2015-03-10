@@ -28,6 +28,8 @@ public class ImprimeURLs implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		boolean imprimeParametrosDeRequisicao = true;
 		boolean imprimeAtributosDeSessao = false;
+		request.setCharacterEncoding("UTF-8");
+		// response.setCharacterEncoding("UTF-8");
 
 		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		System.out.println(sdf.format(new Date()) + "\t" + ((HttpServletRequest) request).getRequestURL() + "\t" + ((HttpServletRequest) request).getMethod());

@@ -40,10 +40,18 @@ p#appDescricao {
 	float: left;
 	line-height: 10px;
 	margin: 15px;
+	font: normal normal 900 35px/15px "Kunstler Script", Georgia, Serif;
+	color: #ffffff;
+}
+/*
+ p#appDescricao {
+	float: left;
+	line-height: 10px;
+	margin: 15px;
 	font: normal normal 900 50px/15px "Kunstler Script", Georgia, Serif;
 	color: #ffffff;
 }
-
+*/
 p#nomeUsuarioLogado {
 	float: right;
 	line-height: 10px;

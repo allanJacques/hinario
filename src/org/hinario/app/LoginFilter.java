@@ -24,14 +24,25 @@ public class LoginFilter implements Filter {
 	public void destroy() {
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println(".............................................................................................................................");
-		String path = new URL(((HttpServletRequest) request).getRequestURL().toString()).getPath().replaceAll("^/", "").replaceAll("/$", "").replaceAll("[;]jsessionid=.*", "");
-		System.out.println("URL: " + new URL(((HttpServletRequest) request).getRequestURL().toString()));
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		System.out
+				.println(".............................................................................................................................");
+		String path = new URL(((HttpServletRequest) request).getRequestURL()
+				.toString()).getPath().replaceAll("^/", "")
+				.replaceAll("/$", "").replaceAll("[;]jsessionid=.*", "");
+		System.out.println("URL: "
+				+ new URL(((HttpServletRequest) request).getRequestURL()
+						.toString()));
 		System.out.println("Result: " + path);
-		if ((!path.endsWith("login.jsf") && (!path.endsWith(".gif.jsf") && !path.endsWith(".css.jsf") && !path.endsWith(".js.jsf") && !path.endsWith(".png.jsf"))) && (path.endsWith(".jsf") || path.endsWith(".xhtml"))) {
-			UsuarioLoginBean loginBean = (UsuarioLoginBean) ((HttpServletRequest) request).getSession().getAttribute("usuarioLoginBean");
-			if (loginBean == null || (loginBean != null && !loginBean.isLogado())) {
+		if ((!path.endsWith("login.jsf") && (!path.endsWith(".gif.jsf")
+				&& !path.endsWith(".css.jsf") && !path.endsWith(".js.jsf") && !path
+					.endsWith(".png.jsf")))
+				&& (path.endsWith(".jsf") || path.endsWith(".xhtml"))) {
+			UsuarioLoginBean loginBean = (UsuarioLoginBean) ((HttpServletRequest) request)
+					.getSession().getAttribute("usuarioLoginBean");
+			if (loginBean == null
+					|| (loginBean != null && !loginBean.isLogado())) {
 				System.out.println("redirecionando");
 				((HttpServletResponse) response).sendRedirect("login.jsf");
 			} else {
@@ -42,7 +53,8 @@ public class LoginFilter implements Filter {
 			System.out.println("passando");
 			chain.doFilter(request, response);
 		}
-		System.out.println(".............................................................................................................................");
+		System.out
+				.println(".............................................................................................................................");
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {

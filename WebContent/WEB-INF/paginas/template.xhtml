@@ -6,6 +6,7 @@
 	<title><ui:insert name="title"></ui:insert></title>
 </h:head>
 <h:body>
+
 	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"></p:ajaxStatus>
 	<p:dialog widgetVar="statusDialog" modal="true" draggable="true" closable="false" resizable="false" showHeader="true">
 		<p:graphicImage library="imagens" name="load.gif" style="margin-left: 100px;" />

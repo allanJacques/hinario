@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
 import org.hinario.dao.UsuarioDAO;
-import org.hinario.dao.filtro.Campo;
 import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Usuario;
@@ -27,10 +26,8 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	private Usuario usuario = null;
 	private UsuarioDAO dao;
 	private Part imageFile;
-	private Campo campo;
 
 	public UsuarioBean() {
-		System.out.println("----------------------------------------------------------------------------------Novo UsuarioBean----------------------------------------------------------------------------------");
 		this.setUsuario(new Usuario());
 		this.dao = new UsuarioDAO();
 		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
@@ -93,7 +90,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void setUsuario(Usuario usuario) {
-		System.out.println("Setando usuario com nome: " + usuario.getIrmao().getNome());
 		this.usuario = usuario;
 	}
 
@@ -103,14 +99,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	public void setUsuarioDataModel(EntidadeDataModel usuarioDataModel) {
 		this.usuarioDataModel = usuarioDataModel;
-	}
-
-	public Campo getCampo() {
-		return campo;
-	}
-
-	public void setCampo(Campo campo) {
-		this.campo = campo;
 	}
 
 	public Sexo[] getSexos() {

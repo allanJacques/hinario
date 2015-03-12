@@ -98,7 +98,7 @@ public abstract class ManagedBeanBase {
 		this.condicaoAAdicionar = condicaoAAdicionar;
 	}
 
-	public abstract void setEntidade(final EntidadeBase entidadePorId);
+	public abstract void setEntidade(final EntidadeBase entidade);
 
 	public abstract EntidadeBase getEntidade();
 }

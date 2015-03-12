@@ -41,6 +41,7 @@ public class UsuarioDAO extends DAOBase implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Usuario> getLista(final Integer inicio, final Integer limite, final List<SortMeta> multiSortMeta, final Filtro filtro) {
 		TypedQuery<Usuario> q = (TypedQuery<Usuario>) getQueryOrdenadaEFiltrada("select usuario from Usuario usuario join fetch usuario.irmao", "usuario", em, filtro, multiSortMeta, Usuario.class);
 		if (inicio != null)

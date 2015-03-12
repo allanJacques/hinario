@@ -16,15 +16,21 @@
 	<ui:insert name="topo">
 		<ui:include src="/WEB-INF/paginas/topo.xhtml" />
 	</ui:insert>
-	<div id="menu">
-		<ui:include src="/WEB-INF/paginas/menu.xhtml" />
+	<div style="clear: both;"></div>
+	<div id="conteudo">
+		<div id="menu">
+			<ui:include src="/WEB-INF/paginas/menu.xhtml" />
+		</div>
+		<div id="body">
+			<ui:insert name="body" />
+		</div>
 	</div>
-	<div id="body">
-		<ui:insert name="body" />
-	</div>
+	<div style="clear: both;"></div>
+
 	<ui:insert name="rodape">
 		<ui:include src="/WEB-INF/paginas/rodape.xhtml" />
 	</ui:insert>
+	<ui:debug hotkey="x" />
 
 </h:body>
 </html>

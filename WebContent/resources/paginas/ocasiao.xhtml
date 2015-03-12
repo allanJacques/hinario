@@ -1,0 +1,114 @@
+<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="title">#{strg['label.ocasioes']}</ui:define>
+	<ui:define name="body">
+		<h:panelGrid id="pagina">
+			<h:panelGroup>
+				<p:panel id="editor">
+					<h:form id="usuarioForm" prependId="false" enctype="multipart/form-data" acceptcharset="UTF-8">
+						<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
+						<h:panelGrid columns="3" layout="grid">
+							<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{ocasiaoBean.edicao}" />
+							<p:inputText id="codigo" value="#{ocasiaoBean.ocasiao.id}" required="true" size="50" disabled="true" rendered="#{ocasiaoBean.edicao}" style="width:500px;" maxlength="255" />
+							<p:message for="codigo" rendered="#{ocasiaoBean.edicao}" />
+
+							<p:outputLabel value="#{strg['label.descricao']}" for="descricao" />
+							<p:inputText id="descricao" value="#{ocasiaoBean.ocasiao.descricao}" required="true" size="50" style="width:500px;" />
+							<p:message for="descricao" />
+						</h:panelGrid>
+						<p:commandButton value="#{strg['label.salvar']}" action="#{ocasiaoBean.salvar()}" style="margin-top: 10px;" styleClass="botao" ajax="false">
+							<f:ajax execute="editor" render="pagina" />
+						</p:commandButton>
+						<p:commandButton value="#{strg['label.novo']}" action="#{ocasiaoBean.novo()}" style="margin-top: 10px;" rendered="#{ocasiaoBean.edicao}" styleClass="botao" ajax="false">
+							<f:ajax render="editor" />
+						</p:commandButton>
+					</h:form>
+				</p:panel>
+
+				<p:spacer height="15" />
+				<!-- ======================================================== FILTRO ======================================================== -->
+				<h:form id="painelFiltro" prependId="false" acceptcharset="UTF-8">
+					<f:ajax render="painelFiltro">
+						<h:commandLink action="#{ocasiaoBean.inverteFiltro()}" style="float:right;" rendered="#{ocasiaoBean.exibindoFiltro}" value="#{strg['label.esconderFiltros']}" />
+						<h:commandLink action="#{ocasiaoBean.inverteFiltro()}" style="float:right;" rendered="#{!ocasiaoBean.exibindoFiltro}" value="#{strg['label.exibirFiltros']}" />
+					</f:ajax>
+					<p:spacer height="1" />
+					<p:panel rendered="#{ocasiaoBean.exibindoFiltro}">
+						<h:panelGrid columns="3">
+							<p:outputLabel value="#{strg['label.campo']}" />
+							<p:outputLabel value="#{strg['label.condicao']}" />
+							<p:outputLabel value="#{strg['label.valor']}" />
+
+							<p:selectOneMenu id="campo" value="#{ocasiaoBean.condicaoAAdicionar.campo}" validatorMessage="#{strg['message.condicao.valorNulo']}">
+								<f:validator disabled="true" />
+								<f:ajax render="painelFiltro" />
+								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true" />
+								<f:selectItems value="#{ocasiaoBean.filtro.campos}" var="campo" itemLabel="#{campo.descricao}" itemValue="#{campo}" />
+							</p:selectOneMenu>
+
+							<p:selectOneMenu id="operador" value="#{ocasiaoBean.condicaoAAdicionar.operador}">
+								<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true"></f:selectItem>
+								<f:selectItems value="#{ocasiaoBean.condicaoAAdicionar.operadoresValidos}" />
+							</p:selectOneMenu>
+							<h:panelGroup>
+								<h:panelGrid columns="10">
+									<p:inputText id="valorAlfanumerico" value="#{ocasiaoBean.condicaoAAdicionar.valor}" rendered="#{ocasiaoBean.condicaoAAdicionar.valorAlfanumerico}" style="margin-top:-20px;" />
+									<p:inputText id="valorNumerico" value="#{ocasiaoBean.condicaoAAdicionar.valor}" rendered="#{ocasiaoBean.condicaoAAdicionar.valorNumerico}" style="margin-top:-20px;">
+										<pe:keyFilter mask="num"></pe:keyFilter>
+									</p:inputText>
+									<p:calendar id="valorTemporal" value="#{ocasiaoBean.condicaoAAdicionar.valor}" rendered="#{ocasiaoBean.condicaoAAdicionar.valorTemporal}" effect="show" pattern="dd/MM/yyyy HH:mm:ss" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" />
+									<p:selectOneMenu id="valorEnumerado" rendered="#{ocasiaoBean.condicaoAAdicionar.valorEnumerado}" value="#{ocasiaoBean.condicaoAAdicionar.valor}">
+										<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="true" />
+										<f:selectItems value="#{ocasiaoBean.condicaoAAdicionar.valoresEnumerados}" var="valor" itemValue="#{valor}" />
+									</p:selectOneMenu>
+									<p:commandButton id="adicionarCondicao" action="#{ocasiaoBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" style="margin-top:-2px;" ajax="false">
+										<f:ajax render="pagina" execute="painelFiltro" />
+									</p:commandButton>
+								</h:panelGrid>
+							</h:panelGroup>
+						</h:panelGrid>
+						<p:dataTable id="tabelaFiltros" value="#{ocasiaoBean.filtro.condicoes}" var="condicao" rendered="#{!ocasiaoBean.filtro.condicoes.isEmpty()}">
+							<p:column headerText="#{strg['label.campo']}" width="30%">
+								<h:outputText value="#{condicao.campo.descricao}" />
+							</p:column>
+							<p:column headerText="#{strg['label.condicao']}" width="30%">
+								<h:outputText value="#{condicao.operador.descricao}" />
+							</p:column>
+							<p:column headerText="#{strg['label.valor']}" width="30%">
+								<div class="colunaData">
+									<h:outputText value="#{condicao.valorFormatado}" />
+								</div>
+							</p:column>
+							<p:column headerText="#{strg['label.acoes']}" width="10%">
+								<div class="colunaData">
+									<h:commandLink action="#{ocasiaoBean.removerCondicao(condicao)}">
+										<f:ajax render="pagina" execute="tabelaFiltros"></f:ajax>
+										<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
+									</h:commandLink>
+								</div>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
+				<p:spacer height="1" />
+				<!-- ======================================================== TABELA ======================================================== -->
+				<h:form acceptcharset="UTF-8">
+					<p:dataTable id="tabelaValores" var="ocasiaoTemp" value="#{ocasiaoBean.ocasiaoDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{ocasiaoBean.ocasiao}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
+						<p:column width="10%" sortBy="#{ocasiaoTemp.id}" headerText="#{strg['label.codigo']}">
+							<div class="colunaCodigo">
+								<h:outputText value="#{ocasiaoTemp.id}" title="#{ocasiaoTemp.id}" />
+							</div>
+						</p:column>
+						<p:column width="90%" sortBy="#{ocasiaoTemp.descricao}">
+							<f:facet name="header"> #{strg['label.descricao']} </f:facet>
+							<h:outputText value=" #{ocasiaoTemp.descricao}" title="#{ocasiaoTemp.descricao}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				<br />
+				<br />
+			</h:panelGroup>
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>

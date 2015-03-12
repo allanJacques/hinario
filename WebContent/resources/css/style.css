@@ -60,6 +60,21 @@ p#nomeUsuarioLogado {
 	color: #ffffff;
 }
 
+div#menu {
+	float: left;
+	overflow: hidden;
+	width: 175px;
+	display: block;
+}
+
+div#body {
+	width: auto;
+	overflow: hidden;
+	z-index: 1;
+	margin-left: 175px;
+	display: block;
+}
+
 div#rodape {
 	display: block;
 	position: fixed;

@@ -23,13 +23,13 @@ public class Cantico {
 
 	@NotNull
 	@OneToOne
-	private Irmao consolador;
+	private Consolador consolador;
 
 	@OneToOne
-	private Irmao recebedor;
+	private Recebedor recebedor;
 
-	@OneToOne
-	private Ocasiao ocasiao;
+	@OneToMany
+	private List<Ocasiao> ocasioes;
 
 	@Temporal(TemporalType.DATE)
 	private Date dataRecebimento;
@@ -51,28 +51,28 @@ public class Cantico {
 		this.id = id;
 	}
 
-	public Irmao getConsolador() {
+	public Consolador getConsolador() {
 		return consolador;
 	}
 
-	public void setConsolador(Irmao consolador) {
+	public void setConsolador(Consolador consolador) {
 		this.consolador = consolador;
 	}
 
-	public Irmao getRecebedor() {
+	public Recebedor getRecebedor() {
 		return recebedor;
 	}
 
-	public void setRecebedor(Irmao recebedor) {
+	public void setRecebedor(Recebedor recebedor) {
 		this.recebedor = recebedor;
 	}
 
-	public Ocasiao getOcasiao() {
-		return ocasiao;
+	public List<Ocasiao> getOcasioes() {
+		return ocasioes;
 	}
 
-	public void setOcasiao(Ocasiao ocasiao) {
-		this.ocasiao = ocasiao;
+	public void setOcasioes(List<Ocasiao> ocasioes) {
+		this.ocasioes = ocasioes;
 	}
 
 	public Date getDataRecebimento() {

@@ -9,6 +9,8 @@
 		<class>org.hinario.model.Irmao</class>
 		<class>org.hinario.model.Ocasiao</class>
 		<class>org.hinario.model.Usuario</class>
+		<class>org.hinario.model.Recebedor</class>
+		<class>org.hinario.model.Consolador</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hinario" />

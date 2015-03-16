@@ -68,4 +68,9 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 		this.ocasiaoDataModel = ocasiaoDataModel;
 	}
 
+	public void remover(Ocasiao ocasiao) {
+		this.dao.remover(ocasiao);
+		this.novo();
+	}
+
 }

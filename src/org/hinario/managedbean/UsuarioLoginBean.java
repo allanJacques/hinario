@@ -37,6 +37,7 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", this.appMessage.getString("message.emailNaoCadastrado")));
 		} else {
 			this.usuario = this.usuarioDAO.valida(this.email, new CriptografiaUtil().criptografar(this.senha));
+			// this.usuario = this.usuarioDAO.valida(this.email, this.senha);
 			if (this.usuario == null) {
 				FacesContext fc = FacesContext.getCurrentInstance();
 				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", this.appMessage.getString("message.senhaIncorreta")));

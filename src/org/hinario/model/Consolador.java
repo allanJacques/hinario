@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Consolador implements Serializable {
+public class Consolador extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,6 +23,10 @@ public class Consolador implements Serializable {
 	@NotNull
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private Irmao irmao;
+
+	public Consolador() {
+		this.irmao = new Irmao();
+	}
 
 	public Long getId() {
 		return id;

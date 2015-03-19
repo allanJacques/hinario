@@ -8,36 +8,36 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.hinario.dao.ConsoladorDAO;
+import org.hinario.dao.RecebedorDAO;
 import org.hinario.dao.filtro.Filtro;
-import org.hinario.model.Consolador;
+import org.hinario.model.Recebedor;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.enums.Sexo;
 
 @ManagedBean
 @ViewScoped
-public class ConsoladorBean extends ManagedBeanBase implements Serializable {
+public class RecebedorBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Consolador consolador;
-	private ConsoladorDAO dao;
+	private Recebedor recebedor;
+	private RecebedorDAO dao;
 
-	public ConsoladorBean() {
-		this.setEntidade(new Consolador());
-		this.dao = new ConsoladorDAO();
+	public RecebedorBean() {
+		this.setEntidade(new Recebedor());
+		this.dao = new RecebedorDAO();
 		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
-		this.filtro = new Filtro(Consolador.class);
+		this.filtro = new Filtro(Recebedor.class);
 	}
 
 	public void novo() {
-		this.setConsolador(new Consolador());
+		this.setRecebedor(new Recebedor());
 		this.adicionando();
 	}
 
 	public void salvar() {
 		try {
-			this.consolador.getIrmao().setDataCadastro(new Date());
-			dao.salvar(this.consolador);
+			this.recebedor.getIrmao().setDataCadastro(new Date());
+			dao.salvar(this.recebedor);
 			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 			FacesContext.getCurrentInstance().addMessage(null, fm);
 			novo();
@@ -48,27 +48,27 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 		}
 	}
 
-	public void remover(final Consolador consolador) {
-		dao.remover(consolador);
+	public void remover(final Recebedor recebedor) {
+		dao.remover(recebedor);
 		novo();
 	}
 
 	@Override
 	public void setEntidade(EntidadeBase entidade) {
-		this.consolador = (Consolador) entidade;
+		this.recebedor = (Recebedor) entidade;
 	}
 
 	@Override
 	public EntidadeBase getEntidade() {
-		return this.consolador;
+		return this.recebedor;
 	}
 
-	public Consolador getConsolador() {
-		return consolador;
+	public Recebedor getRecebedor() {
+		return recebedor;
 	}
 
-	public void setConsolador(Consolador consolador) {
-		this.consolador = consolador;
+	public void setRecebedor(Recebedor recebedor) {
+		this.recebedor = recebedor;
 	}
 
 	public Sexo[] getSexos() {

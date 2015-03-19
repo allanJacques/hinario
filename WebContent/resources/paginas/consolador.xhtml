@@ -107,31 +107,26 @@
 				<h:form acceptcharset="UTF-8">
 					<p:dataTable id="tabelaUsuarios" var="consoladorTemp" value="#{consoladorBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{consoladorBean.consolador}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 						<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaUsuarios])" />
-						<p:column width="7%" sortBy="#{consoladorTemp.id}" headerText="#{strg['label.codigo']}">
+						<p:column width="8%" sortBy="#{consoladorTemp.id}" headerText="#{strg['label.codigo']}">
 							<div class="colunaCodigo">
 								<h:outputText value="#{consoladorTemp.id}" title="#{consoladorTemp.id}" />
 							</div>
 						</p:column>
-						<p:column width="28%" sortBy="#{consoladorTemp.irmao.nome}">
+						<p:column width="32%" sortBy="#{consoladorTemp.irmao.nome}">
 							<f:facet name="header"> #{strg['label.nome']} </f:facet>
-							<h:graphicImage value="../../imagemstream/usuario/#{consoladorTemp.id}:#{formatsBean.currentTimeMillis}" height="20" width="20" styleClass="iconeUsuarioTabela" />
 							<h:outputText value=" #{consoladorTemp.irmao.nome}" title="#{consoladorTemp.irmao.nome}" />
 						</p:column>
-						<p:column width="15%" sortBy="#{consoladorTemp.email}">
-							<f:facet name="header"> #{strg['label.email']} </f:facet>
-							<a href="mailto:#{consoladorTemp.email}" title="#{consoladorTemp.email}">#{consoladorTemp.email}</a>
-						</p:column>
-						<p:column width="15%" sortBy="#{consoladorTemp.irmao.dataCadastro}">
+						<p:column width="16%" sortBy="#{consoladorTemp.irmao.dataCadastro}">
 							<f:facet name="header">#{strg['label.dataCadastro']}</f:facet>
 							<div class="colunaData">
 								<h:outputFormat value="#{formatsBean.getTimestamp(consoladorTemp.irmao.dataCadastro)}" title="#{formatsBean.getTimestamp(consoladorTemp.irmao.dataCadastro)}" />
 							</div>
 						</p:column>
-						<p:column sortBy="#{consoladorTemp.irmao.observacao}">
+						<p:column width="38%" sortBy="#{consoladorTemp.irmao.observacao}">
 							<f:facet name="header">#{strg['label.observacao']}</f:facet>
 							<h:outputText value="#{consoladorTemp.irmao.observacao}" title="#{consoladorTemp.irmao.observacao}" />
 						</p:column>
-						<p:column width="8%" sortBy="1">
+						<p:column width="6%" sortBy="1">
 							<f:facet name="header">#{strg['label.acoes']}</f:facet>
 							<div class="colunaData">
 								<h:commandLink action="#{consoladorBean.remover(consoladorTemp)}">

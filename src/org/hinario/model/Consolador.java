@@ -28,6 +28,7 @@ public class Consolador extends EntidadeBase implements Serializable {
 		this.irmao = new Irmao();
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}

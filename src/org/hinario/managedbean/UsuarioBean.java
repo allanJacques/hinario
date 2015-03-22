@@ -2,7 +2,9 @@ package org.hinario.managedbean;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,6 +19,7 @@ import org.hinario.model.Usuario;
 import org.hinario.model.enums.Sexo;
 import org.hinario.util.CriptografiaUtil;
 import org.hinario.util.IOUtil;
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean
 @SessionScoped
@@ -26,6 +29,45 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	private Usuario usuario = null;
 	private UsuarioDAO dao;
 	private Part imageFile;
+
+	public void alterouValor(Object o) {
+		System.out.println("alterouValor()");
+	}
+
+	public List<String> listaSugestoes(String valor) {
+		ArrayList<String> returN = new ArrayList<>();
+		returN.add("A");
+		returN.add("B");
+		returN.add("C");
+		returN.add("D");
+		returN.add("E");
+		returN.add("F");
+		returN.add("G");
+		returN.add("G");
+		returN.add("I");
+		returN.add("J");
+		returN.add("K");
+		returN.add("K");
+		returN.add("M");
+		returN.add("N");
+		returN.add("O");
+		returN.add("P");
+		returN.add("Q");
+		returN.add("R");
+		returN.add("S");
+		returN.add("T");
+		returN.add("U");
+		returN.add("V");
+		returN.add("X");
+		returN.add("Y");
+		returN.add("W");
+		returN.add("Z");
+		return returN;
+	}
+
+	public void selecionou(SelectEvent event) {
+		System.out.println(event.getObject());
+	}
 
 	public UsuarioBean() {
 		this.setUsuario(new Usuario());

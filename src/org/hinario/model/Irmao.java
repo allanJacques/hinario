@@ -31,7 +31,7 @@ public class Irmao extends EntidadeBase implements Serializable {
 	private Long id;
 
 	@NotNull
-	@Column(length = 100)
+	@Column(length = 100, unique = true)
 	private String nome;
 
 	@NotNull

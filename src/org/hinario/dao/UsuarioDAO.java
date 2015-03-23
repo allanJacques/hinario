@@ -11,7 +11,7 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Usuario;
 import org.primefaces.model.SortMeta;
 
-public class UsuarioDAO extends DAOBase implements Serializable {
+public class UsuarioDAO extends IrmaoDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

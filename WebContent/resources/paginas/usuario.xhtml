@@ -15,8 +15,8 @@
 								<p:message for="codigo" rendered="#{usuarioBean.edicao}" />
 
 								<p:outputLabel value="#{strg['label.nome']}" for="nome" />
-								<p:autoComplete id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" size="50" style="width:500px;" valueChangeListener="#{usuarioBean.alterouValor}" completeMethod="#{usuarioBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="" effectDuration="700" label="label" placeholder="placeholder">
-									<p:ajax event="itemSelect" listener="#{usuarioBean.selecionou}" />
+								<p:autoComplete id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" size="50" style="width:538px;" valueChangeListener="#{usuarioBean.alterouValor}" completeMethod="#{usuarioBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300">
+									<p:ajax event="itemSelect" listener="#{usuarioBean.selecionou}" process="@this" update="@form" />
 								</p:autoComplete>
 								<p:message for="nome" />
 

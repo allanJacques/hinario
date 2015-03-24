@@ -10,7 +10,7 @@ import org.hinario.model.Consolador;
 import org.hinario.model.EntidadeBase;
 import org.primefaces.model.SortMeta;
 
-public class ConsoladorDAO extends DAOBase implements Serializable {
+public class ConsoladorDAO extends IrmaoDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

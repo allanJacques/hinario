@@ -2,6 +2,7 @@ package org.hinario.managedbean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -13,6 +14,7 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Recebedor;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.enums.Sexo;
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean
 @ViewScoped
@@ -46,6 +48,14 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, null, this.appMessage.getString("message.erroAoSalvarRegistro"));
 			FacesContext.getCurrentInstance().addMessage(null, fm);
 		}
+	}
+
+	public List<String> listaSugestoes(String valor) {
+		return this.dao.listaNomeIrmaos(valor);
+	}
+
+	public void selecionou(SelectEvent event) {
+		this.getRecebedor().setIrmao(this.dao.getIrmaoPorNome(event.getObject().toString()));
 	}
 
 	public void remover(final Recebedor recebedor) {

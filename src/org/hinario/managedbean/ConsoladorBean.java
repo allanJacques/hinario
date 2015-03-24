@@ -2,6 +2,7 @@ package org.hinario.managedbean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -13,6 +14,7 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Consolador;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.enums.Sexo;
+import org.primefaces.event.SelectEvent;
 
 @ManagedBean
 @ViewScoped
@@ -51,6 +53,14 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 	public void remover(final Consolador consolador) {
 		dao.remover(consolador);
 		novo();
+	}
+
+	public List<String> listaSugestoes(String valor) {
+		return this.dao.listaNomeIrmaos(valor);
+	}
+
+	public void selecionou(SelectEvent event) {
+		this.getConsolador().setIrmao(this.dao.getIrmaoPorNome(event.getObject().toString()));
 	}
 
 	@Override

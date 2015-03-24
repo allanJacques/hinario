@@ -9,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.Part;
 
 import org.hinario.dao.UsuarioDAO;
@@ -29,47 +28,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	private Usuario usuario = null;
 	private UsuarioDAO dao;
 	private Part imageFile;
-
-	public void alterouValor(ValueChangeEvent evt) {
-		System.out.println("alterouValor()");
-	}
-
-	public List<String> listaSugestoes(String valor) {
-		return this.dao.listaNomeIrmaos(valor);
-
-		// ArrayList<String> returN = new ArrayList<>();
-		// returN.add("A");
-		// returN.add("B");
-		// returN.add("C");
-		// returN.add("D");
-		// returN.add("E");
-		// returN.add("F");
-		// returN.add("G");
-		// returN.add("G");
-		// returN.add("I");
-		// returN.add("J");
-		// returN.add("K");
-		// returN.add("K");
-		// returN.add("M");
-		// returN.add("N");
-		// returN.add("O");
-		// returN.add("P");
-		// returN.add("Q");
-		// returN.add("R");
-		// returN.add("S");
-		// returN.add("T");
-		// returN.add("U");
-		// returN.add("V");
-		// returN.add("X");
-		// returN.add("Y");
-		// returN.add("W");
-		// returN.add("Z");
-		// return returN;
-	}
-
-	public void selecionou(SelectEvent event) {
-		System.out.println(event.getObject());
-	}
 
 	public UsuarioBean() {
 		this.setUsuario(new Usuario());
@@ -112,6 +70,14 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	public void novo() {
 		this.setUsuario(new Usuario());
 		this.adicionando();
+	}
+
+	public List<String> listaSugestoes(String valor) {
+		return this.dao.listaNomeIrmaos(valor);
+	}
+
+	public void selecionou(SelectEvent event) {
+		this.getUsuario().setIrmao(this.dao.getIrmaoPorNome(event.getObject().toString()));
 	}
 
 	public Part getImageFile() {

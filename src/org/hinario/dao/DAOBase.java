@@ -43,4 +43,8 @@ public abstract class DAOBase implements Serializable {
 	public abstract List<? extends EntidadeBase> getLista(final Integer inicio, final Integer limite, final List<SortMeta> multiSortMeta, final Filtro filtro);
 
 	public abstract EntidadeBase getEntidadePorId(final Long id);
+
+	protected String entrePorcentagens(final String valor) {
+		return "%" + valor + "%";
+	}
 }

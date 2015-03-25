@@ -88,6 +88,10 @@ div#rodape {
 	text-align: center;
 }
 
+.capitalize {
+	text-transform: capitalize;
+}
+
 .inputFile {
 	margin: 15px 0px;
 }

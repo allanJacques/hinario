@@ -53,6 +53,8 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 	public void remover(final Consolador consolador) {
 		dao.remover(consolador);
 		novo();
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
+		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
 	public List<String> listaSugestoes(String valor) {

@@ -22,7 +22,7 @@ input#nome_input {
 							<p:message for="codigo" rendered="#{consoladorBean.edicao}" />
 
 							<p:outputLabel value="#{strg['label.nome']}" for="nome" />
-							<p:autoComplete id="nome" value="#{consoladorBean.consolador.irmao.nome}" required="true" style="width:500px;" completeMethod="#{consoladorBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete">
+							<p:autoComplete id="nome" value="#{consoladorBean.consolador.irmao.nome}" required="true" style="width:500px;" completeMethod="#{consoladorBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
 								<p:ajax event="itemSelect" listener="#{consoladorBean.selecionou}" process="@this" update="@form" />
 							</p:autoComplete>
 							<p:message for="nome" />

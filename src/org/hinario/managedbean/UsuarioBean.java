@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
@@ -21,7 +21,7 @@ import org.hinario.util.IOUtil;
 import org.primefaces.event.SelectEvent;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -58,13 +58,14 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		this.dao.salvar(this.getUsuario());
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
-		this.adicionando();
-		this.setUsuario(new Usuario());
+		novo();
 	}
 
 	public void remover(Usuario usuario) {
 		this.dao.remover(usuario);
 		this.novo();
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
+		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
 	public void novo() {

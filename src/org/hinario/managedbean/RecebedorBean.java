@@ -61,6 +61,8 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 	public void remover(final Recebedor recebedor) {
 		dao.remover(recebedor);
 		novo();
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
+		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
 	@Override

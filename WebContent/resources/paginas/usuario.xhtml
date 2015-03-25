@@ -23,7 +23,7 @@ input#nome_input {
 								<p:message for="codigo" rendered="#{usuarioBean.edicao}" />
 
 								<p:outputLabel value="#{strg['label.nome']}" for="nome" />
-								<p:autoComplete id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" style="width:500px;" completeMethod="#{usuarioBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete">
+								<p:autoComplete id="nome" value="#{usuarioBean.usuario.irmao.nome}" required="true" style="width:500px;" completeMethod="#{usuarioBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
 									<p:ajax event="itemSelect" listener="#{usuarioBean.selecionou}" process="@this" update="@form" />
 								</p:autoComplete>
 								<p:message for="nome" />
@@ -57,7 +57,7 @@ input#nome_input {
 								<p:message for="observacao" />
 							</h:panelGrid>
 							<p:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;" styleClass="botao" ajax="false">
-								<f:ajax execute="usuarioEditor" render="pagina" />
+								<f:ajax execute="@all" render="@all" />
 							</p:commandButton>
 							<p:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false">
 								<f:ajax render="usuarioEditor" />
@@ -170,7 +170,7 @@ input#nome_input {
 							<f:facet name="header">#{strg['label.acoes']}</f:facet>
 							<div class="colunaData">
 								<h:commandLink action="#{usuarioBean.remover(usuarioTemp)}">
-									<f:ajax render="tabelaUsuarios usuarioEditor" execute="@this"></f:ajax>
+									<f:ajax render="@all" execute="@all"></f:ajax>
 									<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
 								</h:commandLink>
 							</div>

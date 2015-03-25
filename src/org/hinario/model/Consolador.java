@@ -23,7 +23,6 @@ public class Consolador extends EntidadeBase implements Serializable {
 
 	@NotNull
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	@Column(unique=true)
 	private Irmao irmao;
 
 	public Consolador() {

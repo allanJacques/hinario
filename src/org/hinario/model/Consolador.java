@@ -3,6 +3,7 @@ package org.hinario.model;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Consolador extends EntidadeBase implements Serializable {
 
 	@NotNull
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@Column(unique=true)
 	private Irmao irmao;
 
 	public Consolador() {

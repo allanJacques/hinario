@@ -1,4 +1,4 @@
-package org.hinario.dao;
+package org.hinario.dao.filtro;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,9 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.hinario.dao.filtro.Condicao;
-import org.hinario.dao.filtro.Filtro;
-import org.hinario.dao.filtro.Operador;
 import org.hinario.util.ReflectionUtil;
 import org.primefaces.model.SortMeta;
 
@@ -91,9 +88,16 @@ public class QueryConstrutor implements Serializable {
 
 	private String getCondicao(final Condicao condicao, final String alias) {
 		if (!condicao.getOperador().equals(Operador.CONTEMPALAVRAS))
-			return (alias + "." + condicao.getCampo().getNome() + this.getOperador(condicao.getOperador()) + this.getValor(condicao));
+			return (getCampo(alias, condicao) + this.getOperador(condicao.getOperador()) + this.getValor(condicao));
 		else
 			return getCondicaoCONTEMPALAVRAS(condicao, alias);
+	}
+
+	private String getCampo(String alias, Condicao condicao) {
+		if (condicao.isValorAlfanumerico() && (condicao.getOperador().equals(Operador.IGUAL) || condicao.getOperador().equals(Operador.CONTEM) || condicao.getOperador().equals(Operador.DIFERENTE) || condicao.getOperador().equals(Operador.NAOCONTEM) || condicao.getOperador().equals(Operador.COMECACOM) || condicao.getOperador().equals(Operador.TERMINACOM))) {
+			return "upper(" + alias + "." + condicao.getCampo().getNome() + ")";
+		}
+		return alias + "." + condicao.getCampo().getNome();
 	}
 
 	private String getCondicaoCONTEMPALAVRAS(Condicao condicao, String alias) {
@@ -102,7 +106,7 @@ public class QueryConstrutor implements Serializable {
 			String[] palavras = valor.split(" ");
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < palavras.length; i++) {
-				sb.append(((alias != null && !alias.isEmpty()) ? (alias + "." + condicao.getCampo().getNome()) : "") + " like '%" + palavras[i] + "%' ");
+				sb.append(((alias != null && !alias.isEmpty()) ? ("upper(" + alias + "." + condicao.getCampo().getNome()) + ")" : "") + " like '%" + palavras[i].toUpperCase() + "%' ");
 				if ((palavras.length - i) > 1) {
 					sb.append(" and ");
 				}
@@ -173,19 +177,19 @@ public class QueryConstrutor implements Serializable {
 	}
 
 	private String valorVARCHAR(final Condicao condicao) {
-		return "'" + condicao.getValor() + "'";
+		return "'" + condicao.getValor().toString().toUpperCase() + "'";
 	}
 
 	private String valorVARCHARComecaCom(final Condicao condicao) {
-		return "'" + condicao.getValor() + "%'";
+		return "'" + condicao.getValor().toString().toUpperCase() + "%'";
 	}
 
 	private String valorVARCHARTerminaCom(final Condicao condicao) {
-		return "'%" + condicao.getValor() + "'";
+		return "'%" + condicao.getValor().toString().toUpperCase() + "'";
 	}
 
 	private String valorVARCHARContem(final Condicao condicao) {
-		return "'%" + condicao.getValor() + "%'";
+		return "'%" + condicao.getValor().toString().toUpperCase() + "%'";
 	}
 
 	private String valorParametrizado(Condicao condicao) {

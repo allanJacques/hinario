@@ -2,7 +2,7 @@
 	<div id="topo">
 		<h:form prependId="false">
 			<p:graphicImage id="logo" name="favicon2.gif" library="imagens" />
-			<p id="appDescricao">Hinario da Sã Doutrina Espiritual do Sétimo Dia</p>
+			<p id="appDescricao">#{strg['app.descricao']}</p>
 			<p:commandLink id="linkLogout" action="#{usuarioLoginBean.logout()}" title="#{strg['label.sair']}" ajax="false" rendered="#{usuarioLoginBean.logado}">
 				<p:graphicImage id="logout" name="power.png" library="imagens" />
 			</p:commandLink>

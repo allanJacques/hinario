@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.hinario.dao.filtro.Filtro;
+import org.hinario.dao.filtro.QueryConstrutor;
 import org.hinario.model.EntidadeBase;
 import org.primefaces.model.SortMeta;
 

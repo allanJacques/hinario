@@ -2,21 +2,16 @@ package org.hinario.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import org.hinario.dao.filtro.CampoNaoFiltravel;
 import org.hinario.model.enums.Sexo;
 
@@ -42,9 +37,10 @@ public class Irmao extends EntidadeBase implements Serializable {
 	@Column(length = 1000)
 	private String observacao;
 
-	@OneToOne(mappedBy = "irmao", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@CampoNaoFiltravel
-	private Usuario usuario;
+	// @OneToOne(mappedBy = "irmao", cascade = CascadeType.ALL, fetch =
+	// FetchType.EAGER)
+	// @CampoNaoFiltravel
+	// private Usuario usuario;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -83,13 +79,13 @@ public class Irmao extends EntidadeBase implements Serializable {
 		this.observacao = observacao;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	// public Usuario getUsuario() {
+	// return usuario;
+	// }
+	//
+	// public void setUsuario(Usuario usuario) {
+	// this.usuario = usuario;
+	// }
 
 	public Date getDataCadastro() {
 		return dataCadastro;

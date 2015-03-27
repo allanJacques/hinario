@@ -141,7 +141,7 @@ input#nome_input {
 				<h:form acceptcharset="UTF-8">
 					<p:dataTable id="tabelaUsuarios" var="usuarioTemp" value="#{usuarioBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{usuarioBean.usuario}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 						<p:ajax event="rowSelect" update="@([id$=usuarioEditor])" process="@([id$=tabelaUsuarios])" />
-						<p:column width="8%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}">
+						<p:column width="8%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}" disabledSelection="true" >
 							<div class="colunaCodigo">
 								<h:outputText value="#{usuarioTemp.id}" title="#{usuarioTemp.id}" />
 							</div>

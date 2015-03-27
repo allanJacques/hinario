@@ -64,6 +64,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	public void remover(Usuario usuario) {
 		this.dao.remover(usuario);
 		this.novo();
+		this.editando();
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}

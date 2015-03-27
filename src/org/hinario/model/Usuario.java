@@ -12,13 +12,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hinario.dao.filtro.CampoNaoFiltravel;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name="USUARIO_UNICO_IRMAO",columnNames = "irmao_id"))
 public class Usuario extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;

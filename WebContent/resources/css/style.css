@@ -88,6 +88,14 @@ div#rodape {
 	text-align: center;
 }
 
+div.painelBotoesCentralizado {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	text-align: center;
+	margin-top: 10px;
+}
+
 .capitalize {
 	text-transform: capitalize;
 }

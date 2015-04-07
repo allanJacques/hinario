@@ -70,6 +70,14 @@ public abstract class ManagedBeanBase {
 		this.modoEditor = modoEditor;
 	}
 
+	public void setModoEditor() {
+		if (this.getEntidade() == null || this.getEntidade().getId() == null) {
+			this.adicionando();
+		} else {
+			this.editando();
+		}
+	}
+
 	public void inverteFiltro() {
 		this.exibindoFiltro = !this.exibindoFiltro;
 	}

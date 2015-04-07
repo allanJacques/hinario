@@ -29,27 +29,24 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void salvar() {
-
 		this.dao.salvar(this.getOcasiao());
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
-		this.adicionando();
-		this.setOcasiao(new Ocasiao());
+		this.novo();
 	}
 
 	public void novo() {
 		this.setOcasiao(new Ocasiao());
-		this.adicionando();
 	}
 
 	@Override
 	public void setEntidade(EntidadeBase entidade) {
-		this.ocasiao = (Ocasiao) entidade;
+		this.setOcasiao((Ocasiao) entidade);
 	}
 
 	@Override
 	public EntidadeBase getEntidade() {
-		return this.ocasiao;
+		return this.getOcasiao();
 	}
 
 	public Ocasiao getOcasiao() {
@@ -58,6 +55,7 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 
 	public void setOcasiao(Ocasiao ocasiao) {
 		this.ocasiao = ocasiao;
+		super.setModoEditor();
 	}
 
 	public EntidadeDataModel getOcasiaoDataModel() {
@@ -71,6 +69,8 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 	public void remover(Ocasiao ocasiao) {
 		this.dao.remover(ocasiao);
 		this.novo();
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
+		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
 }

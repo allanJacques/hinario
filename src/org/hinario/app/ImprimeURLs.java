@@ -14,6 +14,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hinario.util.StringUtil;
+
 @WebFilter("*")
 public class ImprimeURLs implements Filter {
 
@@ -44,7 +46,7 @@ public class ImprimeURLs implements Filter {
 			Enumeration<String> enumSession = ((HttpServletRequest) request).getSession().getAttributeNames();
 			while (enumSession.hasMoreElements()) {
 				String nomeDoAtributo = enumSession.nextElement();
-				System.out.println(nomeDoAtributo + "=" + ((HttpServletRequest) request).getSession().getAttribute(nomeDoAtributo));
+				System.out.println(nomeDoAtributo + "=" + new StringUtil().getsubString(((HttpServletRequest) request).getSession().getAttribute(nomeDoAtributo).toString().replace("\n", "\\n"), 45));
 			}
 		}
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

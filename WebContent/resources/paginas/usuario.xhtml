@@ -67,13 +67,14 @@ input#nome_input {
 
 					</p:panel>
 					<div class="painelBotoesCentralizado">
-						<p:commandButton value="#{usuarioBean.edicao ? strg['label.salvar'] : strg['label.incluirUsuario']}" action="#{usuarioBean.salvar()}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{strg['label.remover']}" action="#{usuarioBean.remover(usuarioBean.usuario)}" rendered="#{usuarioBean.edicao}" styleClass="botao botaoRemover" ajax="false" />
+						<p:commandButton value="#{usuarioBean.edicao ? strg['label.salvar'] : strg['label.incluirUsuario']}" action="#{usuarioBean.salvar()}" styleClass="botao botaoSalvar" ajax="false">
 							<f:ajax execute="editor" render="pagina" />
 						</p:commandButton>
-						<p:commandButton value="#{strg['label.incluirNovoUsuario']}" action="#{usuarioBean.novo()}" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{strg['label.incluirNovoUsuario']}" action="#{usuarioBean.novo()}" rendered="#{usuarioBean.edicao}" styleClass="botao botaoNovo" ajax="false">
 							<f:ajax render="editor" />
 						</p:commandButton>
-						<p:commandButton value="#{strg['label.remover']}" action="#{usuarioBean.remover(usuarioBean.usuario)}" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false" />
+						<div style="clear: both;" />
 					</div>
 				</h:form>
 

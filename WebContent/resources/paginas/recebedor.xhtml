@@ -41,13 +41,15 @@ input#nome_input {
 						</h:panelGrid>
 					</p:panel>
 					<div class="painelBotoesCentralizado">
-						<p:commandButton value="#{recebedorBean.edicao ? strg['label.salvar'] : strg['label.incluirRecebedor']}" action="#{recebedorBean.salvar()}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{strg['label.remover']}" action="#{recebedorBean.remover(recebedorBean.recebedor)}" rendered="#{recebedorBean.edicao}" styleClass="botao botaoRemover" ajax="false" />
+
+						<p:commandButton value="#{recebedorBean.edicao ? strg['label.salvar'] : strg['label.incluirRecebedor']}" action="#{recebedorBean.salvar()}" styleClass="botao botaoSalvar" ajax="false">
 							<f:ajax execute="editor" render="pagina" />
 						</p:commandButton>
-						<p:commandButton value="#{strg['label.incluirNovoRecebedor']}" action="#{recebedorBean.novo()}" rendered="#{recebedorBean.edicao}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{strg['label.incluirNovoRecebedor']}" action="#{recebedorBean.novo()}" rendered="#{recebedorBean.edicao}" styleClass="botao botaoNovo" ajax="false">
 							<f:ajax render="editor" />
 						</p:commandButton>
-						<p:commandButton value="#{strg['label.remover']}" action="#{recebedorBean.remover(recebedorBean.recebedor)}" rendered="#{recebedorBean.edicao}" styleClass="botao" ajax="false" />
+						<div style="clear: both;" />
 					</div>
 				</h:form>
 

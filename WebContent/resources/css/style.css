@@ -135,9 +135,23 @@ select.ui-paginator-rpp-options {
 }
 
 button.botao {
-	margin-left: 10px !important;
-	margin-right: 10px !important;
 	height: 32px;
+}
+
+button.botaoNovo {
+	float: left;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+button.botaoSalvar {
+	float: right;
+}
+
+button.botaoRemover {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
 }
 
 span.ui-button-text {

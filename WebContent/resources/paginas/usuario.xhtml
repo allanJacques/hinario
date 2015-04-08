@@ -13,10 +13,11 @@ input#nome_input {
 		<!-- ======================================================== EDITOR ======================================================== -->
 		<h:panelGrid id="pagina">
 			<h:panelGroup>
-				<p:panel id="usuarioEditor">
-					<h:panelGrid columns="2">
-						<h:form id="usuarioForm" prependId="false" enctype="multipart/form-data" acceptcharset="UTF-8">
-							<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
+
+				<h:form id="editor" prependId="false" enctype="multipart/form-data" acceptcharset="UTF-8">
+					<p:panel>
+						<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
+						<h:panelGrid columns="2">
 							<h:panelGrid columns="3" layout="grid">
 								<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{usuarioBean.edicao}" />
 								<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" disabled="true" rendered="#{usuarioBean.edicao}" style="width:500px;" />
@@ -56,20 +57,27 @@ input#nome_input {
 								<p:inputTextarea id="observacao" value="#{usuarioBean.usuario.irmao.observacao}" cols="53" rows="2" style="width:500px;" />
 								<p:message for="observacao" />
 							</h:panelGrid>
-							<p:commandButton value="#{strg['label.salvar']}" action="#{usuarioBean.salvar()}" style="margin-top: 10px;" styleClass="botao" ajax="false">
-								<f:ajax execute="@all" render="@all" />
-							</p:commandButton>
-							<p:commandButton value="#{strg['label.novo']}" action="#{usuarioBean.novo()}" style="margin-top: 10px;" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false">
-								<f:ajax render="usuarioEditor" />
-							</p:commandButton>
-						</h:form>
-						<h:panelGroup rendered="#{usuarioBean.edicao}">
-							<div align="center" style="border: 1px solid gray; margin: -25px 30px 30px 30px; padding: 5px;">
-								<h:graphicImage value="../../imagemstream/usuario/#{usuarioBean.usuario.id}:#{formatsBean.currentTimeMillis}" height="120" width="120" />
-							</div>
-						</h:panelGroup>
-					</h:panelGrid>
-				</p:panel>
+							<h:panelGroup rendered="#{usuarioBean.edicao}">
+								<div align="center" style="border: 1px solid gray; margin: -25px 30px 30px 30px; padding: 5px;">
+									<h:graphicImage value="../../imagemstream/usuario/#{usuarioBean.usuario.id}:#{formatsBean.currentTimeMillis}" height="120" width="120" />
+								</div>
+							</h:panelGroup>
+						</h:panelGrid>
+
+
+					</p:panel>
+					<div class="painelBotoesCentralizado">
+						<p:commandButton value="#{usuarioBean.edicao ? strg['label.salvar'] : strg['label.incluirUsuario']}" action="#{usuarioBean.salvar()}" styleClass="botao" ajax="false">
+							<f:ajax execute="editor" render="pagina" />
+						</p:commandButton>
+						<p:commandButton value="#{strg['label.incluirNovoUsuario']}" action="#{usuarioBean.novo()}" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false">
+							<f:ajax render="editor" />
+						</p:commandButton>
+						<p:commandButton value="#{strg['label.remover']}" action="#{usuarioBean.remover(usuarioBean.usuario)}" rendered="#{usuarioBean.edicao}" styleClass="botao" ajax="false" />
+					</div>
+				</h:form>
+
+
 
 				<p:spacer height="15" />
 				<!-- ======================================================== FILTRO ======================================================== -->
@@ -140,8 +148,8 @@ input#nome_input {
 				<!-- ======================================================== TABELA ======================================================== -->
 				<h:form acceptcharset="UTF-8">
 					<p:dataTable id="tabelaUsuarios" var="usuarioTemp" value="#{usuarioBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{usuarioBean.usuario}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-						<p:ajax event="rowSelect" update="@([id$=usuarioEditor])" process="@([id$=tabelaUsuarios])" />
-						<p:column width="8%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}" disabledSelection="true" >
+						<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaUsuarios])" />
+						<p:column width="8%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}" disabledSelection="true">
 							<div class="colunaCodigo">
 								<h:outputText value="#{usuarioTemp.id}" title="#{usuarioTemp.id}" />
 							</div>
@@ -165,15 +173,6 @@ input#nome_input {
 						<p:column sortBy="#{usuarioTemp.irmao.observacao}">
 							<f:facet name="header">#{strg['label.observacao']}</f:facet>
 							<h:outputText value="#{usuarioTemp.irmao.observacao}" title="#{usuarioTemp.irmao.observacao}" />
-						</p:column>
-						<p:column width="7%" sortBy="1">
-							<f:facet name="header">#{strg['label.acoes']}</f:facet>
-							<div class="colunaData">
-								<h:commandLink action="#{usuarioBean.remover(usuarioTemp)}">
-									<f:ajax render="@all" execute="@all"></f:ajax>
-									<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
-								</h:commandLink>
-							</div>
 						</p:column>
 					</p:dataTable>
 				</h:form>

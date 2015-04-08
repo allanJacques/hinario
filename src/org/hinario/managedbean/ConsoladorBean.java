@@ -33,7 +33,6 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 
 	public void novo() {
 		this.setConsolador(new Consolador());
-		this.adicionando();
 	}
 
 	public void salvar() {
@@ -67,12 +66,12 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 
 	@Override
 	public void setEntidade(EntidadeBase entidade) {
-		this.consolador = (Consolador) entidade;
+		this.setConsolador((Consolador) entidade);
 	}
 
 	@Override
 	public EntidadeBase getEntidade() {
-		return this.consolador;
+		return this.getConsolador();
 	}
 
 	public Consolador getConsolador() {
@@ -81,6 +80,7 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 
 	public void setConsolador(Consolador consolador) {
 		this.consolador = consolador;
+		super.setModoEditor();
 	}
 
 	public Sexo[] getSexos() {

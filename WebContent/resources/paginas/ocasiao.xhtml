@@ -18,10 +18,10 @@
 						</h:panelGrid>
 					</p:panel>
 					<div class="painelBotoesCentralizado">
-						<p:commandButton value="#{ocasiaoBean.edicao ? strg['label.salvar'] : strg['label.incluir']}" action="#{ocasiaoBean.salvar()}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{ocasiaoBean.edicao ? strg['label.salvar'] : strg['label.incluirOcasiao']}" action="#{ocasiaoBean.salvar()}" styleClass="botao" ajax="false">
 							<f:ajax execute="editor" render="pagina" />
 						</p:commandButton>
-						<p:commandButton value="#{strg['label.novo']}" action="#{ocasiaoBean.novo()}" rendered="#{ocasiaoBean.edicao}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{strg['label.incluirNovaOcasiao']}" action="#{ocasiaoBean.novo()}" rendered="#{ocasiaoBean.edicao}" styleClass="botao" ajax="false">
 							<f:ajax render="editor" />
 						</p:commandButton>
 						<p:commandButton value="#{strg['label.remover']}" action="#{ocasiaoBean.remover(ocasiaoBean.ocasiao)}" rendered="#{ocasiaoBean.edicao}" styleClass="botao" ajax="false" />

@@ -13,8 +13,8 @@ input#nome_input {
 		<!-- ======================================================== EDITOR ======================================================== -->
 		<h:panelGrid id="pagina">
 			<h:panelGroup>
-				<p:panel id="editor">
-					<h:form id="usuarioForm" prependId="false" acceptcharset="UTF-8">
+				<h:form id="editor" prependId="false" acceptcharset="UTF-8">
+					<p:panel>
 						<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 						<h:panelGrid columns="3" layout="grid">
 							<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{consoladorBean.edicao}" />
@@ -38,14 +38,17 @@ input#nome_input {
 							<p:inputTextarea id="observacao" value="#{consoladorBean.consolador.irmao.observacao}" cols="53" rows="2" style="width:500px;" />
 							<p:message for="observacao" />
 						</h:panelGrid>
-						<p:commandButton value="#{strg['label.salvar']}" action="#{consoladorBean.salvar()}" style="margin-top: 10px;" styleClass="botao" ajax="false">
+					</p:panel>
+					<div class="painelBotoesCentralizado">
+						<p:commandButton value="#{consoladorBean.edicao ? strg['label.salvar'] : strg['label.incluirConsolador']}" action="#{consoladorBean.salvar()}" styleClass="botao" ajax="false">
 							<f:ajax execute="editor" render="pagina" />
 						</p:commandButton>
-						<p:commandButton value="#{strg['label.novo']}" action="#{consoladorBean.novo()}" style="margin-top: 10px;" rendered="#{consoladorBean.edicao}" styleClass="botao" ajax="false">
+						<p:commandButton value="#{strg['label.incluirNovoConsolador']}" action="#{consoladorBean.novo()}" rendered="#{consoladorBean.edicao}" styleClass="botao" ajax="false">
 							<f:ajax render="editor" />
 						</p:commandButton>
-					</h:form>
-				</p:panel>
+						<p:commandButton value="#{strg['label.remover']}" action="#{consoladorBean.remover(consoladorBean.consolador)}" rendered="#{consoladorBean.edicao}" styleClass="botao" ajax="false" />
+					</div>
+				</h:form>
 
 				<p:spacer height="15" />
 				<!-- ======================================================== FILTRO ======================================================== -->
@@ -135,15 +138,6 @@ input#nome_input {
 						<p:column width="38%" sortBy="#{consoladorTemp.irmao.observacao}">
 							<f:facet name="header">#{strg['label.observacao']}</f:facet>
 							<h:outputText value="#{consoladorTemp.irmao.observacao}" title="#{consoladorTemp.irmao.observacao}" />
-						</p:column>
-						<p:column width="6%" sortBy="1">
-							<f:facet name="header">#{strg['label.acoes']}</f:facet>
-							<div class="colunaData">
-								<h:commandLink action="#{consoladorBean.remover(consoladorTemp)}">
-									<f:ajax render="tabelaUsuarios editor" execute="@this"></f:ajax>
-									<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
-								</h:commandLink>
-							</div>
 						</p:column>
 					</p:dataTable>
 				</h:form>

@@ -33,7 +33,6 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 
 	public void novo() {
 		this.setRecebedor(new Recebedor());
-		this.adicionando();
 	}
 
 	public void salvar() {
@@ -67,12 +66,12 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 
 	@Override
 	public void setEntidade(EntidadeBase entidade) {
-		this.recebedor = (Recebedor) entidade;
+		this.setRecebedor((Recebedor) entidade);
 	}
 
 	@Override
 	public EntidadeBase getEntidade() {
-		return this.recebedor;
+		return this.getRecebedor();
 	}
 
 	public Recebedor getRecebedor() {
@@ -81,6 +80,7 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 
 	public void setRecebedor(Recebedor recebedor) {
 		this.recebedor = recebedor;
+		super.setModoEditor();
 	}
 
 	public Sexo[] getSexos() {

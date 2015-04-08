@@ -71,7 +71,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	public void novo() {
 		this.setUsuario(new Usuario());
-		this.adicionando();
 	}
 
 	public List<String> listaSugestoes(String valor) {
@@ -103,6 +102,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+		super.setModoEditor();
 	}
 
 	public EntidadeDataModel getUsuarioDataModel() {
@@ -119,13 +119,13 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	@Override
 	public void setEntidade(EntidadeBase entidade) {
-		this.usuario = (Usuario) entidade;
+		this.setUsuario((Usuario) entidade);
 		this.getUsuario().setConfirmeSenha(this.getUsuario().getSenha());
 	}
 
 	@Override
 	public EntidadeBase getEntidade() {
-		return this.usuario;
+		return this.getUsuario();
 	}
 
 }

@@ -22,12 +22,12 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Recebedor recebedor;
-	private RecebedorDAO dao;
+	private final RecebedorDAO dao;
 
 	public RecebedorBean() {
 		this.setEntidade(new Recebedor());
 		this.dao = new RecebedorDAO();
-		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
+		this.dataModel = new EntidadeDataModel(this, this.dao);
 		this.filtro = new Filtro(Recebedor.class);
 	}
 
@@ -88,7 +88,7 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public EntidadeDataModel getUsuarioDataModel() {
-		return usuarioDataModel;
+		return dataModel;
 	}
 
 }

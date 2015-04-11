@@ -1,5 +1,6 @@
 package org.hinario.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Cantico {
+public class Cantico extends EntidadeBase implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,6 +46,7 @@ public class Cantico {
 	@OneToMany(mappedBy = "cantico")
 	private List<Arquivo> arquivos;
 
+	@Override
 	public Long getId() {
 		return id;
 	}

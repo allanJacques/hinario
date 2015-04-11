@@ -22,12 +22,12 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Consolador consolador;
-	private ConsoladorDAO dao;
+	private final ConsoladorDAO dao;
 
 	public ConsoladorBean() {
 		this.setEntidade(new Consolador());
 		this.dao = new ConsoladorDAO();
-		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
+		this.dataModel = new EntidadeDataModel(this, this.dao);
 		this.filtro = new Filtro(Consolador.class);
 	}
 
@@ -88,7 +88,7 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public EntidadeDataModel getUsuarioDataModel() {
-		return usuarioDataModel;
+		return dataModel;
 	}
 
 }

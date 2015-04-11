@@ -11,7 +11,7 @@ import org.hinario.dao.filtro.StatusCondicao;
 import org.hinario.model.EntidadeBase;
 
 public abstract class ManagedBeanBase {
-	protected EntidadeDataModel usuarioDataModel;
+	protected EntidadeDataModel dataModel;
 	protected AppMessage appMessage;
 	protected ModoEditor modoEditor;
 	protected Filtro filtro;
@@ -76,6 +76,14 @@ public abstract class ManagedBeanBase {
 		} else {
 			this.editando();
 		}
+	}
+
+	public EntidadeDataModel getUsuarioDataModel() {
+		return dataModel;
+	}
+
+	public void setUsuarioDataModel(EntidadeDataModel usuarioDataModel) {
+		this.dataModel = usuarioDataModel;
 	}
 
 	public void inverteFiltro() {

@@ -21,7 +21,7 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 	private String email;
 	private String senha;
 	private Usuario usuario;
-	private UsuarioDAO usuarioDAO;
+	private final UsuarioDAO usuarioDAO;
 
 	public UsuarioLoginBean() {
 		this.usuarioDAO = new UsuarioDAO();

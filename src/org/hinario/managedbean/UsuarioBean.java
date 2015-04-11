@@ -26,13 +26,13 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Usuario usuario = null;
-	private UsuarioDAO dao;
+	private final UsuarioDAO dao;
 	private Part imageFile;
 
 	public UsuarioBean() {
 		this.setUsuario(new Usuario());
 		this.dao = new UsuarioDAO();
-		this.usuarioDataModel = new EntidadeDataModel(this, this.dao);
+		this.dataModel = new EntidadeDataModel(this, this.dao);
 		this.filtro = new Filtro(Usuario.class);
 	}
 
@@ -64,7 +64,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	public void remover(Usuario usuario) {
 		this.dao.remover(usuario);
 		this.novo();
-		this.editando();
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
@@ -103,14 +102,6 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 		super.setModoEditor();
-	}
-
-	public EntidadeDataModel getUsuarioDataModel() {
-		return usuarioDataModel;
-	}
-
-	public void setUsuarioDataModel(EntidadeDataModel usuarioDataModel) {
-		this.usuarioDataModel = usuarioDataModel;
 	}
 
 	public Sexo[] getSexos() {

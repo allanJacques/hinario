@@ -18,13 +18,12 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Ocasiao ocasiao = null;
-	private OcasiaoDAO dao;
-	private EntidadeDataModel ocasiaoDataModel;
+	private final OcasiaoDAO dao;
 
 	public OcasiaoBean() {
 		this.setEntidade(new Ocasiao());
 		this.dao = new OcasiaoDAO();
-		this.ocasiaoDataModel = new EntidadeDataModel(this, this.dao);
+		this.dataModel = new EntidadeDataModel(this, this.dao);
 		this.filtro = new Filtro(Ocasiao.class);
 	}
 
@@ -59,11 +58,11 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public EntidadeDataModel getOcasiaoDataModel() {
-		return ocasiaoDataModel;
+		return this.dataModel;
 	}
 
 	public void setOcasiaoDataModel(EntidadeDataModel ocasiaoDataModel) {
-		this.ocasiaoDataModel = ocasiaoDataModel;
+		this.dataModel = ocasiaoDataModel;
 	}
 
 	public void remover(Ocasiao ocasiao) {

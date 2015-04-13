@@ -56,8 +56,12 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
-	public List<String> listaSugestoes(String valor) {
+	public List<String> listaSugestoesString(String valor) {
 		return this.dao.listaNomeIrmaos(valor);
+	}
+	
+	public List<Consolador> listaSugestoesBean(String valor) {
+		return this.dao.listaConsoladores(valor);
 	}
 
 	public void selecionou(SelectEvent event) {

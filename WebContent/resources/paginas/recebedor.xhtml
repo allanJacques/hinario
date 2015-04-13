@@ -23,7 +23,7 @@ input#nome_input {
 							<p:message for="codigo" rendered="#{recebedorBean.edicao}" />
 
 							<p:outputLabel value="#{strg['label.nome']}" for="nome" />
-							<p:autoComplete id="nome" value="#{recebedorBean.recebedor.irmao.nome}" required="true" style="width:500px;" completeMethod="#{recebedorBean.listaSugestoes}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
+							<p:autoComplete id="nome" value="#{recebedorBean.recebedor.irmao.nome}" required="true" style="width:500px;" completeMethod="#{recebedorBean.listaSugestoesString}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
 								<p:ajax event="itemSelect" listener="#{recebedorBean.selecionou}" process="@this" update="@form" />
 							</p:autoComplete>
 							<p:message for="nome" />

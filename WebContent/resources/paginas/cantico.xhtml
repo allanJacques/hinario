@@ -6,10 +6,20 @@
 		<h:form id="editor" prependId="false" acceptcharset="UTF-8">
 			<p:panel>
 				<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
-				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="false" showStepStatus="false" widgetVar="wizard">
+				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard">
 					<p:tab id="consoladorRecebedor" title="Consolador e Recebedor">
 						<p:panel>
-							<h:outputText value="consoladorRecebedor" />
+							<h:panelGrid columns="4" cellspacing="15px">
+								<p:outputLabel value="#{strg['label.consolador']}" for="consolador" />
+								<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" required="true" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
+								<p:message for="consolador" />
+								<p:commandLink title="#{strg['label.incluirNovoConsolador']}" value="#{strg['label.incluirNovoConsolador']}" onclick="PF('dialogConsolador').show();" styleClass="linkIncluirNovo" />
+
+								<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" />
+								<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" required="true" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" />
+								<p:message for="recebedor" />
+								<p:commandLink title="#{strg['label.incluirNovoRecebedor']}" value="#{strg['label.incluirNovoRecebedor']}" onclick="PF('dialogRecebedor').show();" styleClass="linkIncluirNovo" />
+							</h:panelGrid>
 						</p:panel>
 					</p:tab>
 					<p:tab id="ocasioes" title="Ocasiões">
@@ -18,27 +28,6 @@
 						</p:panel>
 					</p:tab>
 				</p:wizard>
-				<div>
-					<h:outputLink value="#" onclick="PF('wizard').next();" style="float:right;">Proximo</h:outputLink>
-					<h:outputLink value="#" onclick="PF('wizard').back();">Anterior</h:outputLink>
-				</div>
-				<br />
-				<br />
-				<br />
-				<p:tabView backLabel="Voltar" nextLabel="Próximo" activeIndex="#{canticoBean.tabAtiva}">
-					<p:ajax event="tabChange" listener="#{canticoBean.onTabChange}" update="@all" />
-					<p:tab id="consoladorRecebedor" title="Consolador e Recebedor">
-						<p:panel>
-							<h:outputText value="consoladorRecebedor" />
-						</p:panel>
-					</p:tab>
-					<p:tab id="ocasioes" title="Ocasiões">
-						<p:panel>
-							<h:outputText value="ocasioes" />
-						</p:panel>
-					</p:tab>
-				</p:tabView>
-
 			</p:panel>
 			<div class="painelBotoesCentralizado">
 				<p:commandButton value="#{strg['label.remover']}" action="#{canticoBean.remover(canticoBean.cantico)}" rendered="#{canticoBean.edicao}" styleClass="botao botaoRemover" ajax="false" />
@@ -149,6 +138,19 @@
 		<!-- 						</p:column> -->
 		<!-- 					</p:dataTable> -->
 		<!-- 				</h:form> -->
+
+
+		<!-- ======================================================== DIALOGS ======================================================= -->
+
+		<p:dialog widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="" showEffect="" minimizable="false" maximizable="true" closeOnEscape="true">
+			Consolador
+		</p:dialog>
+		<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="" showEffect="" minimizable="false" maximizable="true" closeOnEscape="true">
+			Recebedor
+		</p:dialog>
+
+
+
 		<br />
 		<br />
 	</ui:define>

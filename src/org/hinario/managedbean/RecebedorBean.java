@@ -11,8 +11,8 @@ import javax.faces.context.FacesContext;
 
 import org.hinario.dao.RecebedorDAO;
 import org.hinario.dao.filtro.Filtro;
-import org.hinario.model.Recebedor;
 import org.hinario.model.EntidadeBase;
+import org.hinario.model.Recebedor;
 import org.hinario.model.enums.Sexo;
 import org.primefaces.event.SelectEvent;
 
@@ -49,8 +49,12 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 		}
 	}
 
-	public List<String> listaSugestoes(String valor) {
+	public List<String> listaSugestoesString(String valor) {
 		return this.dao.listaNomeIrmaos(valor);
+	}
+
+	public List<Recebedor> listaSugestoesBean(String valor) {
+		return this.dao.listaRecebedores(valor);
 	}
 
 	public void selecionou(SelectEvent event) {

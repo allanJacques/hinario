@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.hinario.dao.filtro.Filtro;
+import org.hinario.model.Consolador;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Recebedor;
 import org.primefaces.model.SortMeta;
@@ -35,6 +36,12 @@ public class RecebedorDAO extends IrmaoDAO implements Serializable {
 	public EntidadeBase getEntidadePorId(Long id) {
 		Recebedor recebedor = this.em.getReference(Recebedor.class, id);
 		return recebedor;
+	}
+
+	public List<Recebedor> listaRecebedores(String valor) {
+		TypedQuery<Recebedor> q = this.em.createQuery("select r from Recebedor r join fetch r.irmao where upper(r.irmao.nome) like upper(:nome)", Recebedor.class);
+		q.setParameter("nome", this.entrePorcentagens(valor));
+		return q.getResultList();
 	}
 
 }

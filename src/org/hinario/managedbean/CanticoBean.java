@@ -12,7 +12,6 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
 import org.primefaces.event.FlowEvent;
-import org.primefaces.event.TabChangeEvent;
 
 @ManagedBean
 @ViewScoped
@@ -45,18 +44,6 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.novo();
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.removidoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
-	}
-
-	public void setTabAtiva(final Integer integer) {
-
-	}
-
-	public Integer getTabAtiva() {
-		return 1;
-	}
-
-	public void onTabChange(TabChangeEvent event) {
-		System.out.println(event.getTab().getTitle());
 	}
 
 	public String trocaAba(final FlowEvent event) {

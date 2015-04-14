@@ -157,13 +157,16 @@ button.botaoRemover {
 a.linkIncluirNovo {
 	color: blue;
 	margin-left: 150px;
+	font-size: 14px !important;
 }
-
+/*
 span.ui-button-text {
 	padding: 3px !important;
 	height: 30px;
 }
-
+*/
+/*
 div.ui-dialog-content {
 	margin: auto;
 }
+*/

@@ -7,7 +7,7 @@
 			<p:panel>
 				<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard">
-					<p:tab id="consoladorRecebedor" title="Consolador e Recebedor">
+					<p:tab id="tabConsoladorRecebedor" title="#{strg['label.aba.consoladorERecebedor']}">
 						<p:panel>
 							<h:panelGrid columns="4" cellspacing="15px">
 								<p:outputLabel value="#{strg['label.consolador']}" for="consolador" />
@@ -22,9 +22,17 @@
 							</h:panelGrid>
 						</p:panel>
 					</p:tab>
-					<p:tab id="ocasioes" title="Ocasiões">
+					<p:tab id="tabOcasioes" title="#{strg['label.aba.ocasioes']}">
 						<p:panel>
-							<h:outputText value="ocasioes" />
+							<p:pickList id="ocasioes" converter="OcasiaoConverter" value="#{canticoBean.dualOcasioes}" var="ocasiao" itemLabel="#{ocasiao.descricao}" itemValue="#{ocasiao}">
+							</p:pickList>
+
+						</p:panel>
+					</p:tab>
+					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
+						<p:panel>
+							<p:fileUpload>
+							</p:fileUpload>
 						</p:panel>
 					</p:tab>
 				</p:wizard>
@@ -142,10 +150,10 @@
 
 		<!-- ======================================================== DIALOGS ======================================================= -->
 
-		<p:dialog widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="" showEffect="" minimizable="false" maximizable="true" closeOnEscape="true">
+		<p:dialog widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Consolador
 		</p:dialog>
-		<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="" showEffect="" minimizable="false" maximizable="true" closeOnEscape="true">
+		<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Recebedor
 		</p:dialog>
 

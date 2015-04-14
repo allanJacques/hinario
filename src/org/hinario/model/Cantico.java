@@ -1,6 +1,7 @@
 package org.hinario.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,10 @@ import javax.validation.constraints.NotNull;
 public class Cantico extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	public Cantico() {
+		this.ocasioes = new ArrayList<>();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

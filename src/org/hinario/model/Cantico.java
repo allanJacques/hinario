@@ -43,6 +43,7 @@ public class Cantico extends EntidadeBase implements Serializable {
 	private Date dataRecebimento;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private Date dataCadastro;
 
 	@Column(length = 1000)

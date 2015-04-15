@@ -159,14 +159,17 @@ a.linkIncluirNovo {
 	margin-left: 150px;
 	font-size: 14px !important;
 }
-/*
+
 span.ui-button-text {
-	padding: 3px !important;
-	height: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	line-height: 100% !important;
 }
-*/
-/*
-div.ui-dialog-content {
+
+.ui-picklist-caption {
+	font-size: 16px;
+}
+
+/*div.ui-dialog-content {
 	margin: auto;
-}
-*/
+}*/

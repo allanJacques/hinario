@@ -16,17 +16,44 @@
 								<p:commandLink title="#{strg['label.incluirNovoConsolador']}" value="#{strg['label.incluirNovoConsolador']}" onclick="PF('dialogConsolador').show();" styleClass="linkIncluirNovo" />
 
 								<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" />
-								<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" required="true" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" />
+								<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" required="false" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" />
 								<p:message for="recebedor" />
 								<p:commandLink title="#{strg['label.incluirNovoRecebedor']}" value="#{strg['label.incluirNovoRecebedor']}" onclick="PF('dialogRecebedor').show();" styleClass="linkIncluirNovo" />
 							</h:panelGrid>
 						</p:panel>
 					</p:tab>
+					<p:tab id="datas" title="#{strg['label.aba.datas']}">
+						<p:panel>
+							<h:panelGrid columns="3">
+								<p:outputLabel value="#{strg['label.dataCadastro']}" for="dataCadastro" />
+								<p:calendar id="dataCadastro" value="#{now}" effect="show" pattern="dd/MM/yyyy" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" disabled="true" required="true" />
+								<p:message for="dataCadastro" />
+
+								<p:outputLabel value="#{strg['label.dataRecebimento']}" for="dataRecebimento" />
+								<p:calendar id="dataRecebimento" value="#{canticoBean.cantico.dataRecebimento}" maxdate="#{now}" effect="show" pattern="dd/MM/yyyy" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" required="false" />
+								<p:message for="dataRecebimento" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
 					<p:tab id="tabOcasioes" title="#{strg['label.aba.ocasioes']}">
 						<p:panel>
-							<p:pickList id="ocasioes" converter="OcasiaoConverter" value="#{canticoBean.dualOcasioes}" var="ocasiao" itemLabel="#{ocasiao.descricao}" itemValue="#{ocasiao}">
-							</p:pickList>
-
+							<h:panelGrid columns="3">
+								<p:pickList id="ocasioes" converter="OcasiaoConverter" value="#{canticoBean.dualOcasioes}" var="ocasiao" itemLabel="#{ocasiao.descricao}" itemValue="#{ocasiao}" effect="pulsate" addLabel="#{strg['label.picklist.passarSelecionados']}" addAllLabel="#{strg['label.picklist.passarTodos']}" removeAllLabel="#{strg['label.picklist.removerTodos']}" removeLabel="#{strg['label.picklist.removerSelecionados']}" labelDisplay="inline" style="margin-left:auto; margin-right:auto; width:100%">
+									<f:facet name="sourceCaption">
+										<h:outputText value="#{strg['label.ocasioesCadastradas']}" />
+									</f:facet>
+									<f:facet name="targetCaption">
+										<h:outputText value="#{strg['label.ocasioesDoCantico']}" />
+									</f:facet>
+								</p:pickList>
+								<p:message for="ocasioes" />
+								<p:commandLink title="#{strg['label.incluirNovaOcasiao']}" value="#{strg['label.incluirNovaOcasiao']}" onclick="PF('dialogOcasiao').show();" styleClass="linkIncluirNovo" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+					<p:tab id="observacoes" title="#{strg['label.observacoes']}">
+						<p:panel>
+							<p:editor id="observacao" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule undo redo source"/>
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
@@ -155,6 +182,9 @@
 		</p:dialog>
 		<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Recebedor
+		</p:dialog>
+		<p:dialog widgetVar="dialogOcasiao" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
+			Ocasiao	
 		</p:dialog>
 
 

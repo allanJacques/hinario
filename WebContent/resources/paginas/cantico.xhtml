@@ -7,8 +7,10 @@
 			<p:panel>
 				<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard">
+
 					<p:tab id="tabConsoladorRecebedor" title="#{strg['label.aba.consoladorERecebedor']}">
-						<p:panel>
+						<p:panel id="painelConsoladorRecebedor">
+							<p:focus context="painelConsoladorRecebedor" />
 							<h:panelGrid columns="4" cellspacing="15px">
 								<p:outputLabel value="#{strg['label.consolador']}" for="consolador" />
 								<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" required="true" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
@@ -23,14 +25,15 @@
 						</p:panel>
 					</p:tab>
 					<p:tab id="datas" title="#{strg['label.aba.datas']}">
-						<p:panel>
+						<p:panel id="painelDatas">
+							<p:focus context="painelDatas" />
 							<h:panelGrid columns="3">
 								<p:outputLabel value="#{strg['label.dataCadastro']}" for="dataCadastro" />
-								<p:calendar id="dataCadastro" value="#{now}" effect="show" pattern="dd/MM/yyyy" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" disabled="true" required="true" />
+								<p:calendar id="dataCadastro" value="#{canticoBean.dataCadastroCantico}" effect="show" pattern="dd/MM/yyyy" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" disabled="true" required="true" />
 								<p:message for="dataCadastro" />
 
 								<p:outputLabel value="#{strg['label.dataRecebimento']}" for="dataRecebimento" />
-								<p:calendar id="dataRecebimento" value="#{canticoBean.cantico.dataRecebimento}" maxdate="#{now}" effect="show" pattern="dd/MM/yyyy" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" required="false" />
+								<p:calendar id="dataRecebimento" value="#{canticoBean.cantico.dataRecebimento}" maxdate="#{now}" effect="show" pattern="dd/MM/yyyy" locale="pt_BR" navigator="true" mask="true" style="margin-top:-1px;" required="false" />
 								<p:message for="dataRecebimento" />
 							</h:panelGrid>
 						</p:panel>
@@ -53,20 +56,46 @@
 					</p:tab>
 					<p:tab id="observacoes" title="#{strg['label.observacoes']}">
 						<p:panel>
-							<p:editor id="observacao" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule undo redo source"/>
+							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source">
+							</p:editor>
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
 						<p:panel>
-							<p:fileUpload>
-							</p:fileUpload>
+							<p:fileUpload required="true" update="growl" fileUploadListener="#{canticoBean.upload}" auto="false" multiple="true" mode="advanced" label="#{strg['label.fileUpload.selecionarArquivos']}" uploadLabel="#{strg['label.enviar']}" cancelLabel="#{strg['label.cancelar']}" sizeLimit="#{canticoBean.maxTamanhoArquivo}" dragDropSupport="true" previewWidth="50" fileLimit="#{canticoBean.maxArquivos}" invalidFileMessage="#{strg['message.fileUpload.tipoDeArquivoInvalido']}" invalidSizeMessage="#{strg['message.fileUpload.tamanhoDeArquivoInvalido']}" fileLimitMessage="#{strg['message.fileUpload.numeroMaxDeArquivosExcedido']}" messageTemplate="#{strg['message.fileUpload.mensagemModelo']}" />
+						</p:panel>
+					</p:tab>
+					<p:tab id="tabConfirmacao" title="#{strg['label.aba.confirmacao']}">
+						<p:panel>
+							<h:panelGrid columns="2" cellpadding="8px">
+								<p:outputLabel value="#{strg['label.consolador']}" />
+								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" />
+								<p:outputLabel value="#{strg['label.recebedor']}" />
+								<p:inputText value="#{canticoBean.cantico.recebedor.irmao.nome}" title="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="true" />
+								<p:outputLabel value="#{strg['label.dataCadastro']}" />
+								<p:inputText value="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" title="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" readonly="true" />
+								<p:outputLabel value="#{strg['label.dataRecebimento']}" />
+								<p:inputText value="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" title="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" readonly="true" />
+								<p:outputLabel value="#{strg['label.ocasioes']}" />
+								<p:outputPanel>
+									<div class="ui-autocomplete-multiple">
+										<ul class="ui-autocomplete-multiple-container ui-widget ui-inputfield ui-state-default ui-corner-all">
+											<ui:repeat var="ocasiao" value="#{canticoBean.cantico.ocasioes}">
+												<li class="ui-autocomplete-token ui-state-active ui-corner-all ui-helper-hidden" style="display: list-item;"><span class="ui-autocomplete-token-label">#{ocasiao.descricao}</span></li>
+											</ui:repeat>
+										</ul>
+									</div>
+								</p:outputPanel>
+								<p:outputLabel value="#{strg['label.observacao']}" />
+								<p:editor value="#{canticoBean.cantico.observacao}"  controls=""  disabled="true" />
+							</h:panelGrid>
 						</p:panel>
 					</p:tab>
 				</p:wizard>
 			</p:panel>
 			<div class="painelBotoesCentralizado">
 				<p:commandButton value="#{strg['label.remover']}" action="#{canticoBean.remover(canticoBean.cantico)}" rendered="#{canticoBean.edicao}" styleClass="botao botaoRemover" ajax="false" />
-				<p:commandButton value="#{canticoBean.edicao ? strg['label.salvar'] : strg['label.incluirCantico']}" action="#{canticoBean.salvar()}" styleClass="botao botaoSalvar" ajax="false">
+				<p:commandButton value="#{canticoBean.edicao ? strg['label.salvar'] : strg['label.incluirCantico']}" action="#{canticoBean.salvar()}" styleClass="botao botaoSalvar" ajax="false" disabled="#{canticoBean.canticoValido}">
 					<f:ajax execute="editor" render="pagina" />
 				</p:commandButton>
 				<p:commandButton value="#{strg['label.incluirNovoCantico']}" action="#{canticoBean.novo()}" rendered="#{canticoBean.edicao}" styleClass="botao botaoNovo" ajax="false">

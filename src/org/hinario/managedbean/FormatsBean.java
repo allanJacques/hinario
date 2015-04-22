@@ -11,7 +11,7 @@ import javax.faces.bean.NoneScoped;
 public class FormatsBean {
 
 	private final SimpleDateFormat sdfTimestamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
 
 	public String getTimestamp(final Date date) {
 		return sdfTimestamp.format(date);

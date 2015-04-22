@@ -23,6 +23,7 @@ public class Cantico extends EntidadeBase implements Serializable {
 
 	public Cantico() {
 		this.ocasioes = new ArrayList<>();
+		this.arquivos = new ArrayList<>();
 	}
 
 	@Id

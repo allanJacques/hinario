@@ -25,7 +25,7 @@ public class Arquivo {
 
 	@NotNull
 	@Column(length = 100)
-	private String Nome;
+	private String nome;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
@@ -34,7 +34,7 @@ public class Arquivo {
 
 	@NotNull
 	@Column(length = 5)
-	private String extensao;
+	private String mimeType;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -53,32 +53,32 @@ public class Arquivo {
 	}
 
 	public String getNome() {
-		return Nome;
+		return this.nome;
 	}
 
 	public void setNome(String nome) {
-		Nome = nome;
+		this.nome = nome;
 	}
 
 	@Basic(fetch = FetchType.LAZY)
 	public byte[] getConteudo() {
-		return conteudo;
+		return this.conteudo;
 	}
 
 	public void setConteudo(byte[] conteudo) {
 		this.conteudo = conteudo;
 	}
 
-	public String getExtensao() {
-		return extensao;
+	public String getMIMEType() {
+		return mimeType;
 	}
 
-	public void setExtensao(String extensao) {
-		this.extensao = extensao;
+	public void setMIMEType(String MIMEType) {
+		this.mimeType = MIMEType;
 	}
 
 	public Date getDataUpload() {
-		return dataUpload;
+		return this.dataUpload;
 	}
 
 	public void setDataUpload(Date dataUpload) {

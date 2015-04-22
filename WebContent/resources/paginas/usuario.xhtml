@@ -41,7 +41,7 @@ input#nome_input {
 								<p:message for="email" />
 
 								<p:outputLabel value="#{strg['label.senha']}" for="senha" rendered="#{!usuarioBean.edicao}" />
-								<p:password id="senha" redisplay="true" value="#{usuarioBean.usuario.senha}" inline="true" feedback="true" required="true" goodLabel="#{strg['label.bom']}" weakLabel="#{strg['label.fraco']}" strongLabel="#{strg['label.excelente']}" promptLabel="#{strg['label.senha']}" size="50" rendered="#{!usuarioBean.edicao}" style="width:500px;" />
+								<p:password id="senha" redisplay="true" value="#{usuarioBean.usuario.senha}" inline="true" feedback="true" required="true" goodLabel="#{strg['label.password.bom']}" weakLabel="#{strg['label.password.fraco']}" strongLabel="#{strg['label.password.excelente']}" promptLabel="#{strg['label.senha']}" size="50" rendered="#{!usuarioBean.edicao}" style="width:500px;" />
 								<p:message for="senha" rendered="#{!usuarioBean.edicao}" />
 								<p:outputLabel value="#{strg['label.confimeASenha']}" for="confirmeSenha" rendered="#{!usuarioBean.edicao}" />
 								<p:password id="confirmeSenha" redisplay="true" value="#{usuarioBean.usuario.confirmeSenha}" required="true" size="50" rendered="#{!usuarioBean.edicao}" style="width:500px;" />

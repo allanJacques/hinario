@@ -156,13 +156,13 @@ button.botaoRemover {
 
 a.linkIncluirNovo {
 	color: blue;
-	margin-left: 150px;
+	margin-left: 50px;
 	font-size: 14px !important;
 }
 
 a.linkIncluirNovo:hover {
 	color: black;
-	margin-left: 150px;
+	margin-left: 50px;
 	font-size: 14px !important;
 	font-weight: 900;
 }

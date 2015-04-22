@@ -1,6 +1,16 @@
 <ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:pe="http://primefaces.org/ui/extensions">
 	<ui:define name="title">#{strg['label.canticos']}</ui:define> -->
+<ui:define name="inHead">
+		<style>
+input#consolador_input, input#recebedor_input {
+	width: 400px;
+}
 
+input.exibeCantico {
+	width: 400px;
+}
+</style>
+	</ui:define>
 	<ui:define name="body">
 		<!-- ======================================================== EDITOR ======================================================== -->
 		<h:form id="editor" prependId="false" acceptcharset="UTF-8">
@@ -13,12 +23,12 @@
 							<p:focus context="painelConsoladorRecebedor" />
 							<h:panelGrid columns="4" cellspacing="15px">
 								<p:outputLabel value="#{strg['label.consolador']}" for="consolador" />
-								<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" required="true" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
+								<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
 								<p:message for="consolador" />
 								<p:commandLink title="#{strg['label.incluirNovoConsolador']}" value="#{strg['label.incluirNovoConsolador']}" onclick="PF('dialogConsolador').show();" styleClass="linkIncluirNovo" />
 
 								<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" />
-								<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" required="false" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" />
+								<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" required="false" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" style="min-width: 200px" />
 								<p:message for="recebedor" />
 								<p:commandLink title="#{strg['label.incluirNovoRecebedor']}" value="#{strg['label.incluirNovoRecebedor']}" onclick="PF('dialogRecebedor').show();" styleClass="linkIncluirNovo" />
 							</h:panelGrid>
@@ -56,26 +66,36 @@
 					</p:tab>
 					<p:tab id="observacoes" title="#{strg['label.observacoes']}">
 						<p:panel>
-							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source">
-							</p:editor>
+							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source"></p:editor>
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
 						<p:panel>
-							<p:fileUpload required="true" update="growl" fileUploadListener="#{canticoBean.upload}" auto="false" multiple="true" mode="advanced" label="#{strg['label.fileUpload.selecionarArquivos']}" uploadLabel="#{strg['label.enviar']}" cancelLabel="#{strg['label.cancelar']}" sizeLimit="#{canticoBean.maxTamanhoArquivo}" dragDropSupport="true" previewWidth="50" fileLimit="#{canticoBean.maxArquivos}" invalidFileMessage="#{strg['message.fileUpload.tipoDeArquivoInvalido']}" invalidSizeMessage="#{strg['message.fileUpload.tamanhoDeArquivoInvalido']}" fileLimitMessage="#{strg['message.fileUpload.numeroMaxDeArquivosExcedido']}" messageTemplate="#{strg['message.fileUpload.mensagemModelo']}" />
+							<p:fileUpload required="true" update="tabArquivos " fileUploadListener="#{canticoBean.upload}" auto="false" multiple="true" mode="advanced" label="#{strg['label.fileUpload.selecionarArquivos']}" uploadLabel="#{strg['label.enviar']}" cancelLabel="#{strg['label.cancelar']}" sizeLimit="#{canticoBean.maxTamanhoArquivo}" dragDropSupport="true" previewWidth="50" fileLimit="#{canticoBean.maxArquivos}" invalidFileMessage="#{strg['message.fileUpload.tipoDeArquivoInvalido']}" invalidSizeMessage="#{strg['message.fileUpload.tamanhoDeArquivoInvalido']}" fileLimitMessage="#{strg['message.fileUpload.numeroMaxDeArquivosExcedido']}" messageTemplate="#{strg['message.fileUpload.mensagemModelo']}">
+							</p:fileUpload>
+							<p:spacer height="15px"></p:spacer>
+							<p:dataTable var="arquivoTemp" value="#{canticoBean.cantico.arquivos}" rendered="#{!canticoBean.cantico.arquivos.isEmpty()}">
+								<p:column headerText="Nome">
+									<h:outputText value="#{arquivoTemp.nome}" />
+								</p:column>
+
+								<p:column headerText="Tamanho">
+									<h:outputText value="#{arquivoTemp.conteudo}" />
+								</p:column>
+							</p:dataTable>
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabConfirmacao" title="#{strg['label.aba.confirmacao']}">
 						<p:panel>
 							<h:panelGrid columns="2" cellpadding="8px">
 								<p:outputLabel value="#{strg['label.consolador']}" />
-								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" />
+								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.recebedor']}" />
-								<p:inputText value="#{canticoBean.cantico.recebedor.irmao.nome}" title="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="true" />
+								<p:inputText value="#{canticoBean.cantico.recebedor.irmao.nome}" title="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.dataCadastro']}" />
-								<p:inputText value="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" title="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" readonly="true" />
+								<p:inputText value="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" title="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.dataRecebimento']}" />
-								<p:inputText value="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" title="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" readonly="true" />
+								<p:inputText value="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" title="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.ocasioes']}" />
 								<p:outputPanel>
 									<div class="ui-autocomplete-multiple">
@@ -87,7 +107,7 @@
 									</div>
 								</p:outputPanel>
 								<p:outputLabel value="#{strg['label.observacao']}" />
-								<p:editor value="#{canticoBean.cantico.observacao}"  controls=""  disabled="true" />
+								<p:editor value="#{canticoBean.cantico.observacao}" controls="" disabled="true" />
 							</h:panelGrid>
 						</p:panel>
 					</p:tab>

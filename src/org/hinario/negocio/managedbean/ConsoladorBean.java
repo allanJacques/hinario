@@ -1,4 +1,4 @@
-package org.hinario.managedbean;
+package org.hinario.negocio.managedbean;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -33,8 +33,11 @@ public class Arquivo {
 	private byte[] conteudo;
 
 	@NotNull
-	@Column(length = 5)
+	@Column(length = 100)
 	private String mimeType;
+
+	@NotNull
+	private long tamanho;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -69,12 +72,28 @@ public class Arquivo {
 		this.conteudo = conteudo;
 	}
 
-	public String getMIMEType() {
+	public String getMimeType() {
 		return mimeType;
 	}
 
-	public void setMIMEType(String MIMEType) {
-		this.mimeType = MIMEType;
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
+
+	public long getTamanho() {
+		return tamanho;
+	}
+
+	public void setTamanho(long tamanho) {
+		this.tamanho = tamanho;
+	}
+
+	public Cantico getCantico() {
+		return cantico;
+	}
+
+	public void setCantico(Cantico cantico) {
+		this.cantico = cantico;
 	}
 
 	public Date getDataUpload() {

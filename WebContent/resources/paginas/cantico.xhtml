@@ -71,7 +71,7 @@ input.exibeCantico {
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
 						<p:panel>
-							<p:fileUpload required="true" update="tabArquivos " fileUploadListener="#{canticoBean.upload}" auto="false" multiple="true" mode="advanced" label="#{strg['label.fileUpload.selecionarArquivos']}" uploadLabel="#{strg['label.enviar']}" cancelLabel="#{strg['label.cancelar']}" sizeLimit="#{canticoBean.maxTamanhoArquivo}" dragDropSupport="true" previewWidth="50" fileLimit="#{canticoBean.maxArquivos}" invalidFileMessage="#{strg['message.fileUpload.tipoDeArquivoInvalido']}" invalidSizeMessage="#{strg['message.fileUpload.tamanhoDeArquivoInvalido']}" fileLimitMessage="#{strg['message.fileUpload.numeroMaxDeArquivosExcedido']}" messageTemplate="#{strg['message.fileUpload.mensagemModelo']}">
+							<p:fileUpload required="true" update="@form" fileUploadListener="#{canticoBean.upload}" auto="false" multiple="true" mode="advanced" label="#{strg['label.fileUpload.selecionarArquivos']}" uploadLabel="#{strg['label.enviar']}" cancelLabel="#{strg['label.cancelar']}" sizeLimit="#{canticoBean.maxTamanhoArquivo}" dragDropSupport="true" previewWidth="50" fileLimit="#{canticoBean.maxArquivos}" invalidFileMessage="#{strg['message.fileUpload.tipoDeArquivoInvalido']}" invalidSizeMessage="#{strg['message.fileUpload.tamanhoDeArquivoInvalido']}" fileLimitMessage="#{strg['message.fileUpload.numeroMaxDeArquivosExcedido']}" messageTemplate="#{strg['message.fileUpload.mensagemModelo']}">
 							</p:fileUpload>
 							<p:spacer height="15px"></p:spacer>
 							<p:dataTable var="arquivoTemp" value="#{canticoBean.cantico.arquivos}" rendered="#{!canticoBean.cantico.arquivos.isEmpty()}">
@@ -80,7 +80,15 @@ input.exibeCantico {
 								</p:column>
 
 								<p:column headerText="Tamanho">
-									<h:outputText value="#{arquivoTemp.conteudo}" />
+									<h:outputText value="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" />
+								</p:column>
+								<p:column headerText="#{strg['label.acoes']}" width="10%">
+									<div class="colunaData">
+										<h:commandLink action="#{canticoBean.removerArquivo(arquivoTemp)}">
+											<f:ajax render="pagina" execute="tabelaFiltros"></f:ajax>
+											<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
+										</h:commandLink>
+									</div>
 								</p:column>
 							</p:dataTable>
 						</p:panel>

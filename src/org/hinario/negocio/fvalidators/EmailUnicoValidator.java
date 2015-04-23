@@ -1,4 +1,4 @@
-package org.hinario.managedbean.fvalidators;
+package org.hinario.negocio.fvalidators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

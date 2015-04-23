@@ -1,8 +1,7 @@
-package org.hinario.managedbean;
+package org.hinario.negocio.managedbean;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +20,7 @@ import org.hinario.model.Arquivo;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Ocasiao;
+import org.hinario.negocio.arquivo.ArquivoNegocio;
 import org.hinario.util.IOUtil;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
@@ -34,7 +34,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final byte maxArquivos = 127;
 	private final long maxTamanhoArquivo = 10000 * 1024 * 1024; // 8Megabytes
-	private final ArrayList<String> MIMETypesAceitos;
+	private final ArquivoNegocio arquivoNegocio;
 	private final CanticoDAO dao;
 	private final OcasiaoDAO daoOcasiao;
 	private Cantico cantico;
@@ -47,8 +47,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.setCantico(new Cantico());
 		this.dataModel = new EntidadeDataModel(this, dao);
 		this.filtro = new Filtro(Cantico.class);
-		this.MIMETypesAceitos = new ArrayList<>();
-		this.addMIMETypesAceitos();
+		this.arquivoNegocio = new ArquivoNegocio();
 	}
 
 	public void salvar() {
@@ -96,9 +95,12 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 					Arquivo arquivoTemp = new Arquivo();
 					arquivoTemp.setConteudo(new IOUtil().InputStreamToByteArray(event.getFile().getInputstream(), event.getFile().getSize()));
 					arquivoTemp.setDataUpload(new Date());
-					arquivoTemp.setMIMEType(event.getFile().getContentType());
+					arquivoTemp.setMimeType(event.getFile().getContentType());
+					arquivoTemp.setTamanho(event.getFile().getSize());
 					arquivoTemp.setNome(event.getFile().getFileName());
 					this.cantico.getArquivos().add(arquivoTemp);
+					FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoRecebido"), this.appMessage.getString("message.arquivoRecebido", event.getFile().getFileName()));
+					FacesContext.getCurrentInstance().addMessage(null, fm);
 				} else {
 					Logger.getGlobal().log(Level.INFO, "Tipo nao aceito: " + event.getFile().getContentType());
 					FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, this.appMessage.getString("label.arquivoInvalido"), this.appMessage.getString("message.fileUpload.tipoDeArquivoInvalido"));
@@ -111,7 +113,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	private boolean isArquivoValido(UploadedFile file) {
-		return this.MIMETypesAceitos.contains(file.getContentType());
+		return this.arquivoNegocio.isArquivoValido(file.getContentType());
 	}
 
 	public Cantico getCantico() {
@@ -163,28 +165,16 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		return maxTamanhoArquivo;
 	}
 
-	private void addMIMETypesAceitos() {
-		/* Documentos editaveis */
-		this.MIMETypesAceitos.add("application/msword"); // .doc
-		this.MIMETypesAceitos.add("application/vnd.openxmlformats-officedocument.wordprocessingml.document"); // .docx
-		this.MIMETypesAceitos.add("application/vnd.oasis.opendocument.text"); // odt
-
-		/* Documentos nao editaveis */
-		this.MIMETypesAceitos.add("application/pdf");
-
-		/* Audio */
-		this.MIMETypesAceitos.add("audio/mp3");
-
-		/* Video */
-		this.MIMETypesAceitos.add("video/mp4");
-
-		/* Imagem, caso esteja escaneado */
-		this.MIMETypesAceitos.add("image/png");
-		this.MIMETypesAceitos.add("image/jpeg");
-
+	public String tamanhoFormatado(final long tamanho) {
+		return this.arquivoNegocio.tamanhoFormatado(tamanho);
 	}
 
 	public boolean isCanticoValido() {
 		return this.estaEmConfirmacao;
 	}
+
+	public void removerArquivo(final Arquivo arquivo) {
+		this.cantico.getArquivos().remove(arquivo);
+	}
+
 }

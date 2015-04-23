@@ -1,4 +1,4 @@
-package org.hinario.managedbean;
+package org.hinario.negocio.managedbean;
 
 import java.util.List;
 import java.util.Map;

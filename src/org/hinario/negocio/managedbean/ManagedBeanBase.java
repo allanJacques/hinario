@@ -1,4 +1,4 @@
-package org.hinario.managedbean;
+package org.hinario.negocio.managedbean;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

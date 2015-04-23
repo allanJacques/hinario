@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hinario.managedbean.UsuarioLoginBean;
+import org.hinario.negocio.managedbean.UsuarioLoginBean;
 
 @WebFilter("*")
 public class LoginFilter implements Filter {

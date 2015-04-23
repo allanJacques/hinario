@@ -1,4 +1,4 @@
-package org.hinario.managedbean.fconverters;
+package org.hinario.negocio.fconverters;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

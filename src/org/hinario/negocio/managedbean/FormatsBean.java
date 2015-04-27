@@ -14,11 +14,15 @@ public class FormatsBean {
 	private final SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
 
 	public String getTimestamp(final Date date) {
+		if (date != null)
+			return sdfData.format(date);
 		return sdfTimestamp.format(date);
 	}
 
 	public String getData(final Date date) {
-		return sdfData.format(date);
+		if (date != null)
+			return sdfData.format(date);
+		return null;
 	}
 
 	public long getCurrentTimeMillis() {

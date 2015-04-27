@@ -17,7 +17,6 @@ input.exibeCantico {
 			<p:panel>
 				<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard">
-
 					<p:tab id="tabConsoladorRecebedor" title="#{strg['label.aba.consoladorERecebedor']}">
 						<p:panel id="painelConsoladorRecebedor">
 							<p:focus context="painelConsoladorRecebedor" />
@@ -75,17 +74,19 @@ input.exibeCantico {
 							</p:fileUpload>
 							<p:spacer height="15px"></p:spacer>
 							<p:dataTable var="arquivoTemp" value="#{canticoBean.cantico.arquivos}" rendered="#{!canticoBean.cantico.arquivos.isEmpty()}">
-								<p:column headerText="Nome">
-									<h:outputText value="#{arquivoTemp.nome}" />
+								<p:column headerText="#{strg['label.nome']}">
+									<h:graphicImage value="../imagens/formatos/#{canticoBean.arquivoNegocio.getPorMimeType(arquivoTemp.mimeType)}.png" height="40" width="40" style="display:inline;float:left;" />
+									<div style="display: inline; line-height: 40px; margin: 5px;">
+										<h:outputText value="#{arquivoTemp.nome}" />
+									</div>
 								</p:column>
-
-								<p:column headerText="Tamanho">
+								<p:column headerText="#{strg['label.tamanho']}" width="12%" styleClass="alignRight">
 									<h:outputText value="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" />
 								</p:column>
-								<p:column headerText="#{strg['label.acoes']}" width="10%">
+								<p:column headerText="#{strg['label.acoes']}" width="8%">
 									<div class="colunaData">
 										<h:commandLink action="#{canticoBean.removerArquivo(arquivoTemp)}">
-											<f:ajax render="pagina" execute="tabelaFiltros"></f:ajax>
+											<f:ajax render="@form" execute="@this"></f:ajax>
 											<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
 										</h:commandLink>
 									</div>
@@ -106,7 +107,7 @@ input.exibeCantico {
 								<p:inputText value="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" title="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.ocasioes']}" />
 								<p:outputPanel>
-									<div class="ui-autocomplete-multiple">
+									<div class="ui-autocomplete-multiple" style="margin: 0 !important;">
 										<ul class="ui-autocomplete-multiple-container ui-widget ui-inputfield ui-state-default ui-corner-all">
 											<ui:repeat var="ocasiao" value="#{canticoBean.cantico.ocasioes}">
 												<li class="ui-autocomplete-token ui-state-active ui-corner-all ui-helper-hidden" style="display: list-item;"><span class="ui-autocomplete-token-label">#{ocasiao.descricao}</span></li>
@@ -116,16 +117,32 @@ input.exibeCantico {
 								</p:outputPanel>
 								<p:outputLabel value="#{strg['label.observacao']}" />
 								<p:editor value="#{canticoBean.cantico.observacao}" controls="" disabled="true" />
+								<p:outputLabel value="#{strg['label.arquivos']}" />
+								<p:dataTable var="arquivoTemp" value="#{canticoBean.cantico.arquivos}" rendered="#{!canticoBean.cantico.arquivos.isEmpty()}">
+									<p:column headerText="#{strg['label.nome']}">
+										<h:graphicImage value="../imagens/formatos/#{canticoBean.arquivoNegocio.getPorMimeType(arquivoTemp.mimeType)}.png" height="40" width="40" style="display:inline;float:left;" />
+										<div style="display: inline; line-height: 40px; margin: 5px;">
+											<h:outputText value="#{arquivoTemp.nome}" />
+										</div>
+									</p:column>
+									<p:column headerText="#{strg['label.tamanho']}" width="12%" styleClass="alignRight">
+										<h:outputText value="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" />
+									</p:column>
+								</p:dataTable>
 							</h:panelGrid>
 						</p:panel>
+						<p:spacer />
+						<div class="painelBotoesCentralizado">
+							<p:commandButton value="#{canticoBean.edicao ? strg['label.salvar'] : strg['label.incluirCantico']}" action="#{canticoBean.salvar()}" styleClass="botao botaoSalvar" ajax="false" disabled="#{!canticoBean.canticoValido}">
+								<f:ajax execute="editor" render="pagina" />
+							</p:commandButton>
+							<div style="clear: both;" />
+						</div>
 					</p:tab>
 				</p:wizard>
 			</p:panel>
 			<div class="painelBotoesCentralizado">
 				<p:commandButton value="#{strg['label.remover']}" action="#{canticoBean.remover(canticoBean.cantico)}" rendered="#{canticoBean.edicao}" styleClass="botao botaoRemover" ajax="false" />
-				<p:commandButton value="#{canticoBean.edicao ? strg['label.salvar'] : strg['label.incluirCantico']}" action="#{canticoBean.salvar()}" styleClass="botao botaoSalvar" ajax="false" disabled="#{canticoBean.canticoValido}">
-					<f:ajax execute="editor" render="pagina" />
-				</p:commandButton>
 				<p:commandButton value="#{strg['label.incluirNovoCantico']}" action="#{canticoBean.novo()}" rendered="#{canticoBean.edicao}" styleClass="botao botaoNovo" ajax="false">
 					<f:ajax render="editor" />
 				</p:commandButton>
@@ -200,36 +217,24 @@ input.exibeCantico {
 		</h:form>
 		<p:spacer height="1" />
 		<!-- ======================================================== TABELA ======================================================== -->
-		<!-- 				<h:form acceptcharset="UTF-8"> -->
-		<!-- 					<p:dataTable id="tabelaUsuarios" var="usuarioTemp" value="#{canticoBean.usuarioDataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{canticoBean.usuario}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"> -->
-		<!-- 						<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaUsuarios])" /> -->
-		<!-- 						<p:column width="8%" sortBy="#{usuarioTemp.id}" headerText="#{strg['label.codigo']}" disabledSelection="true"> -->
-		<!-- 							<div class="colunaCodigo"> -->
-		<!-- 								<h:outputText value="#{usuarioTemp.id}" title="#{usuarioTemp.id}" /> -->
-		<!-- 							</div> -->
-		<!-- 						</p:column> -->
-		<!-- 						<p:column width="28%" sortBy="#{usuarioTemp.irmao.nome}"> -->
-		<!-- 							<f:facet name="header"> #{strg['label.nome']} </f:facet> -->
-		<!-- 							<h:graphicImage value="../../imagemstream/usuario/#{usuarioTemp.id}:#{formatsBean.currentTimeMillis}" height="20" width="20" styleClass="iconeUsuarioTabela" /> -->
-		<!-- 							<h:outputText value=" #{strg['label.voce']}" title="#{usuarioTemp.irmao.nome}" rendered="#{usuarioLoginBean.usuario.id.equals(usuarioTemp.id)}" /> -->
-		<!-- 							<h:outputText value=" #{usuarioTemp.irmao.nome}" title="#{usuarioTemp.irmao.nome}" rendered="#{!usuarioLoginBean.usuario.id.equals(usuarioTemp.id)}" /> -->
-		<!-- 						</p:column> -->
-		<!-- 						<p:column width="15%" sortBy="#{usuarioTemp.email}"> -->
-		<!-- 							<f:facet name="header"> #{strg['label.email']} </f:facet> -->
-		<!-- 							<a href="mailto:#{usuarioTemp.email}" title="#{usuarioTemp.email}">#{usuarioTemp.email}</a> -->
-		<!-- 						</p:column> -->
-		<!-- 						<p:column width="15%" sortBy="#{usuarioTemp.irmao.dataCadastro}"> -->
-		<!-- 							<f:facet name="header">#{strg['label.dataCadastro']}</f:facet> -->
-		<!-- 							<div class="colunaData"> -->
-		<!-- 								<h:outputFormat value="#{formatsBean.getTimestamp(usuarioTemp.irmao.dataCadastro)}" title="#{formatsBean.getTimestamp(usuarioTemp.irmao.dataCadastro)}" /> -->
-		<!-- 							</div> -->
-		<!-- 						</p:column> -->
-		<!-- 						<p:column sortBy="#{usuarioTemp.irmao.observacao}"> -->
-		<!-- 							<f:facet name="header">#{strg['label.observacao']}</f:facet> -->
-		<!-- 							<h:outputText value="#{usuarioTemp.irmao.observacao}" title="#{usuarioTemp.irmao.observacao}" /> -->
-		<!-- 						</p:column> -->
-		<!-- 					</p:dataTable> -->
-		<!-- 				</h:form> -->
+		<h:form acceptcharset="UTF-8">
+			<p:dataTable id="tabelaValores" var="canticoTemp" value="#{canticoBean.dataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{canticoBean.cantico}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+				<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
+				<p:column width="10%" sortBy="#{ocasiaoTemp.id}" headerText="#{strg['label.codigo']}">
+					<div class="colunaCodigo">
+						<h:outputText value="#{ocasiaoTemp.id}" title="#{ocasiaoTemp.id}" />
+					</div>
+				</p:column>
+				<p:column sortBy="#{canticoBean.cantico.consolador}">
+					<f:facet name="header"> #{strg['label.consolador']} </f:facet>
+					<h:outputText value=" #{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" />
+				</p:column>
+				<p:column sortBy="#{canticoBean.cantico.recebedor}">
+					<f:facet name="header"> #{strg['label.recebedor']} </f:facet>
+					<h:outputText value=" #{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
 
 
 		<!-- ======================================================== DIALOGS ======================================================= -->

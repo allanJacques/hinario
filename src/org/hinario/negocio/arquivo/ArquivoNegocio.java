@@ -35,4 +35,13 @@ public class ArquivoNegocio {
 
 		return returN;
 	}
+
+	public MimeTypeArquivo getPorMimeType(final String mimeType) {
+		for (MimeTypeArquivo mimeTypeTemp : MimeTypeArquivo.values()) {
+			if (mimeTypeTemp.mimeType.equals(mimeType))
+				return mimeTypeTemp;
+		}
+		return null;
+	}
+
 }

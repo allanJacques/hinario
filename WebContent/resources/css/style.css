@@ -119,21 +119,6 @@ img.iconeUsuarioTabela {
 	z-index: -1;
 }
 
-span.ui-paginator-current {
-	float: left;
-	margin: 5px 20px 0px 20px;
-}
-
-label.ui-paginator-rpp-label {
-	margin: 5px 20px 0px -15px;
-	float: right;
-}
-
-select.ui-paginator-rpp-options {
-	float: right;
-	margin-top: 3px
-}
-
 button.botao {
 	height: 32px;
 }
@@ -167,6 +152,11 @@ a.linkIncluirNovo:hover {
 	font-weight: 900;
 }
 
+td.alignRight {
+	margin-right: 0;
+	text-align: right;
+}
+
 span.ui-button-text {
 	margin-left: auto;
 	margin-right: auto;
@@ -175,4 +165,19 @@ span.ui-button-text {
 
 .ui-picklist-caption {
 	font-size: 16px;
+}
+
+span.ui-paginator-current {
+	float: left;
+	margin: 5px 20px 0px 20px;
+}
+
+label.ui-paginator-rpp-label {
+	margin: 5px 20px 0px -15px;
+	float: right;
+}
+
+select.ui-paginator-rpp-options {
+	float: right;
+	margin-top: 3px
 }

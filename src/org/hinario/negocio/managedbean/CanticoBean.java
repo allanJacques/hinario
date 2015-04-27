@@ -51,6 +51,9 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void salvar() {
+		if (this.isAdicao()) {
+			this.cantico.setDataCadastro(new Date());
+		}
 		this.dao.salvar(this.getCantico());
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
@@ -68,6 +71,8 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
+	
+	
 	public Date getDataCadastroCantico() {
 		if (this.isEdicao() && this.cantico.getDataCadastro() != null) {
 			return this.cantico.getDataCadastro();
@@ -165,6 +170,10 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		return maxTamanhoArquivo;
 	}
 
+	public ArquivoNegocio getArquivoNegocio() {
+		return arquivoNegocio;
+	}
+
 	public String tamanhoFormatado(final long tamanho) {
 		return this.arquivoNegocio.tamanhoFormatado(tamanho);
 	}
@@ -175,6 +184,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public void removerArquivo(final Arquivo arquivo) {
 		this.cantico.getArquivos().remove(arquivo);
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoExcluido"), this.appMessage.getString("message.arquivoExcluido", arquivo.getNome()));
+		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
-
 }

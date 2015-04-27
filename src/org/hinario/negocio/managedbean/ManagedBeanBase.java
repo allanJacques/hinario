@@ -78,11 +78,11 @@ public abstract class ManagedBeanBase {
 		}
 	}
 
-	public EntidadeDataModel getUsuarioDataModel() {
+	public EntidadeDataModel getDataModel() {
 		return dataModel;
 	}
 
-	public void setUsuarioDataModel(EntidadeDataModel usuarioDataModel) {
+	public void setDataModel(EntidadeDataModel usuarioDataModel) {
 		this.dataModel = usuarioDataModel;
 	}
 

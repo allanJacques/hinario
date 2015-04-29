@@ -106,7 +106,7 @@ input.exibeCantico {
 								<p:outputLabel value="#{strg['label.dataRecebimento']}" />
 								<p:inputText value="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" title="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.ocasioes']}" />
-								<p:outputPanel>
+								<p:outputPanel rendered="#{not empty canticoBean.cantico.ocasioes}">
 									<div class="ui-autocomplete-multiple" style="margin: 0 !important;">
 										<ul class="ui-autocomplete-multiple-container ui-widget ui-inputfield ui-state-default ui-corner-all">
 											<ui:repeat var="ocasiao" value="#{canticoBean.cantico.ocasioes}">
@@ -115,6 +115,7 @@ input.exibeCantico {
 										</ul>
 									</div>
 								</p:outputPanel>
+								<p:inputText value="#{strg['label.semOcasioesInformadas']}" rendered="#{empty canticoBean.cantico.ocasioes}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.observacao']}" />
 								<p:editor value="#{canticoBean.cantico.observacao}" controls="" disabled="true" />
 								<p:outputLabel value="#{strg['label.arquivos']}" />
@@ -149,8 +150,9 @@ input.exibeCantico {
 				<div style="clear: both;" />
 			</div>
 		</h:form>
-
 		<p:spacer height="15" />
+
+
 		<!-- ======================================================== FILTRO ======================================================== -->
 		<h:form id="painelFiltro" prependId="false" acceptcharset="UTF-8">
 			<f:ajax render="painelFiltro">
@@ -216,29 +218,49 @@ input.exibeCantico {
 			</p:panel>
 		</h:form>
 		<p:spacer height="1" />
+
+
 		<!-- ======================================================== TABELA ======================================================== -->
-		<h:form acceptcharset="UTF-8">
+		<h:form acceptcharset="UTF-8" prependId="false">
 			<p:dataTable id="tabelaValores" var="canticoTemp" value="#{canticoBean.dataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{canticoBean.cantico}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 				<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
-				<p:column width="10%" sortBy="#{ocasiaoTemp.id}" headerText="#{strg['label.codigo']}">
+				<p:column width="10%" sortBy="#{canticoTemp.id}" headerText="#{strg['label.codigo']}">
 					<div class="colunaCodigo">
-						<h:outputText value="#{ocasiaoTemp.id}" title="#{ocasiaoTemp.id}" />
+						<h:outputText value="#{canticoTemp.id}" title="#{canticoTemp.id}" />
 					</div>
 				</p:column>
-				<p:column sortBy="#{canticoBean.cantico.consolador}">
+				<p:column sortBy="#{canticoTemp.consolador.irmao.nome}">
 					<f:facet name="header"> #{strg['label.consolador']} </f:facet>
-					<h:outputText value=" #{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" />
+					<h:outputText value=" #{canticoTemp.consolador.irmao.nome}" title="#{canticoTemp.consolador.irmao.nome}" />
 				</p:column>
-				<p:column sortBy="#{canticoBean.cantico.recebedor}">
+				<p:column sortBy="#{canticoTemp.recebedor.irmao.nome}">
 					<f:facet name="header"> #{strg['label.recebedor']} </f:facet>
-					<h:outputText value=" #{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" />
+					<h:outputText value=" #{canticoTemp.recebedor.irmao.nome}" title="#{canticoTemp.recebedor.irmao.nome}" />
+				</p:column>
+				<p:column sortBy="#{canticoTemp.dataCadastro}">
+					<f:facet name="header"> #{strg['label.dataCadastro']} </f:facet>
+					<h:outputText value=" #{formatsBean.getTimestamp(canticoTemp.dataCadastro)}" title="#{formatsBean.getTimestamp(canticoTemp.dataCadastro)}" />
+				</p:column>
+				<p:column sortBy="#{canticoTemp.dataRecebimento}">
+					<f:facet name="header"> #{strg['label.dataRecebimento']} </f:facet>
+					<h:outputText value="#{formatsBean.getData(canticoTemp.dataRecebimento)}" title="#{formatsBean.getData(canticoTemp.dataRecebimento)}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header"> #{strg['label.observacao']}</f:facet>
+					<div style="max-height: 40px; max-width: 10px;">
+						<h:outputText id="obs" value="#{canticoTemp.observacao}" escape="false" />
+					</div>
+					<p:tooltip for="obs">
+						<h:outputText value="#{canticoTemp.observacao}" escape="false" />
+					</p:tooltip>
 				</p:column>
 			</p:dataTable>
 		</h:form>
+		<br />
+		<br />
 
 
 		<!-- ======================================================== DIALOGS ======================================================= -->
-
 		<p:dialog widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Consolador
 		</p:dialog>
@@ -248,10 +270,5 @@ input.exibeCantico {
 		<p:dialog widgetVar="dialogOcasiao" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Ocasiao	
 		</p:dialog>
-
-
-
-		<br />
-		<br />
 	</ui:define>
 </ui:composition>

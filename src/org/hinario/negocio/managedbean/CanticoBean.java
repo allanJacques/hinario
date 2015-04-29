@@ -103,6 +103,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 					arquivoTemp.setMimeType(event.getFile().getContentType());
 					arquivoTemp.setTamanho(event.getFile().getSize());
 					arquivoTemp.setNome(event.getFile().getFileName());
+					arquivoTemp.setCantico(this.cantico);
 					this.cantico.getArquivos().add(arquivoTemp);
 					FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoRecebido"), this.appMessage.getString("message.arquivoRecebido", event.getFile().getFileName()));
 					FacesContext.getCurrentInstance().addMessage(null, fm);

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,13 +34,13 @@ public class Cantico extends EntidadeBase implements Serializable {
 	private Long id;
 
 	@NotNull
-	@OneToOne
+	@OneToOne(cascade = { CascadeType.ALL })
 	private Consolador consolador;
 
 	@OneToOne
 	private Recebedor recebedor;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Ocasiao> ocasioes;
 
 	@Temporal(TemporalType.DATE)
@@ -51,7 +53,7 @@ public class Cantico extends EntidadeBase implements Serializable {
 	@Column(length = 1000)
 	private String observacao;
 
-	@OneToMany(mappedBy = "cantico")
+	@OneToMany(mappedBy = "cantico", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	private List<Arquivo> arquivos;
 
 	@Override

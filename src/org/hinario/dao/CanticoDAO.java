@@ -22,7 +22,7 @@ public class CanticoDAO extends DAOBase implements Serializable {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<? extends EntidadeBase> getLista(Integer inicio, Integer limite, List<SortMeta> multiSortMeta, Filtro filtro) {
-		TypedQuery<Cantico> q = (TypedQuery<Cantico>) getQueryOrdenadaEFiltrada("select cantico from Cantico cantico", "cantico", em, filtro, multiSortMeta, Cantico.class);
+		TypedQuery<Cantico> q = (TypedQuery<Cantico>) getQueryOrdenadaEFiltrada("select cantico from Cantico cantico join fetch cantico.arquivos", "cantico", em, filtro, multiSortMeta, Cantico.class);
 		if (inicio != null)
 			q.setFirstResult(inicio);
 		if (limite != null)

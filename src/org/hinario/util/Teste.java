@@ -8,7 +8,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import org.hinario.model.Irmao;
+import org.hinario.model.Arquivo;
+import org.hinario.model.Cantico;
+import org.hinario.model.Ocasiao;
 
 public class Teste {
 
@@ -19,22 +21,25 @@ public class Teste {
 
 		em.getTransaction().begin();
 
-		TypedQuery<String> qNomes = em.createQuery("select upper(i.nome) from Irmao i", String.class);
-//		TypedQuery<String> qNomes = em.createQuery("select i.nome from Irmao i where upper(i.nome) like upper(:nome)", String.class);
-//		qNomes.setParameter("nome", "all");
-		List<String> returN = qNomes.getResultList();
+		TypedQuery<Cantico> qCanticos = em.createQuery("select cantico from Cantico cantico", Cantico.class);
 
-		for (String string : returN) {
-			System.out.println(string);
-		}
-
-		TypedQuery<Irmao> qIrmao = em.createQuery("select i from Irmao i where UPPER(i.nome) like UPPER(:nome) ", Irmao.class);
-		//TypedQuery<Irmao> qIrmao = em.createQuery("select i from Irmao i where upper(i.nome) like upper(:nome)", Irmao.class);
-		qIrmao.setParameter("nome", "%ISA%");
-		List<Irmao> returN2 = qIrmao.getResultList();
-
-		for (Irmao irmao : returN2) {
-			System.out.println(irmao.getNome() + irmao.getObservacao());
+		System.out.println("================================antes do getResultList()");
+		List<Cantico> returN = qCanticos.getResultList();
+		System.out.println("===============================depois do getResultList()");
+		for (Cantico cTemp : returN) {
+			System.out.println("------------------------------");
+			System.out.println(cTemp.getConsolador().getIrmao().getNome());
+			System.out.println(cTemp.getRecebedor().getIrmao().getNome());
+			System.out.println(cTemp.getDataCadastro());
+			System.out.println(cTemp.getDataRecebimento());
+			System.out.println(cTemp.getObservacao());
+			for (Ocasiao oTemp : cTemp.getOcasioes()) {
+				System.out.println("\t" + oTemp.getDescricao());
+			}
+			System.out.println("---");
+			for (Arquivo aTemp : cTemp.getArquivos()) {
+				System.out.println("\t" + aTemp.getNome());
+			}
 		}
 
 		em.getTransaction().commit();

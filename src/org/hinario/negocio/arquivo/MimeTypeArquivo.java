@@ -9,6 +9,7 @@ public enum MimeTypeArquivo {
 	ODT("application/vnd.oasis.opendocument.text", TipoArquivo.DOCUMENTO, AppMessage.getStaticString("enum.mimeTypeArquivo.application-vnd.oasis.opendocument.text")), /**/
 	PDF("application/pdf", TipoArquivo.DOCUMENTO, AppMessage.getStaticString("enum.mimeTypeArquivo.application-pdf")), /**/
 	MP3("audio/mp3", TipoArquivo.AUDIO, AppMessage.getStaticString("enum.mimeTypeArquivo.audio-mp3")), /**/
+	MPEG("audio/mpeg", TipoArquivo.AUDIO, AppMessage.getStaticString("enum.mimeTypeArquivo.audio-mpeg")), /**/
 	MP4("video/mp4", TipoArquivo.VIDEO, AppMessage.getStaticString("enum.mimeTypeArquivo.video-mp4")), /**/
 	PNG("image/png", TipoArquivo.IMAGEM, AppMessage.getStaticString("enum.mimeTypeArquivo.image-png")), /**/
 	JPEG("image/jpeg", TipoArquivo.IMAGEM, AppMessage.getStaticString("enum.mimeTypeArquivo.image-jpeg"));/**/

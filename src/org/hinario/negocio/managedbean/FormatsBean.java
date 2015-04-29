@@ -15,8 +15,8 @@ public class FormatsBean {
 
 	public String getTimestamp(final Date date) {
 		if (date != null)
-			return sdfData.format(date);
-		return sdfTimestamp.format(date);
+			return sdfTimestamp.format(date);
+		return null;
 	}
 
 	public String getData(final Date date) {

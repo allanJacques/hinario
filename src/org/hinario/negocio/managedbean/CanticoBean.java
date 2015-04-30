@@ -40,11 +40,12 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	private Cantico cantico;
 	private DualListModel<Ocasiao> dualOcasioes;
 	private boolean estaEmConfirmacao;
+	private String step;
 
 	public CanticoBean() {
 		this.dao = new CanticoDAO();
 		this.daoOcasiao = new OcasiaoDAO();
-		this.setCantico(new Cantico());
+		this.novo();
 		this.dataModel = new EntidadeDataModel(this, dao);
 		this.filtro = new Filtro(Cantico.class);
 		this.arquivoNegocio = new ArquivoNegocio();
@@ -62,6 +63,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public void novo() {
 		this.setCantico(new Cantico());
+		this.step = "tabConsoladorRecebedor";
 	}
 
 	public void remover(final Cantico cantico) {
@@ -71,8 +73,6 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
 
-	
-	
 	public Date getDataCadastroCantico() {
 		if (this.isEdicao() && this.cantico.getDataCadastro() != null) {
 			return this.cantico.getDataCadastro();
@@ -134,6 +134,9 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	@Override
 	public void setEntidade(EntidadeBase entidade) {
 		this.setCantico((Cantico) entidade);
+		if (this.cantico != null && this.cantico.getId() != null) {
+			this.step = "tabConfirmacao";
+		}
 	}
 
 	@Override
@@ -187,5 +190,13 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.cantico.getArquivos().remove(arquivo);
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoExcluido"), this.appMessage.getString("message.arquivoExcluido", arquivo.getNome()));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
+	}
+
+	public String getStep() {
+		return step;
+	}
+
+	public void setStep(String step) {
+		this.step = step;
 	}
 }

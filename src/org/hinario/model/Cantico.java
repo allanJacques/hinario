@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -34,7 +35,7 @@ public class Cantico extends EntidadeBase implements Serializable {
 	private Long id;
 
 	@NotNull
-	@OneToOne(cascade = { CascadeType.ALL })
+	@OneToOne
 	private Consolador consolador;
 
 	@OneToOne
@@ -48,9 +49,11 @@ public class Cantico extends EntidadeBase implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
+	@Column(nullable = false, updatable = false)
 	private Date dataCadastro;
 
-	@Column(length = 1000)
+	@Column(length = 7000)
+	@Lob
 	private String observacao;
 
 	@OneToMany(mappedBy = "cantico", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)

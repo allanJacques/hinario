@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PROCESS model-entity="JSFProcess"/>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#resources#paginas#cantico.xhtml"
+  PATH="/resources/paginas/cantico.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#resources#paginas#cantico.xhtml:0"
+   NAME="item" PATH="/resources/paginas/cantico.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID=":#{canticoBean.salvar}:#resources#paginas#cantico.xhtml"
+    NAME="output" PATH="/resources/paginas/cantico.xhtml"
+    TARGET="rules:#resources#paginas#cantico.xhtml"
+    TITLE="#{canticoBean.salvar}:[any]" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

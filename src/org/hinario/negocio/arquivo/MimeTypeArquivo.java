@@ -24,4 +24,12 @@ public enum MimeTypeArquivo {
 	public TipoArquivo tipoArquivo;
 	public String descricao;
 
+	public static TipoArquivo getTipoArquivo(final String mimeType) {
+		for (final MimeTypeArquivo mimeTypeTemp : MimeTypeArquivo.values()) {
+			if (mimeTypeTemp.mimeType.equals(mimeType))
+				return mimeTypeTemp.tipoArquivo;
+		}
+		return null;
+	}
+
 }

@@ -97,6 +97,8 @@ input.exibeCantico {
 					<p:tab id="tabConfirmacao" title="#{strg['label.aba.confirmacao']}">
 						<p:panel>
 							<h:panelGrid columns="2" cellpadding="8px">
+								<p:outputLabel value="#{strg['label.codigo']}" rendered="#{canticoBean.edicao}" />
+								<p:inputText value="#{cantico.id}" rendered="#{cantico.edicao}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.consolador']}" />
 								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.recebedor']}" />
@@ -142,9 +144,7 @@ input.exibeCantico {
 						</p:panel>
 						<p:spacer />
 						<div class="painelBotoesCentralizado">
-							<p:commandButton value="#{canticoBean.edicao ? strg['label.salvar'] : strg['label.incluirCantico']}" action="#{canticoBean.salvar()}" styleClass="botao botaoSalvar" ajax="false" disabled="#{!canticoBean.canticoValido}">
-								<f:ajax execute="editor" render="pagina" />
-							</p:commandButton>
+							<p:commandButton value="#{canticoBean.edicao ? strg['label.salvar'] : strg['label.incluirCantico']}" action="#{canticoBean.salvar}" styleClass="botao botaoSalvar" ajax="false" disabled="#{!canticoBean.canticoValido}" />
 							<div style="clear: both;" />
 						</div>
 					</p:tab>
@@ -232,9 +232,7 @@ input.exibeCantico {
 		<h:form acceptcharset="UTF-8" prependId="false">
 			<p:dataTable id="tabelaValores" var="canticoTemp" value="#{canticoBean.dataModel}" paginator="true" rows="10" lazy="true" resizableColumns="true" sortMode="multiple" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}" selection="#{canticoBean.cantico}" selectionMode="single" rowsPerPageLabel="#{strg['label.linhasPorPagina']}" rowsPerPageTemplate="5,10,20,30,40,50,100,200,300,400,500,1000" currentPageReportTemplate="#{strg['label.exibindoNaTabela']}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 				<f:facet name="header">
-					<p:commandButton id="selecionaColunas" value="Colunas" style="float:right" icon="ui-icon-calculator" />
-					<br />
-					<br />
+					<p:commandButton id="selecionaColunas" value="#{strg['label.columnToggler.label']}" />
 					<p:columnToggler datasource="tabelaValores" trigger="selecionaColunas" />
 				</f:facet>
 				<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
@@ -253,19 +251,46 @@ input.exibeCantico {
 				</p:column>
 				<p:column sortBy="#{canticoTemp.dataCadastro}">
 					<f:facet name="header"> #{strg['label.dataCadastro']} </f:facet>
-					<h:outputText value=" #{formatsBean.getTimestamp(canticoTemp.dataCadastro)}" title="#{formatsBean.getTimestamp(canticoTemp.dataCadastro)}" />
+					<h:outputText value=" #{formatsBean.getData(canticoTemp.dataCadastro)}" title="#{formatsBean.getData(canticoTemp.dataCadastro)}" />
 				</p:column>
 				<p:column sortBy="#{canticoTemp.dataRecebimento}">
 					<f:facet name="header"> #{strg['label.dataRecebimento']} </f:facet>
 					<h:outputText value="#{formatsBean.getData(canticoTemp.dataRecebimento)}" title="#{formatsBean.getData(canticoTemp.dataRecebimento)}" />
 				</p:column>
-				<p:column sortBy="##{canticoTemp.observacao}">
+				<p:column sortBy="#{canticoTemp.observacao}">
 					<f:facet name="header"> #{strg['label.observacao']}</f:facet>
 					<div style="max-height: 40px; max-width: 10px;">
 						<h:outputText id="obs" value="#{canticoTemp.observacao}" escape="false" />
 					</div>
 					<p:tooltip for="obs">
 						<h:outputText value="#{canticoTemp.observacao}" escape="false" />
+					</p:tooltip>
+				</p:column>
+				<p:column sortBy="#{canticoTemp.ocasioes}">
+					<f:facet name="header">#{strg['label.ocasioes']}</f:facet>
+					<div>
+						<ui:repeat var="ocasiaoTemp" value="#{canticoTemp.ocasioes}">
+							<div>
+								<h:outputText value="#{ocasiaoTemp.descricao}" />
+							</div>
+						</ui:repeat>
+					</div>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{strg['label.arquivos']}</f:facet>
+					<h:outputText id="resumoArquivos" value="#{canticoBean.printaResumoArquivos(canticoTemp)}" title="#{canticoBean.printaResumoArquivos(canticoTemp)}" />
+					<p:tooltip for="resumoArquivos">
+						<p:dataTable var="arquivoTemp" value="#{canticoTemp.arquivos}" rendered="#{not empty canticoBean.cantico.arquivos}">
+							<p:column headerText="#{strg['label.nome']}">
+								<h:graphicImage value="../imagens/formatos/#{canticoBean.arquivoNegocio.getPorMimeType(arquivoTemp.mimeType)}.png" height="40" width="40" style="display:inline;float:left;" />
+								<div style="display: inline; line-height: 40px; margin: 5px;">
+									<h:outputText value="#{arquivoTemp.nome}" />
+								</div>
+							</p:column>
+							<p:column headerText="#{strg['label.tamanho']}" width="12%" styleClass="alignRight">
+								<h:outputText value="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" />
+							</p:column>
+						</p:dataTable>
 					</p:tooltip>
 				</p:column>
 			</p:dataTable>

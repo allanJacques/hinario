@@ -3,7 +3,7 @@
 	<managed-bean>
 		<managed-bean-name>now</managed-bean-name>
 		<managed-bean-class>java.util.Date</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
+		<managed-bean-scope>none</managed-bean-scope>
 	</managed-bean>
 	<application>
 		<resource-bundle>
@@ -14,4 +14,14 @@
 			<default-locale>pt_BR</default-locale>
 		</locale-config>
 	</application>
+	<navigation-rule>
+		<from-view-id>/resources/paginas/cantico.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{canticoBean.salvar}</from-action>
+			<to-view-id>/resources/paginas/cantico.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+
 </faces-config>

@@ -2,6 +2,7 @@ package org.hinario.negocio.managedbean;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Ocasiao;
 import org.hinario.negocio.arquivo.ArquivoNegocio;
+import org.hinario.negocio.arquivo.MimeTypeArquivo;
+import org.hinario.negocio.arquivo.TipoArquivo;
 import org.hinario.util.IOUtil;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
@@ -51,14 +54,18 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.arquivoNegocio = new ArquivoNegocio();
 	}
 
-	public void salvar() {
+	public String salvar() {
 		if (this.isAdicao()) {
 			this.cantico.setDataCadastro(new Date());
 		}
+		ArrayList<Arquivo> arquivos = new ArrayList<>();
+		arquivos.addAll(this.cantico.getArquivos());
+		this.cantico.setArquivos(arquivos);
 		this.dao.salvar(this.getCantico());
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 		novo();
+		return "ok";
 	}
 
 	public void novo() {
@@ -198,5 +205,61 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public void setStep(String step) {
 		this.step = step;
+	}
+
+	public String printaResumoArquivos(final Cantico cantico) {
+		byte arquivosAudio = 0;
+		byte arquivosDocumento = 0;
+		byte arquivosImagem = 0;
+		byte arquivosVideo = 0;
+		StringBuilder returN = new StringBuilder();
+		for (final Arquivo arqTem : cantico.getArquivos()) {
+			TipoArquivo tipo = MimeTypeArquivo.getTipoArquivo(arqTem.getMimeType());
+
+			if (TipoArquivo.AUDIO.equals(tipo)) {
+				arquivosAudio++;
+			} else if (TipoArquivo.DOCUMENTO.equals(tipo)) {
+				arquivosDocumento++;
+			} else if (TipoArquivo.IMAGEM.equals(tipo)) {
+				arquivosImagem++;
+			} else if (TipoArquivo.VIDEO.equals(tipo)) {
+				arquivosVideo++;
+			}
+		}
+		final String separador = ", ";
+		final String separadorFinal = this.appMessage.getString("label.ultimoSeparador");
+		final String espaco = " ";
+		if (arquivosAudio > 0) {
+			returN.append(arquivosAudio);
+			returN.append(espaco);
+			returN.append(this.appMessage.getString((arquivosAudio > 1) ? "label.arquivosDeAudio" : "label.arquivoDeAudio"));
+			returN.append(separador);
+		}
+		if (arquivosDocumento > 0) {
+			returN.append(arquivosDocumento);
+			returN.append(espaco);
+			returN.append(this.appMessage.getString((arquivosDocumento > 1) ? "label.arquivosDeDocumento" : "label.arquivoDeDocumento"));
+			returN.append(separador);
+		}
+		if (arquivosImagem > 0) {
+			returN.append(arquivosImagem);
+			returN.append(espaco);
+			returN.append(this.appMessage.getString((arquivosImagem > 1) ? "label.arquivosDeImagem" : "label.arquivoDeImagem"));
+			returN.append(separador);
+		}
+		if (arquivosVideo > 0) {
+			returN.append(arquivosVideo);
+			returN.append(espaco);
+			returN.append(this.appMessage.getString((arquivosVideo > 1) ? "label.arquivosDeVideo" : "label.arquivoDeVideo"));
+		}
+		if (returN.toString().endsWith(", ")) {
+			returN.delete(returN.length() - 2, returN.length());
+		}
+		final int ultimaVirgula = returN.lastIndexOf(",", returN.length());
+		if (ultimaVirgula != -1) {
+			returN.replace(ultimaVirgula, ultimaVirgula + 1, separadorFinal);
+		}
+
+		return returN.toString();
 	}
 }

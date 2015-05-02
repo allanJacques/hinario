@@ -25,7 +25,10 @@ input#nome_input {
 							<p:autoComplete id="nome" value="#{consoladorBean.consolador.irmao.nome}" required="true" style="width:500px;" completeMethod="#{consoladorBean.listaSugestoesString}" minQueryLength="3" queryDelay="0" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
 								<p:ajax event="itemSelect" listener="#{consoladorBean.selecionou}" process="@this" update="@form" />
 							</p:autoComplete>
-							<p:message for="nome" />
+							<h:panelGroup>
+								<p:message for="nome" />
+								<p:focus />
+							</h:panelGroup>
 
 							<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
 							<p:selectOneMenu id="sexo" value="#{consoladorBean.consolador.irmao.sexo}" required="true" style="width:508px;">

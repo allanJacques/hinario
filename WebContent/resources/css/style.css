@@ -157,6 +157,17 @@ td.alignRight {
 	text-align: right;
 }
 
+table.tabelaCanticos {
+	border-spacing: 2px;
+}
+
+div.painelPrimeSemBorda {
+	border: 0;
+	padding: 0;
+	margin: -0.5em -1em !important;
+	background-color: transparent;
+}
+
 span.ui-button-text {
 	margin-left: auto;
 	margin-right: auto;

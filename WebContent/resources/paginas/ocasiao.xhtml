@@ -9,7 +9,7 @@
 						<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 						<h:panelGrid columns="3" layout="grid">
 							<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{ocasiaoBean.edicao}" />
-							<p:inputText id="codigo" value="#{ocasiaoBean.ocasiao.id}" required="true" size="50" disabled="true" rendered="#{ocasiaoBean.edicao}" style="width:500px;" maxlength="255" />
+							<p:inputText id="codigo" value="#{ocasiaoBean.ocasiao.id}" required="true" size="50" readonly="true" rendered="#{ocasiaoBean.edicao}" style="width:500px;" maxlength="255" />
 							<p:message for="codigo" rendered="#{ocasiaoBean.edicao}" />
 
 							<p:outputLabel value="#{strg['label.descricao']}" for="descricao" />

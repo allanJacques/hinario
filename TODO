@@ -3,4 +3,5 @@
 	-	Corrigir autocomplete para não listar objetos do mesmo tipo.
 	-	Decidir o que fazer com o capitalize.
 	-	Traduzir o Calendário do Primefaces.
-	-	
+	-	Colocar mensagem generica para envio de vários arquivos
+	-	Tratar exclusão e alteração na lista dos arquivos dos canticos

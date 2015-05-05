@@ -190,7 +190,24 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public boolean isCanticoValido() {
-		return this.estaEmConfirmacao;
+		return this.estaEmConfirmacao && temDocumento();
+	}
+
+	public boolean temAudio() {
+		return temArquivo(TipoArquivo.AUDIO);
+	}
+
+	public boolean temDocumento() {
+		return temArquivo(TipoArquivo.DOCUMENTO);
+	}
+
+	private boolean temArquivo(final TipoArquivo tipoArquivo) {
+		for (Arquivo arquivoTemp : this.cantico.getArquivos()) {
+			if (tipoArquivo.equals(this.arquivoNegocio.getPorMimeType(arquivoTemp.getMimeType()).tipoArquivo)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void removerArquivo(final Arquivo arquivo) {
@@ -207,7 +224,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.step = step;
 	}
 
-	public String printaResumoArquivos(final Cantico cantico) {
+	public String getResumoArquivosString(final Cantico cantico) {
 		byte arquivosAudio = 0;
 		byte arquivosDocumento = 0;
 		byte arquivosImagem = 0;
@@ -258,6 +275,26 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		final int ultimaVirgula = returN.lastIndexOf(",", returN.length());
 		if (ultimaVirgula != -1) {
 			returN.replace(ultimaVirgula, ultimaVirgula + 1, separadorFinal);
+		}
+
+		return returN.toString();
+	}
+
+	public String getResumoOcasioes(final Cantico cantico) {
+		StringBuilder returN = new StringBuilder();
+
+		for (Ocasiao ocasiaoTemp : cantico.getOcasioes()) {
+			returN.append(ocasiaoTemp.getDescricao());
+			returN.append(" ");
+			returN.append(", ");
+		}
+
+		if (returN.toString().endsWith(", "))
+			returN.delete(returN.length() - 2, returN.length());
+
+		final int ultimaVirgula = returN.lastIndexOf(",", returN.length());
+		if (ultimaVirgula != -1) {
+			returN.replace(ultimaVirgula, ultimaVirgula + 1, this.appMessage.getString("label.ultimoSeparador"));
 		}
 
 		return returN.toString();

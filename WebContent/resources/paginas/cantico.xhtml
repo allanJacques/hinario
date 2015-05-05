@@ -18,8 +18,17 @@ input.exibeCantico {
 				<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard" step="#{canticoBean.step}">
 					<p:tab id="tabConsoladorRecebedor" title="#{strg['label.aba.consoladorERecebedor']}">
-						<p:panel id="painelConsoladorRecebedor">
-							<p:focus context="painelConsoladorRecebedor" />
+						<p:panel id="painelConsoladorRecebedor" rendered="#{canticoBean.adicao}">
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-info ui-corner-all">
+										<span class="ui-messages-info-icon"></span>
+										<ul>
+											<li><span class="ui-messages-info-summary">#{strg['message.aba.consoladorERecebedor']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<h:panelGrid columns="4" cellspacing="15px">
 								<p:outputLabel value="#{strg['label.consolador']}" for="consolador" />
 								<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
@@ -31,10 +40,21 @@ input.exibeCantico {
 								<p:message for="recebedor" />
 								<p:commandLink title="#{strg['label.incluirNovoRecebedor']}" value="#{strg['label.incluirNovoRecebedor']}" onclick="PF('dialogRecebedor').show();" styleClass="linkIncluirNovo" />
 							</h:panelGrid>
+							<p:focus context="painelConsoladorRecebedor" />
 						</p:panel>
 					</p:tab>
 					<p:tab id="datas" title="#{strg['label.aba.datas']}">
 						<p:panel id="painelDatas">
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-info ui-corner-all">
+										<span class="ui-messages-info-icon"></span>
+										<ul>
+											<li><span class="ui-messages-info-summary">#{strg['message.aba.datas']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<p:focus context="painelDatas" />
 							<h:panelGrid columns="3">
 								<p:outputLabel value="#{strg['label.dataCadastro']}" for="dataCadastro" />
@@ -49,6 +69,16 @@ input.exibeCantico {
 					</p:tab>
 					<p:tab id="tabOcasioes" title="#{strg['label.aba.ocasioes']}">
 						<p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-info ui-corner-all">
+										<span class="ui-messages-info-icon"></span>
+										<ul>
+											<li><span class="ui-messages-info-summary">#{strg['message.aba.ocasioes']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<h:panelGrid columns="3">
 								<p:pickList id="ocasioes" converter="OcasiaoConverter" value="#{canticoBean.dualOcasioes}" var="ocasiao" itemLabel="#{ocasiao.descricao}" itemValue="#{ocasiao}" effect="pulsate" addLabel="#{strg['label.picklist.passarSelecionados']}" addAllLabel="#{strg['label.picklist.passarTodos']}" removeAllLabel="#{strg['label.picklist.removerTodos']}" removeLabel="#{strg['label.picklist.removerSelecionados']}" labelDisplay="inline" style="margin-left:auto; margin-right:auto; width:100%">
 									<f:facet name="sourceCaption">
@@ -64,12 +94,32 @@ input.exibeCantico {
 						</p:panel>
 					</p:tab>
 					<p:tab id="observacoes" title="#{strg['label.observacoes']}">
+						<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
+							<div class="ui-messages ui-widget" aria-live="polite">
+								<div class="ui-messages-info ui-corner-all">
+									<span class="ui-messages-info-icon"></span>
+									<ul>
+										<li><span class="ui-messages-info-summary">#{strg['message.aba.observacoes']}</span></li>
+									</ul>
+								</div>
+							</div>
+						</p:panel>
 						<p:panel>
 							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source"></p:editor>
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
 						<p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-info ui-corner-all">
+										<span class="ui-messages-info-icon"></span>
+										<ul>
+											<li><span class="ui-messages-info-summary">#{strg['message.aba.arquivos']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<p:fileUpload required="true" update="@form" fileUploadListener="#{canticoBean.upload}" auto="false" multiple="true" mode="advanced" label="#{strg['label.fileUpload.selecionarArquivos']}" uploadLabel="#{strg['label.enviar']}" cancelLabel="#{strg['label.cancelar']}" sizeLimit="#{canticoBean.maxTamanhoArquivo}" dragDropSupport="true" previewWidth="50" fileLimit="#{canticoBean.maxArquivos}" invalidFileMessage="#{strg['message.fileUpload.tipoDeArquivoInvalido']}" invalidSizeMessage="#{strg['message.fileUpload.tamanhoDeArquivoInvalido']}" fileLimitMessage="#{strg['message.fileUpload.numeroMaxDeArquivosExcedido']}" messageTemplate="#{strg['message.fileUpload.mensagemModelo']}">
 							</p:fileUpload>
 							<p:spacer height="15px"></p:spacer>
@@ -96,9 +146,29 @@ input.exibeCantico {
 					</p:tab>
 					<p:tab id="tabConfirmacao" title="#{strg['label.aba.confirmacao']}">
 						<p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{!canticoBean.temDocumento()}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-error ui-corner-all">
+										<span class="ui-messages-error-icon"></span>
+										<ul>
+											<li><span class="ui-messages-error-summary">#{strg['message.semDocumento']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{!canticoBean.temAudio()}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-warn ui-corner-all">
+										<span class="ui-messages-warn-icon"></span>
+										<ul>
+											<li><span class="ui-messages-warn-summary">#{strg['message.semAudio']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<h:panelGrid columns="2" cellpadding="8px">
 								<p:outputLabel value="#{strg['label.codigo']}" rendered="#{canticoBean.edicao}" />
-								<p:inputText value="#{cantico.id}" rendered="#{cantico.edicao}" readonly="true" styleClass="exibeCantico" />
+								<p:inputText value="#{canticoBean.cantico.id}" rendered="#{canticoBean.edicao}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.consolador']}" />
 								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.recebedor']}" />
@@ -236,7 +306,7 @@ input.exibeCantico {
 					<p:columnToggler datasource="tabelaValores" trigger="selecionaColunas" />
 				</f:facet>
 				<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
-				<p:column width="10%" sortBy="#{canticoTemp.id}" headerText="#{strg['label.codigo']}">
+				<p:column width="5%" sortBy="#{canticoTemp.id}" headerText="#{strg['label.codigo']}">
 					<div class="colunaCodigo">
 						<h:outputText value="#{canticoTemp.id}" title="#{canticoTemp.id}" />
 					</div>
@@ -249,11 +319,11 @@ input.exibeCantico {
 					<f:facet name="header"> #{strg['label.recebedor']} </f:facet>
 					<h:outputText value=" #{canticoTemp.recebedor.irmao.nome}" title="#{canticoTemp.recebedor.irmao.nome}" />
 				</p:column>
-				<p:column sortBy="#{canticoTemp.dataCadastro}">
+				<p:column sortBy="#{canticoTemp.dataCadastro}" width="9%">
 					<f:facet name="header"> #{strg['label.dataCadastro']} </f:facet>
 					<h:outputText value=" #{formatsBean.getData(canticoTemp.dataCadastro)}" title="#{formatsBean.getData(canticoTemp.dataCadastro)}" />
 				</p:column>
-				<p:column sortBy="#{canticoTemp.dataRecebimento}">
+				<p:column sortBy="#{canticoTemp.dataRecebimento}" width="9%">
 					<f:facet name="header"> #{strg['label.dataRecebimento']} </f:facet>
 					<h:outputText value="#{formatsBean.getData(canticoTemp.dataRecebimento)}" title="#{formatsBean.getData(canticoTemp.dataRecebimento)}" />
 				</p:column>
@@ -266,38 +336,28 @@ input.exibeCantico {
 						<h:outputText value="#{canticoTemp.observacao}" escape="false" />
 					</p:tooltip>
 				</p:column>
-				<p:column sortBy="#{canticoTemp.ocasioes}">
+				<p:column sortBy="#{canticoTemp.ocasioes}" width="10%">
 					<f:facet name="header">#{strg['label.ocasioes']}</f:facet>
-					<div>
-						<ui:repeat var="ocasiaoTemp" value="#{canticoTemp.ocasioes}">
-							<div>
-								<h:outputText value="#{ocasiaoTemp.descricao}" />
-							</div>
-						</ui:repeat>
-					</div>
+					<p:panel id="ocasioes" styleClass="painelPrimeSemBorda" rendered="#{not empty canticoBean.getResumoOcasioes(canticoTemp)}">
+						<p style="border: 0; margin: 0; white-space: normal;">#{canticoBean.getResumoOcasioes(canticoTemp)}</p>
+						<p:tooltip for="ocasioes">
+							<h:outputText value="#{canticoBean.getResumoOcasioes(canticoTemp)}" />
+						</p:tooltip>
+					</p:panel>
 				</p:column>
-				<p:column>
+				<p:column width="10%">
 					<f:facet name="header">#{strg['label.arquivos']}</f:facet>
-					<h:outputText id="resumoArquivos" value="#{canticoBean.printaResumoArquivos(canticoTemp)}" title="#{canticoBean.printaResumoArquivos(canticoTemp)}" />
-					<p:tooltip for="resumoArquivos">
-						<p:dataTable var="arquivoTemp" value="#{canticoTemp.arquivos}" rendered="#{not empty canticoBean.cantico.arquivos}">
-							<p:column headerText="#{strg['label.nome']}">
-								<h:graphicImage value="../imagens/formatos/#{canticoBean.arquivoNegocio.getPorMimeType(arquivoTemp.mimeType)}.png" height="40" width="40" style="display:inline;float:left;" />
-								<div style="display: inline; line-height: 40px; margin: 5px;">
-									<h:outputText value="#{arquivoTemp.nome}" />
-								</div>
-							</p:column>
-							<p:column headerText="#{strg['label.tamanho']}" width="12%" styleClass="alignRight">
-								<h:outputText value="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" />
-							</p:column>
-						</p:dataTable>
-					</p:tooltip>
+					<p:panel id="painelResumoArquivos" styleClass="painelPrimeSemBorda">
+						<p style="border: 0; margin: 0; white-space: normal;">#{canticoBean.getResumoArquivosString(canticoTemp)}</p>
+						<p:tooltip for="painelResumoArquivos">
+							<h:outputText value="#{canticoBean.getResumoArquivosString(canticoTemp)}"></h:outputText>
+						</p:tooltip>
+					</p:panel>
 				</p:column>
 			</p:dataTable>
 		</h:form>
 		<br />
 		<br />
-
 
 		<!-- ======================================================== DIALOGS ======================================================= -->
 		<p:dialog widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">

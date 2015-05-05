@@ -19,7 +19,7 @@ input#nome_input {
 						<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
 						<h:panelGrid columns="3" layout="grid">
 							<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{recebedorBean.edicao}" />
-							<p:inputText id="codigo" value="#{recebedorBean.recebedor.id}" required="true" size="50" disabled="true" rendered="#{recebedorBean.edicao}" style="width:500px;" />
+							<p:inputText id="codigo" value="#{recebedorBean.recebedor.id}" required="true" size="50" readonly="true" rendered="#{recebedorBean.edicao}" style="width:500px;" />
 							<p:message for="codigo" rendered="#{recebedorBean.edicao}" />
 
 							<p:outputLabel value="#{strg['label.nome']}" for="nome" />

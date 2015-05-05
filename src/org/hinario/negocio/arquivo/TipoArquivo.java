@@ -1,8 +1,11 @@
 package org.hinario.negocio.arquivo;
 
+import java.io.Serializable;
+
 import org.hinario.app.AppMessage;
 
-public enum TipoArquivo {
+public enum TipoArquivo implements Serializable {
+
 	DOCUMENTO(AppMessage.getStaticString("enum.tipoArquivo.documento")), /**/
 	AUDIO(AppMessage.getStaticString("enum.tipoArquivo.audio")), /**/
 	VIDEO(AppMessage.getStaticString("enum.tipoArquivo.video")), /**/

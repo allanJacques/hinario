@@ -20,7 +20,7 @@ input#nome_input {
 						<h:panelGrid columns="2">
 							<h:panelGrid columns="3" layout="grid">
 								<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{usuarioBean.edicao}" />
-								<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" disabled="true" rendered="#{usuarioBean.edicao}" style="width:500px;" />
+								<p:inputText id="codigo" value="#{usuarioBean.usuario.id}" required="true" size="50" readonly="true" rendered="#{usuarioBean.edicao}" style="width:500px;" />
 								<p:message for="codigo" rendered="#{usuarioBean.edicao}" />
 
 								<p:outputLabel value="#{strg['label.nome']}" for="nome" />

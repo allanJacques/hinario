@@ -1,8 +1,11 @@
 package org.hinario.negocio.arquivo;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class ArquivoNegocio {
+public class ArquivoNegocio implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private long kilo = 1024;
 	private long mega = kilo * 1024;
 	private long giga = mega * 1024;

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.hinario.dao.CanticoDAO;
@@ -65,6 +66,12 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 		novo();
+		// Adicionando no FlashScoped, porque esse botao salvar redireciona para
+		// a mesma pagina
+		FacesContext instance = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = instance.getExternalContext();
+		externalContext.getFlash().put("salvoComSucesso", this.appMessage.getString("message.salvoComSucesso"));
+		externalContext.getFlash().setKeepMessages(true);
 		return "ok";
 	}
 
@@ -197,16 +204,25 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		return temArquivo(TipoArquivo.AUDIO);
 	}
 
+	public boolean temRecebedor() {
+		return (this.cantico != null && this.cantico.getRecebedor() != null);
+	}
+
+	public boolean temDataRecebimento() {
+		return (this.cantico != null && this.cantico.getDataRecebimento() != null);
+	}
+
 	public boolean temDocumento() {
 		return temArquivo(TipoArquivo.DOCUMENTO);
 	}
 
 	private boolean temArquivo(final TipoArquivo tipoArquivo) {
-		for (Arquivo arquivoTemp : this.cantico.getArquivos()) {
-			if (tipoArquivo.equals(this.arquivoNegocio.getPorMimeType(arquivoTemp.getMimeType()).tipoArquivo)) {
-				return true;
+		if (this.cantico != null && this.cantico.getArquivos() != null && !this.cantico.getArquivos().isEmpty())
+			for (Arquivo arquivoTemp : this.cantico.getArquivos()) {
+				if (tipoArquivo.equals(this.arquivoNegocio.getPorMimeType(arquivoTemp.getMimeType()).tipoArquivo)) {
+					return true;
+				}
 			}
-		}
 		return false;
 	}
 

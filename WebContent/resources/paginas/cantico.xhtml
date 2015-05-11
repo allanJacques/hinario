@@ -166,6 +166,26 @@ input.exibeCantico {
 									</div>
 								</div>
 							</p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{!canticoBean.temRecebedor()}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-warn ui-corner-all">
+										<span class="ui-messages-warn-icon"></span>
+										<ul>
+											<li><span class="ui-messages-warn-summary">#{strg['message.semRecebedor']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{!canticoBean.temDataRecebimento()}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-warn ui-corner-all">
+										<span class="ui-messages-warn-icon"></span>
+										<ul>
+											<li><span class="ui-messages-warn-summary">#{strg['message.semDataRecebimento']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<h:panelGrid columns="2" cellpadding="8px">
 								<p:outputLabel value="#{strg['label.codigo']}" rendered="#{canticoBean.edicao}" />
 								<p:inputText value="#{canticoBean.cantico.id}" rendered="#{canticoBean.edicao}" readonly="true" styleClass="exibeCantico" />

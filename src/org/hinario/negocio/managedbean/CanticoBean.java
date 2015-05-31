@@ -11,9 +11,11 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.swing.JOptionPane;
 
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.OcasiaoDAO;
@@ -26,6 +28,7 @@ import org.hinario.negocio.arquivo.ArquivoNegocio;
 import org.hinario.negocio.arquivo.MimeTypeArquivo;
 import org.hinario.negocio.arquivo.TipoArquivo;
 import org.hinario.util.IOUtil;
+import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
@@ -315,4 +318,11 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 		return returN.toString();
 	}
+
+	public void selecionaConsoladorCadastrado(final CloseEvent event) {
+		System.out.println(this.cantico.getConsolador());
+		System.out.println(this.cantico.getConsolador().getIrmao());
+		System.out.println(this.cantico.getConsolador().getIrmao().getNome());
+	}
+
 }

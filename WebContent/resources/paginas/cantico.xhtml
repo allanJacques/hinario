@@ -380,14 +380,17 @@ input.exibeCantico {
 		<br />
 
 		<!-- ======================================================== DIALOGS ======================================================= -->
-		<p:dialog widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
-			Consolador
-		</p:dialog>
-		<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
+		<h:form>
+			<p:dialog visible="true" id="dialogConsolador" widgetVar="dialogConsolador" dynamic="false" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true" modal="true">
+				<p:ajax listener="#{canticoBean.selecionaConsoladorCadastrado}" update="@all" event="close"></p:ajax>
+				<ui:include src="consoladorDialog.xhtml" />
+			</p:dialog>
+			<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Recebedor
 		</p:dialog>
-		<p:dialog widgetVar="dialogOcasiao" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
+			<p:dialog widgetVar="dialogOcasiao" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Ocasiao	
 		</p:dialog>
+		</h:form>
 	</ui:define>
 </ui:composition>

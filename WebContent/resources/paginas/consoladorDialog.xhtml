@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="editorConsolador" prependId="false" acceptcharset="UTF-8">
+		<p:panel>
+			<p:growl id="growlConsolador" showDetail="true" sticky="true" globalOnly="true" />
+			<h:panelGrid columns="3" layout="grid">
+				<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{consoladorBean.edicao}" />
+				<p:inputText id="codigoConsolador" value="#{consoladorBean.consolador.id}" required="true" size="50" readonly="true" rendered="#{consoladorBean.edicao}" style="width:500px;" />
+				<p:message for="codigoConsolador" rendered="#{consoladorBean.edicao}" />
+
+				<p:outputLabel value="#{strg['label.nome']}" for="nomeConsolador" />
+				<p:autoComplete id="nomeConsolador" value="#{consoladorBean.consolador.irmao.nome}" required="true" style="width:500px;" completeMethod="#{consoladorBean.listaSugestoesString}" minQueryLength="3" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
+					<p:ajax event="itemSelect" listener="#{consoladorBean.selecionou}" process="@this" update="@form" />
+				</p:autoComplete>
+				<h:panelGroup>
+					<p:message for="nomeConsolador" />
+					<p:focus />
+				</h:panelGroup>
+
+				<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
+				<p:selectOneMenu id="sexo" value="#{consoladorBean.consolador.irmao.sexo}" required="true" style="width:508px;">
+					<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="" />
+					<f:selectItems value="#{consoladorBean.sexos}" var="sexoTemp" />
+				</p:selectOneMenu>
+				<p:message for="sexo" />
+
+				<p:outputLabel value="#{strg['label.observacao']}" for="observacaoConsolador" />
+				<p:inputTextarea id="observacaoConsolador" value="#{consoladorBean.consolador.irmao.observacao}" cols="53" rows="2" style="width:500px;" />
+				<p:message for="observacaoConsolador" />
+			</h:panelGrid>
+		</p:panel>
+		<div class="painelBotoesCentralizado">
+			<p:commandButton value="#{consoladorBean.edicao ? strg['label.salvar'] : strg['label.incluirConsolador']}" action="#{consoladorBean.salvar}" styleClass="botao botaoSalvar" ajax="false">
+				<f:ajax render="growlConsolador codigoConsolador"></f:ajax>
+			</p:commandButton>
+			<div style="clear: both;" />
+		</div>
+	</h:form>
+
+
+</ui:composition>

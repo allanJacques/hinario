@@ -4,13 +4,13 @@
 		<p:panel>
 			<p:growl id="growlConsolador" showDetail="true" sticky="true" globalOnly="true" />
 			<h:panelGrid columns="3" layout="grid">
-				<p:outputLabel value="#{strg['label.codigo']}" for="codigo" rendered="#{consoladorBean.edicao}" />
-				<p:inputText id="codigoConsolador" value="#{consoladorBean.consolador.id}" required="true" size="50" readonly="true" rendered="#{consoladorBean.edicao}" style="width:500px;" />
-				<p:message for="codigoConsolador" rendered="#{consoladorBean.edicao}" />
+				<p:outputLabel value="#{strg['label.codigo']}" for="codigoConsolador" rendered="#{consoladorDialogBean.visualizacao}" />
+				<p:inputText id="codigoConsolador" value="#{consoladorDialogBean.consolador.id}" required="true" size="50" readonly="true" rendered="#{consoladorDialogBean.visualizacao}" style="width:500px;" />
+				<p:message for="codigoConsolador" rendered="#{consoladorDialogBean.visualizacao}" />
 
 				<p:outputLabel value="#{strg['label.nome']}" for="nomeConsolador" />
-				<p:autoComplete id="nomeConsolador" value="#{consoladorBean.consolador.irmao.nome}" required="true" style="width:500px;" completeMethod="#{consoladorBean.listaSugestoesString}" minQueryLength="3" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
-					<p:ajax event="itemSelect" listener="#{consoladorBean.selecionou}" process="@this" update="@form" />
+				<p:autoComplete id="nomeConsolador" value="#{consoladorDialogBean.consolador.irmao.nome}" required="true" style="width:500px;" readonly="#{consoladorDialogBean.visualizacao}" completeMethod="#{consoladorDialogBean.listaSugestoesString}" minQueryLength="3000" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
+					<p:ajax event="itemSelect" listener="#{consoladorDialogBean.selecionou}" process="@none" update="nomeConsolador" />
 				</p:autoComplete>
 				<h:panelGroup>
 					<p:message for="nomeConsolador" />
@@ -18,24 +18,20 @@
 				</h:panelGroup>
 
 				<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
-				<p:selectOneMenu id="sexo" value="#{consoladorBean.consolador.irmao.sexo}" required="true" style="width:508px;">
+				<p:selectOneMenu id="sexo" value="#{consoladorDialogBean.consolador.irmao.sexo}" required="true" readonly="#{consoladorDialogBean.visualizacao}" disabled="#{consoladorDialogBean.visualizacao}" style="width:508px;">
 					<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="" />
-					<f:selectItems value="#{consoladorBean.sexos}" var="sexoTemp" />
+					<f:selectItems value="#{consoladorDialogBean.sexos}" var="sexoTemp" />
 				</p:selectOneMenu>
 				<p:message for="sexo" />
 
 				<p:outputLabel value="#{strg['label.observacao']}" for="observacaoConsolador" />
-				<p:inputTextarea id="observacaoConsolador" value="#{consoladorBean.consolador.irmao.observacao}" cols="53" rows="2" style="width:500px;" />
+				<p:inputTextarea id="observacaoConsolador" value="#{consoladorDialogBean.consolador.irmao.observacao}" cols="53" rows="2" readonly="#{consoladorDialogBean.visualizacao}" style="width:500px;" />
 				<p:message for="observacaoConsolador" />
 			</h:panelGrid>
 		</p:panel>
 		<div class="painelBotoesCentralizado">
-			<p:commandButton value="#{consoladorBean.edicao ? strg['label.salvar'] : strg['label.incluirConsolador']}" action="#{consoladorBean.salvar}" styleClass="botao botaoSalvar" ajax="false">
-				<f:ajax render="growlConsolador codigoConsolador"></f:ajax>
-			</p:commandButton>
+			<p:commandButton value="#{consoladorDialogBean.edicao ? strg['label.salvar'] : strg['label.incluirConsolador']}" action="#{consoladorDialogBean.salvar}" rendered="#{consoladorDialogBean.adicao}" styleClass="botao botaoSalvar" ajax="true" process="@form" update="@form" />
 			<div style="clear: both;" />
 		</div>
 	</h:form>
-
-
 </ui:composition>

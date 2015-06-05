@@ -33,12 +33,20 @@ public abstract class ManagedBeanBase {
 		this.modoEditor = ModoEditor.EDICAO;
 	}
 
+	public void visualizando() {
+		this.modoEditor = ModoEditor.VISUALIZACAO;
+	}
+
 	public boolean isAdicao() {
 		return this.modoEditor == ModoEditor.ADICAO;
 	}
 
 	public boolean isEdicao() {
 		return this.modoEditor == ModoEditor.EDICAO;
+	}
+
+	public boolean isVisualizacao() {
+		return this.modoEditor == ModoEditor.VISUALIZACAO;
 	}
 
 	public void adicionarCondicao() {

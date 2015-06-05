@@ -11,11 +11,9 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.swing.JOptionPane;
 
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.OcasiaoDAO;
@@ -48,6 +46,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	private DualListModel<Ocasiao> dualOcasioes;
 	private boolean estaEmConfirmacao;
 	private String step;
+	private boolean selecionadoConsoladorCadastrado = false;
 
 	public CanticoBean() {
 		this.dao = new CanticoDAO();
@@ -320,9 +319,23 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void selecionaConsoladorCadastrado(final CloseEvent event) {
-		System.out.println(this.cantico.getConsolador());
-		System.out.println(this.cantico.getConsolador().getIrmao());
-		System.out.println(this.cantico.getConsolador().getIrmao().getNome());
+		if (this.cantico.getConsolador() != null) {
+			this.selecionadoConsoladorCadastrado = true;
+			System.out.println(this.cantico.getConsolador());
+			System.out.println(this.cantico.getConsolador().getIrmao());
+			System.out.println(this.cantico.getConsolador().getIrmao().getNome());
+			System.out.println("consolador nao nulo¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬");
+		} else {
+			System.out.println("consolador nulo¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬");
+		}
+	}
+
+	public boolean isSelecionadoConsoladorCadastrado() {
+		return selecionadoConsoladorCadastrado;
+	}
+
+	public void setSelecionadoConsoladorCadastrado(boolean selecionadoConsoladorCadastrado) {
+		this.selecionadoConsoladorCadastrado = selecionadoConsoladorCadastrado;
 	}
 
 }

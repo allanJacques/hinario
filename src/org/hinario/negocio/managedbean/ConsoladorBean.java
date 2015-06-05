@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -22,18 +21,8 @@ import org.primefaces.event.SelectEvent;
 public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Consolador consolador;
-	private final ConsoladorDAO dao;
-	@ManagedProperty("#{canticoBean}")
-	private CanticoBean canticoBean;
-
-	public CanticoBean getCanticoBean() {
-		return canticoBean;
-	}
-
-	public void setCanticoBean(CanticoBean canticoBean) {
-		this.canticoBean = canticoBean;
-	}
+	protected Consolador consolador;
+	protected final ConsoladorDAO dao;
 
 	public ConsoladorBean() {
 		this.setEntidade(new Consolador());
@@ -52,7 +41,6 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 			dao.salvar(this.consolador);
 			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 			FacesContext.getCurrentInstance().addMessage(null, fm);
-			this.canticoBean.getCantico().setConsolador(this.consolador);
 			novo();
 		} catch (Exception ex) {
 			ex.printStackTrace();

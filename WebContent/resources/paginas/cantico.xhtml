@@ -29,17 +29,34 @@ input.exibeCantico {
 									</div>
 								</div>
 							</p:panel>
-							<h:panelGrid columns="4" cellspacing="15px">
-								<p:outputLabel value="#{strg['label.consolador']}" for="consolador" />
-								<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
-								<p:message for="consolador" />
-								<p:commandLink title="#{strg['label.incluirNovoConsolador']}" value="#{strg['label.incluirNovoConsolador']}" onclick="PF('dialogConsolador').show();" styleClass="linkIncluirNovo" />
-
-								<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" />
-								<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" required="false" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" style="min-width: 200px" />
-								<p:message for="recebedor" />
-								<p:commandLink title="#{strg['label.incluirNovoRecebedor']}" value="#{strg['label.incluirNovoRecebedor']}" onclick="PF('dialogRecebedor').show();" styleClass="linkIncluirNovo" />
-							</h:panelGrid>
+							<h:form>
+								<h:panelGrid columns="4" cellspacing="15px">
+									<h:panelGroup>
+										<h:panelGroup rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
+											<label class="ui-outputlabel ui-widget" for="consoladorCadastrado">#{strg['label.consolador']}</label>
+										</h:panelGroup>
+										<p:outputLabel value="#{strg['label.consolador']}" for="consolador" rendered="#{!canticoBean.selecionadoConsoladorCadastrado}" />
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" rendered="#{!canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
+										<h:panelGroup id="consoladorCadastradoGroup" rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
+											<input id="consoladorCadastrado" name="consoladorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.consolador.irmao.nome}" value="#{canticoBean.cantico.consolador.irmao.nome}" readonly="readonly" />
+										</h:panelGroup>
+									</h:panelGroup>
+									<p:message id="consoladorMessage" for="consolador" />
+									<h:panelGroup>
+										<p:commandLink title="#{strg['label.incluirNovoConsolador']}" value="#{strg['label.incluirNovoConsolador']}" onclick="PF('dialogConsolador').show();" styleClass="linkIncluirNovo" />
+										<p:dialog id="dialogConsolador" widgetVar="dialogConsolador" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closable="true" closeOnEscape="true" modal="true">
+											<p:ajax listener="#{canticoBean.selecionaConsoladorCadastrado}" update="@all" event="close" process="@none" />
+											<ui:include src="consoladorDialog.xhtml" />
+										</p:dialog>
+									</h:panelGroup>
+									<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" />
+									<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" required="false" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" style="min-width: 200px" />
+									<p:message for="recebedor" />
+									<p:commandLink title="#{strg['label.incluirNovoRecebedor']}" value="#{strg['label.incluirNovoRecebedor']}" onclick="PF('dialogRecebedor').show();" styleClass="linkIncluirNovo" />
+								</h:panelGrid>
+							</h:form>
 							<p:focus context="painelConsoladorRecebedor" />
 						</p:panel>
 					</p:tab>
@@ -381,10 +398,7 @@ input.exibeCantico {
 
 		<!-- ======================================================== DIALOGS ======================================================= -->
 		<h:form>
-			<p:dialog visible="true" id="dialogConsolador" widgetVar="dialogConsolador" dynamic="false" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true" modal="true">
-				<p:ajax listener="#{canticoBean.selecionaConsoladorCadastrado}" update="@all" event="close"></p:ajax>
-				<ui:include src="consoladorDialog.xhtml" />
-			</p:dialog>
+
 			<p:dialog widgetVar="dialogRecebedor" dynamic="true" fitViewport="true" hideEffect="puff" showEffect="puff" minimizable="false" maximizable="true" closeOnEscape="true">
 			Recebedor
 		</p:dialog>

@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="editorRecebedor" prependId="false" acceptcharset="UTF-8">
+		<p:panel>
+			<p:growl id="growlRecebedor" showDetail="true" sticky="true" globalOnly="true" />
+			<h:panelGrid columns="3" layout="grid">
+				<p:outputLabel value="#{strg['label.codigo']}" for="codigoRecebedor" rendered="#{recebedorDialogBean.visualizacao}" />
+				<p:inputText id="codigoRecebedor" value="#{recebedorDialogBean.recebedor.id}" required="true" size="50" readonly="true" rendered="#{recebedorDialogBean.visualizacao}" style="width:500px;" />
+				<p:message for="codigoRecebedor" rendered="#{recebedorDialogBean.visualizacao}" />
+
+				<p:outputLabel value="#{strg['label.nome']}" for="nomeRecebedor" />
+				<p:autoComplete id="nomeRecebedor" value="#{recebedorDialogBean.recebedor.irmao.nome}" required="true" style="width:500px;" readonly="#{recebedorDialogBean.visualizacao}" completeMethod="#{recebedorDialogBean.listaSugestoesString}" minQueryLength="3000" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
+					<p:ajax event="itemSelect" listener="#{recebedorDialogBean.selecionou}" process="@none" update="nomeRecebedor" />
+				</p:autoComplete>
+				<h:panelGroup>
+					<p:message for="nomeRecebedor" />
+					<p:focus />
+				</h:panelGroup>
+
+				<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
+				<p:selectOneMenu id="sexo" value="#{recebedorDialogBean.recebedor.irmao.sexo}" required="true" readonly="#{recebedorDialogBean.visualizacao}" disabled="#{recebedorDialogBean.visualizacao}" style="width:508px;">
+					<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="" />
+					<f:selectItems value="#{recebedorDialogBean.sexos}" var="sexoTemp" />
+				</p:selectOneMenu>
+				<p:message for="sexo" />
+
+				<p:outputLabel value="#{strg['label.observacao']}" for="observacaoRecebedor" />
+				<p:inputTextarea id="observacaoRecebedor" value="#{recebedorDialogBean.recebedor.irmao.observacao}" cols="53" rows="2" readonly="#{recebedorDialogBean.visualizacao}" style="width:500px;" />
+				<p:message for="observacaoRecebedor" />
+			</h:panelGrid>
+		</p:panel>
+		<div class="painelBotoesCentralizado">
+			<p:commandButton value="#{recebedorDialogBean.edicao ? strg['label.salvar'] : strg['label.incluirRecebedor']}" action="#{recebedorDialogBean.salvar}" rendered="#{recebedorDialogBean.adicao}" styleClass="botao botaoSalvar" ajax="true" process="@form" update="@form" />
+			<div style="clear: both;" />
+		</div>
+	</h:form>
+</ui:composition>

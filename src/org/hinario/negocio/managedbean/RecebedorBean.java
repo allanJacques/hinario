@@ -21,8 +21,8 @@ import org.primefaces.event.SelectEvent;
 public class RecebedorBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Recebedor recebedor;
-	private final RecebedorDAO dao;
+	protected Recebedor recebedor;
+	protected final RecebedorDAO dao;
 
 	public RecebedorBean() {
 		this.setEntidade(new Recebedor());

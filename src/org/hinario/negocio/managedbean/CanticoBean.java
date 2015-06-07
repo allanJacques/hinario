@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.swing.JOptionPane;
 
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.OcasiaoDAO;
@@ -47,6 +48,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	private boolean estaEmConfirmacao;
 	private String step;
 	private boolean selecionadoConsoladorCadastrado = false;
+	private boolean selecionadoRecebedorCadastrado = false;
 
 	public CanticoBean() {
 		this.dao = new CanticoDAO();
@@ -319,15 +321,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public void selecionaConsoladorCadastrado(final CloseEvent event) {
-		if (this.cantico.getConsolador() != null) {
-			this.selecionadoConsoladorCadastrado = true;
-			System.out.println(this.cantico.getConsolador());
-			System.out.println(this.cantico.getConsolador().getIrmao());
-			System.out.println(this.cantico.getConsolador().getIrmao().getNome());
-			System.out.println("consolador nao nulo¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬");
-		} else {
-			System.out.println("consolador nulo¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬");
-		}
+		this.selecionadoConsoladorCadastrado = this.cantico.getConsolador() != null && this.cantico.getConsolador().getId() != null;
 	}
 
 	public boolean isSelecionadoConsoladorCadastrado() {
@@ -336,6 +330,14 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public void setSelecionadoConsoladorCadastrado(boolean selecionadoConsoladorCadastrado) {
 		this.selecionadoConsoladorCadastrado = selecionadoConsoladorCadastrado;
+	}
+
+	public boolean isSelecionadoRecebedorCadastrado() {
+		return selecionadoRecebedorCadastrado;
+	}
+ 
+	public void setSelecionadoRecebedorCadastrado(boolean selecionadoRecebedorCadastrado) {
+		this.selecionadoRecebedorCadastrado = selecionadoRecebedorCadastrado;
 	}
 
 }

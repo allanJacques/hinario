@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<h:form id="editorOcasiao" prependId="false" acceptcharset="UTF-8">
+		<p:panel>
+			<p:growl id="growlOcasiao" showDetail="true" sticky="true" globalOnly="true" />
+			<h:panelGrid columns="3" layout="grid">
+
+				<p:outputLabel value="#{strg['label.codigo']}" for="codigoOcasiao" rendered="#{ocasiaoDialogBean.visualizacao}" />
+				<p:inputText id="codigoOcasiao" value="#{ocasiaoDialogBean.ocasiao.id}" required="true" size="50" readonly="true" rendered="#{ocasiaoDialogBean.visualizacao}" style="width:500px;" />
+				<p:message for="codigoOcasiao" rendered="#{ocasiaoDialogBean.visualizacao}" />
+
+				<p:outputLabel value="#{strg['label.descricao']}" for="descricaoOcasiao" />
+				<p:inputText id="descricaoOcasiao" value="#{ocasiaoDialogBean.ocasiao.descricao}" required="true" style="width:500px;" readonly="#{ocasiaoDialogBean.visualizacao}" styleClass="capitalize" />
+
+				<h:panelGroup>
+					<p:message for="descricaoOcasiao" />
+					<p:focus />
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:panel>
+		<div class="painelBotoesCentralizado">
+			<p:commandButton value="#{ocasiaoDialogBean.edicao ? strg['label.salvar'] : strg['label.incluirOcasiao']}" action="#{ocasiaoDialogBean.salvar}" rendered="#{ocasiaoDialogBean.adicao}" styleClass="botao botaoSalvar" ajax="true" process="@form" update="@form" />
+			<div style="clear: both;" />
+		</div>
+	</h:form>
+</ui:composition>

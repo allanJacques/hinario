@@ -18,7 +18,7 @@ public class OcasiaoBean extends ManagedBeanBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Ocasiao ocasiao = null;
-	private final OcasiaoDAO dao;
+	protected final OcasiaoDAO dao;
 
 	public OcasiaoBean() {
 		this.setEntidade(new Ocasiao());

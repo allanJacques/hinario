@@ -139,6 +139,16 @@ button.botaoRemover {
 	margin-left: 10px;
 }
 
+span.apaga {
+	background-image: url('../imagens/apagar.png') !important;
+	width: 25px;
+	height: 25px;
+	border-radius: 0;
+	left: 5px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
 a.linkIncluirNovo {
 	color: blue;
 	margin-left: 50px;

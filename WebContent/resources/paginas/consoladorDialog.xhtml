@@ -17,12 +17,12 @@
 					<p:focus />
 				</h:panelGroup>
 
-				<p:outputLabel value="#{strg['label.sexo']}" for="sexo" />
-				<p:selectOneMenu id="sexo" value="#{consoladorDialogBean.consolador.irmao.sexo}" required="true" readonly="#{consoladorDialogBean.visualizacao}" disabled="#{consoladorDialogBean.visualizacao}" style="width:508px;">
+				<p:outputLabel value="#{strg['label.sexo']}" for="sexoConsolador" />
+				<p:selectOneMenu id="sexoConsolador" value="#{consoladorDialogBean.consolador.irmao.sexo}" required="true" readonly="#{consoladorDialogBean.visualizacao}" disabled="#{consoladorDialogBean.visualizacao}" style="width:508px;">
 					<f:selectItem itemLabel="#{strg['label.selecione']}" noSelectionOption="" />
 					<f:selectItems value="#{consoladorDialogBean.sexos}" var="sexoTemp" />
 				</p:selectOneMenu>
-				<p:message for="sexo" />
+				<p:message for="sexoConsolador" />
 
 				<p:outputLabel value="#{strg['label.observacao']}" for="observacaoConsolador" />
 				<p:inputTextarea id="observacaoConsolador" value="#{consoladorDialogBean.consolador.irmao.observacao}" cols="53" rows="2" readonly="#{consoladorDialogBean.visualizacao}" style="width:500px;" />

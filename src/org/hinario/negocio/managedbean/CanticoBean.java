@@ -14,7 +14,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.swing.JOptionPane;
 
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.OcasiaoDAO;
@@ -171,7 +170,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	@SuppressWarnings(value = { "unchecked" })
-	private void carregaOcasioes() {
+	public void carregaOcasioes() {
 		List<Ocasiao> todasOcasioes = (List<Ocasiao>) this.daoOcasiao.getLista(null, null, null, null);
 		for (Iterator<Ocasiao> iterator = todasOcasioes.iterator(); iterator.hasNext();) {
 			if (this.cantico.getOcasioes().contains(iterator.next()))
@@ -332,12 +331,26 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.selecionadoConsoladorCadastrado = selecionadoConsoladorCadastrado;
 	}
 
+	public void limpaCampoConsoladorCadastrado() {
+		this.cantico.setConsolador(null);
+		this.selecionadoConsoladorCadastrado = false;
+	}
+
+	public void selecionaRecebedorCadastrado(final CloseEvent event) {
+		this.selecionadoRecebedorCadastrado = this.cantico.getRecebedor() != null && this.cantico.getRecebedor().getId() != null;
+	}
+
 	public boolean isSelecionadoRecebedorCadastrado() {
 		return selecionadoRecebedorCadastrado;
 	}
- 
+
 	public void setSelecionadoRecebedorCadastrado(boolean selecionadoRecebedorCadastrado) {
 		this.selecionadoRecebedorCadastrado = selecionadoRecebedorCadastrado;
+	}
+
+	public void limpaCampoRecebedorCadastrado() {
+		this.cantico.setRecebedor(null);
+		this.selecionadoRecebedorCadastrado = false;
 	}
 
 }

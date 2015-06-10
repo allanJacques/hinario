@@ -6,18 +6,37 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.util.Date;
+import java.util.List;
 
 import javax.activation.DataSource;
 import javax.annotation.ManagedBean;
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.hinario.app.AppMessage;
+import org.hinario.dao.CanticoDAO;
+import org.hinario.dao.UsuarioDAO;
+import org.hinario.model.Arquivo;
 import org.hinario.model.NotificacaoCanticoEmail;
+import org.hinario.model.Usuario;
+import org.hinario.model.enums.Motivo;
 
 @ManagedBean()
 @ApplicationScoped
 public class NotificadorPorEmailBean {
+
+	private final UsuarioDAO usuarioDao;
+	private final CanticoDAO canticoDao;
+	private final AppMessage appMessage;
+
+	public NotificadorPorEmailBean() {
+		this.usuarioDao = new UsuarioDAO();
+		this.canticoDao = new CanticoDAO();
+		this.appMessage = new AppMessage();
+	}
 
 	public static void main(String[] args) throws EmailException, MalformedURLException {
 		System.out.println("Fora Dilma");
@@ -128,6 +147,6 @@ public class NotificadorPorEmailBean {
 
 	public void notificar(NotificacaoCanticoEmail notificacaoCanticoEmail) {
 
-	}
+		}
 
 }

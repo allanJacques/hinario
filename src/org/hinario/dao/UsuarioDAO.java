@@ -52,6 +52,10 @@ public class UsuarioDAO extends IrmaoDAO implements Serializable {
 		return returN;
 	}
 
+	public List<Usuario> getLista() {
+		return this.getLista(null, null, null, null);
+	}
+
 	@Override
 	public Long count(final Filtro filtro) {
 		return (Long) getQueryOrdenadaEFiltrada("select COUNT(u) from Usuario u", "u", em, filtro, null, Long.class).getSingleResult();

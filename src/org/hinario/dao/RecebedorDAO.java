@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.hinario.dao.filtro.Filtro;
-import org.hinario.model.Consolador;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Recebedor;
 import org.primefaces.model.SortMeta;

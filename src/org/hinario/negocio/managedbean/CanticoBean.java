@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -21,10 +22,13 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Arquivo;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
+import org.hinario.model.NotificacaoCanticoEmail;
 import org.hinario.model.Ocasiao;
+import org.hinario.model.enums.Motivo;
 import org.hinario.negocio.arquivo.ArquivoNegocio;
 import org.hinario.negocio.arquivo.MimeTypeArquivo;
 import org.hinario.negocio.arquivo.TipoArquivo;
+import org.hinario.negocio.managedbean.notificacao.NotificadorPorEmailBean;
 import org.hinario.util.IOUtil;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
@@ -40,6 +44,8 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	private final byte maxArquivos = 127;
 	private final long maxTamanhoArquivo = 10000 * 1024 * 1024; // 8Megabytes
 	private final ArquivoNegocio arquivoNegocio;
+	@ManagedProperty("#{notificadorPorEmailBean}")
+	private NotificadorPorEmailBean notificadorPorEmail;
 	private final CanticoDAO dao;
 	private final OcasiaoDAO daoOcasiao;
 	private Cantico cantico;
@@ -66,6 +72,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		arquivos.addAll(this.cantico.getArquivos());
 		this.cantico.setArquivos(arquivos);
 		this.dao.salvar(this.getCantico());
+		this.notificar();
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 		novo();
@@ -76,6 +83,14 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		externalContext.getFlash().put("salvoComSucesso", this.appMessage.getString("message.salvoComSucesso"));
 		externalContext.getFlash().setKeepMessages(true);
 		return "ok";
+	}
+
+	private void notificar() {
+		NotificacaoCanticoEmail notificacaoCanticoEmail = new NotificacaoCanticoEmail();
+		notificacaoCanticoEmail.setCantico(this.getCantico());
+		notificacaoCanticoEmail.setMotivo(this.isAdicao() ? Motivo.INSERCAO : Motivo.ALTERACAO);
+		this.dao.salvar(notificacaoCanticoEmail);
+		this.notificadorPorEmail.notificar(notificacaoCanticoEmail);
 	}
 
 	public void novo() {
@@ -159,6 +174,10 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	@Override
 	public EntidadeBase getEntidade() {
 		return this.getCantico();
+	}
+
+	public void setNotificadorPorEmail(NotificadorPorEmailBean notificadorPorEmail) {
+		this.notificadorPorEmail = notificadorPorEmail;
 	}
 
 	public void setDualOcasioes(DualListModel<Ocasiao> dualOcasioes) {

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -31,11 +31,13 @@ public class NotificadorPorEmailBean {
 	private final UsuarioDAO usuarioDao;
 	private final CanticoDAO canticoDao;
 	private final AppMessage appMessage;
+	private final SimpleDateFormat sdf;
 
 	public NotificadorPorEmailBean() {
 		this.usuarioDao = new UsuarioDAO();
 		this.canticoDao = new CanticoDAO();
 		this.appMessage = new AppMessage();
+<<<<<<< 38f1891dddcc7d027de46ef824f2c9e09543366a
 	}
 
 	public static void main(String[] args) throws EmailException, MalformedURLException {
@@ -143,10 +145,80 @@ public class NotificadorPorEmailBean {
 		email.send();
 		System.out.println("\n\n\nEnviado.");
 
+=======
+		this.sdf = new SimpleDateFormat("dd/MM/yyyy");
+>>>>>>> c1230cefc90daa56006974161091efc033993abc
 	}
 
 	public void notificar(NotificacaoCanticoEmail notificacaoCanticoEmail) {
 
 		}
+<<<<<<< 38f1891dddcc7d027de46ef824f2c9e09543366a
 
+=======
+		String cid = email.embed(new DataSource() {
+
+			@Override
+			public OutputStream getOutputStream() throws IOException {
+				return null;
+			}
+
+			@Override
+			public String getName() {
+				return "Imagem Apagar";
+			}
+
+			@Override
+			public InputStream getInputStream() throws IOException {
+				return new FileInputStream(new File("/home/allan/apagar.png"));
+			}
+
+			@Override
+			public String getContentType() {
+				return "image/png";
+			}
+		}, "Imagem Embeded", "logoHinario");
+
+		System.out.println("cid: " + cid);
+
+		email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
+
+		System.out.println("Enviando...");
+		email.send();
+		System.out.println("\n\n\nEnviado.");
+
+		notificacaoCanticoEmail.setDataEnvio(new Date());
+		this.canticoDao.salvar(notificacaoCanticoEmail);
+	}
+
+	private String getAssunto(final NotificacaoCanticoEmail notificacaoCanticoEmail) {
+		if (notificacaoCanticoEmail.getMotivo().equals(Motivo.INSERCAO)) {
+			return this.appMessage.getString("label.emailNovoCanticoAssunto", notificacaoCanticoEmail.getCantico().getConsolador().getIrmao().getNome());
+		} else if (notificacaoCanticoEmail.getMotivo().equals(Motivo.ALTERACAO)) {
+			return this.appMessage.getString("label.emailAlteracaoCanticoAssunto", notificacaoCanticoEmail.getCantico().getConsolador().getIrmao().getNome());
+		}
+		return null;
+	}
+
+	private String getHtmlMensagem(final NotificacaoCanticoEmail notificacaoCanticoEmail, final String cid) {
+		String chaveHtmlMensagem;
+
+		if (notificacaoCanticoEmail.getMotivo().equals(Motivo.INSERCAO)) {
+			chaveHtmlMensagem = "label.emailNovoCanticoMensagem";
+		} else {
+			chaveHtmlMensagem = "label.emailAlteracaoMensagem";
+		}
+
+		long id = notificacaoCanticoEmail.getCantico().getId();
+		String consolador = notificacaoCanticoEmail.getCantico().getConsolador().getIrmao().getNome();
+		String recebedor = notificacaoCanticoEmail.getCantico().getRecebedor() != null ? notificacaoCanticoEmail.getCantico().getRecebedor().getIrmao().getNome() : this.appMessage.getString("label.naoInformado");
+		String dataRecebimento = this.sdf.format(notificacaoCanticoEmail.getCantico().getDataRecebimento());
+		String dataInsercaoOuAlteracao = this.sdf.format(notificacaoCanticoEmail.getDataAlteracao());
+
+		String htmlMessagem = this.appMessage.getString(chaveHtmlMensagem, id, consolador, recebedor, dataRecebimento, dataInsercaoOuAlteracao);
+		htmlMessagem.replace("logoHinario", cid);
+
+		return htmlMessagem;
+	}
+>>>>>>> c1230cefc90daa56006974161091efc033993abc
 }

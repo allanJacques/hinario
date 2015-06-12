@@ -86,11 +86,25 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	private void notificar() {
-		NotificacaoCanticoEmail notificacaoCanticoEmail = new NotificacaoCanticoEmail();
-		notificacaoCanticoEmail.setCantico(this.getCantico());
-		notificacaoCanticoEmail.setMotivo(this.isAdicao() ? Motivo.INSERCAO : Motivo.ALTERACAO);
-		this.dao.salvar(notificacaoCanticoEmail);
-		this.notificadorPorEmail.notificar(notificacaoCanticoEmail);
+		Thread t = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					NotificacaoCanticoEmail notificacaoCanticoEmail = new NotificacaoCanticoEmail();
+					notificacaoCanticoEmail.setCantico(CanticoBean.this.getCantico());
+					notificacaoCanticoEmail.setMotivo(CanticoBean.this.isAdicao() ? Motivo.INSERCAO : Motivo.ALTERACAO);
+					CanticoBean.this.dao.salvar(notificacaoCanticoEmail);
+					CanticoBean.this.notificadorPorEmail.notificar(notificacaoCanticoEmail);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
+
 	}
 
 	public void novo() {

@@ -3,7 +3,6 @@ package org.hinario.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,14 +25,17 @@ public class NotificacaoCanticoEmail extends EntidadeBase implements Serializabl
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@ManyToOne(optional = false)
+
+	@ManyToOne(cascade = {}, optional = false)
 	private Cantico cantico;
+
 	@NotNull
 	@Column(nullable = false, updatable = false)
 	private Date dataAlteracao;
-	@NotNull
+
 	@Column(insertable = false)
 	private Date dataEnvio;
+
 	@NotNull
 	@Column(updatable = false)
 	private Motivo motivo;

@@ -25,7 +25,6 @@ public abstract class DAOBase implements Serializable {
 	public void salvar(Object object) {
 		em.getTransaction().begin();
 		em.persist(object);
-		//object = em.merge(object);
 		em.getTransaction().commit();
 	}
 

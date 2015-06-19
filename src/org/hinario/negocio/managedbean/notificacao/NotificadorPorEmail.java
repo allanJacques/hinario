@@ -12,6 +12,7 @@ import javax.activation.DataSource;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.hinario.app.AppConfig;
 import org.hinario.app.AppMessage;
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.UsuarioDAO;
@@ -19,8 +20,9 @@ import org.hinario.model.Arquivo;
 import org.hinario.model.NotificacaoCanticoEmail;
 import org.hinario.model.Usuario;
 import org.hinario.model.enums.Motivo;
+import org.hinario.util.CriptografiaUtil;
 
-public class NotificadorPorEmailBean implements Serializable {
+public class NotificadorPorEmail implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,34 +30,43 @@ public class NotificadorPorEmailBean implements Serializable {
 	private final CanticoDAO canticoDao;
 	private final AppMessage appMessage;
 	private final SimpleDateFormat sdf;
+	private static NotificadorPorEmail instancia;
 
-	public NotificadorPorEmailBean() {
+	private NotificadorPorEmail() {
 		this.usuarioDao = new UsuarioDAO();
 		this.canticoDao = new CanticoDAO();
 		this.appMessage = new AppMessage();
 		this.sdf = new SimpleDateFormat("dd/MM/yyyy");
 	}
 
-	public void notificar(NotificacaoCanticoEmail notificacaoCanticoEmail) throws EmailException {
+	static {
+		instancia = new NotificadorPorEmail();
+	}
+
+	public static NotificadorPorEmail getInstancia() {
+		return instancia;
+	}
+
+	public synchronized void notificar(NotificacaoCanticoEmail notificacaoCanticoEmail) throws EmailException {
 		List<Usuario> usuarios = this.usuarioDao.getLista();
 		List<Arquivo> arquivos = notificacaoCanticoEmail.getCantico().getArquivos();
 
-		boolean SSL = true;
-		boolean STARTTLS = true;
+		boolean SSL = "SSL".equalsIgnoreCase(AppConfig.getInstancia().getValorConfiguracao("email.tipoSeguranca"));
+		boolean STARTTLS = "STARTTLS".equalsIgnoreCase(AppConfig.getInstancia().getValorConfiguracao("email.tipoSeguranca"));
 
 		HtmlEmail email = new HtmlEmail();
-		email.setDebug(true);
+		email.setDebug("true".equals(AppConfig.getInstancia().getValorConfiguracao("email.debug")));
 		if (SSL) {
 			email.setSSLOnConnect(true);
-			email.setSslSmtpPort("465");
+			email.setSslSmtpPort(AppConfig.getInstancia().getValorConfiguracao("email.smtp.porta"));
 		} else if (STARTTLS) {
 			email.setStartTLSEnabled(true);
 			email.setStartTLSRequired(true);
-			email.setSmtpPort(587);
+			email.setSmtpPort(Integer.parseInt(AppConfig.getInstancia().getValorConfiguracao("email.smpt.porta")));
 		}
-		email.setFrom("allanjnofs@gmail.com", "Allan Jacques");
-		email.setAuthentication("allanjnofs@gmail.com", "unirondon");
-		email.setHostName("smtp.googlemail.com");
+		email.setFrom(AppConfig.getInstancia().getValorConfiguracao("email"), AppConfig.getInstancia().getValorConfiguracao("email.nome"));
+		email.setAuthentication(AppConfig.getInstancia().getValorConfiguracao("email"), new CriptografiaUtil("hdaedi").descriptografar(AppConfig.getInstancia().getValorConfiguracao("email.senha")));
+		email.setHostName(AppConfig.getInstancia().getValorConfiguracao("email.smtp.host"));
 		email.setSubject(getAssunto(notificacaoCanticoEmail));
 
 		for (Usuario usuario : usuarios) {
@@ -73,7 +84,7 @@ public class NotificadorPorEmailBean implements Serializable {
 
 			@Override
 			public String getName() {
-				return "Imagem Apagar";
+				return "Imagem";
 			}
 
 			@Override
@@ -85,7 +96,7 @@ public class NotificadorPorEmailBean implements Serializable {
 			public String getContentType() {
 				return "image/png";
 			}
-		}, "Imagem Embeded", "logoHinario");
+		}, "Imagem", "logoHinario");
 
 		email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
 		email.send();

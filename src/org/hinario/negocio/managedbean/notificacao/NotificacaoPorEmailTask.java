@@ -23,7 +23,7 @@ public class NotificacaoPorEmailTask extends Thread {
 			notificacaoCanticoEmail.setMotivo(motivo);
 			notificacaoCanticoEmail.setCantico(cantico);
 			dao.salvar(notificacaoCanticoEmail);
-			new NotificadorPorEmailBean().notificar(notificacaoCanticoEmail);
+			NotificadorPorEmail.getInstancia().notificar(notificacaoCanticoEmail);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

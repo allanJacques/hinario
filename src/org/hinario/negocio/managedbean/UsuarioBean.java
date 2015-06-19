@@ -16,7 +16,7 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Usuario;
 import org.hinario.model.enums.Sexo;
-import org.hinario.util.CriptografiaUtil;
+import org.hinario.util.CriptografiaSHA1Util;
 import org.hinario.util.IOUtil;
 import org.primefaces.event.SelectEvent;
 
@@ -54,7 +54,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 		}
 		this.getUsuario().getIrmao().setDataCadastro(new Date());
 		if (isAdicao())
-			this.getUsuario().setSenha(new CriptografiaUtil().criptografar(this.getUsuario().getSenha()));
+			this.getUsuario().setSenha(new CriptografiaSHA1Util().criptografar(this.getUsuario().getSenha()));
 		this.dao.salvar(this.getUsuario());
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);

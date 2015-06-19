@@ -1,5 +1,6 @@
 package org.hinario.util;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,8 +14,17 @@ import org.hinario.model.Cantico;
 import org.hinario.model.Ocasiao;
 
 public class Teste {
+	public static void main(String[] args) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
 
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+		CriptografiaUtil cripUtil = new CriptografiaUtil("hdaedi");
+		String normal = "unirondon";
+		String crip = cripUtil.criptografar(normal);
+		String deCrip = cripUtil.descriptografar(crip);
+
+		System.out.println(crip);
+		System.out.println(deCrip);
+
+		System.exit(0);
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hinario");
 		EntityManager em = emf.createEntityManager();

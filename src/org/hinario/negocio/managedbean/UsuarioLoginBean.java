@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hinario.dao.UsuarioDAO;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.Usuario;
-import org.hinario.util.CriptografiaUtil;
+import org.hinario.util.CriptografiaSHA1Util;
 
 @ManagedBean
 @SessionScoped
@@ -36,7 +36,7 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", this.appMessage.getString("message.emailNaoCadastrado")));
 		} else {
-			this.usuario = this.usuarioDAO.valida(this.email, new CriptografiaUtil().criptografar(this.senha));
+			this.usuario = this.usuarioDAO.valida(this.email, new CriptografiaSHA1Util().criptografar(this.senha));
 			// this.usuario = this.usuarioDAO.valida(this.email, this.senha);
 			if (this.usuario == null) {
 				FacesContext fc = FacesContext.getCurrentInstance();

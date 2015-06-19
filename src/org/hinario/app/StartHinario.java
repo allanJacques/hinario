@@ -15,6 +15,7 @@ public class StartHinario implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		System.out.println("Inicializando Hinario...");
 		JPAUtil.getEntityManager();
+		AppConfig.getInstancia();
 	}
 
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {

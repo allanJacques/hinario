@@ -101,6 +101,8 @@ public class NotificadorPorEmail implements Serializable {
 			}, "Imagem", "logoHinario");
 
 			email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
+			System.out.println(email.getSocketConnectionTimeout());
+			System.out.println(email.getSocketTimeout());
 			email.send();
 			notificacaoCanticoEmail.setDataEnvio(new Date());
 			this.canticoDao.salvar(notificacaoCanticoEmail);

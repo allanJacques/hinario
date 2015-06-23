@@ -1,4 +1,4 @@
-package org.hinario.negocio.managedbean.notificacao;
+package org.hinario.negocio.notificacao;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,66 +48,69 @@ public class NotificadorPorEmail implements Serializable {
 	}
 
 	public synchronized void notificar(NotificacaoCanticoEmail notificacaoCanticoEmail) throws EmailException {
-		List<Usuario> usuarios = this.usuarioDao.getLista();
-		List<Arquivo> arquivos = notificacaoCanticoEmail.getCantico().getArquivos();
+		notificacaoCanticoEmail = (NotificacaoCanticoEmail) canticoDao.atualizar(notificacaoCanticoEmail);
+		if (notificacaoCanticoEmail.getDataEnvio() == null) {
+			List<Usuario> usuarios = this.usuarioDao.getLista();
+			List<Arquivo> arquivos = notificacaoCanticoEmail.getCantico().getArquivos();
 
-		boolean SSL = "SSL".equalsIgnoreCase(AppConfig.getInstancia().getValorConfiguracao("email.tipoSeguranca"));
-		boolean STARTTLS = "STARTTLS".equalsIgnoreCase(AppConfig.getInstancia().getValorConfiguracao("email.tipoSeguranca"));
+			boolean SSL = "SSL".equalsIgnoreCase(AppConfig.getInstancia().getValorConfiguracao("email.tipoSeguranca"));
+			boolean STARTTLS = "STARTTLS".equalsIgnoreCase(AppConfig.getInstancia().getValorConfiguracao("email.tipoSeguranca"));
 
-		HtmlEmail email = new HtmlEmail();
-		email.setDebug("true".equals(AppConfig.getInstancia().getValorConfiguracao("email.debug")));
-		if (SSL) {
-			email.setSSLOnConnect(true);
-			email.setSslSmtpPort(AppConfig.getInstancia().getValorConfiguracao("email.smtp.porta"));
-		} else if (STARTTLS) {
-			email.setStartTLSEnabled(true);
-			email.setStartTLSRequired(true);
-			email.setSmtpPort(Integer.parseInt(AppConfig.getInstancia().getValorConfiguracao("email.smpt.porta")));
+			HtmlEmail email = new HtmlEmail();
+			email.setDebug("true".equals(AppConfig.getInstancia().getValorConfiguracao("email.debug")));
+			if (SSL) {
+				email.setSSLOnConnect(true);
+				email.setSslSmtpPort(AppConfig.getInstancia().getValorConfiguracao("email.smtp.porta"));
+			} else if (STARTTLS) {
+				email.setStartTLSEnabled(true);
+				email.setStartTLSRequired(true);
+				email.setSmtpPort(Integer.parseInt(AppConfig.getInstancia().getValorConfiguracao("email.smpt.porta")));
+			}
+			email.setFrom(AppConfig.getInstancia().getValorConfiguracao("email"), AppConfig.getInstancia().getValorConfiguracao("email.nome"));
+			email.setAuthentication(AppConfig.getInstancia().getValorConfiguracao("email"), new CriptografiaUtil("hdaedi").descriptografar(AppConfig.getInstancia().getValorConfiguracao("email.senha")));
+			email.setHostName(AppConfig.getInstancia().getValorConfiguracao("email.smtp.host"));
+			email.setSubject(getAssunto(notificacaoCanticoEmail));
+
+			for (Usuario usuario : usuarios) {
+				email.addTo(usuario.getEmail(), usuario.getIrmao().getNome());
+			}
+			for (Arquivo arquivo : arquivos) {
+				email.attach(new DataSourceArquivoCanticoAnexo(arquivo), arquivo.getNome(), arquivo.getNome());
+			}
+			String cid = email.embed(new DataSource() {
+
+				@Override
+				public OutputStream getOutputStream() throws IOException {
+					return null;
+				}
+
+				@Override
+				public String getName() {
+					return "Imagem";
+				}
+
+				@Override
+				public InputStream getInputStream() throws IOException {
+					return this.getClass().getResource("../../../../../../../resources/imagens/favicon2.gif").openStream();
+				}
+
+				@Override
+				public String getContentType() {
+					return "image/png";
+				}
+			}, "Imagem", "logoHinario");
+
+			email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
+			email.send();
+			notificacaoCanticoEmail.setDataEnvio(new Date());
+			this.canticoDao.salvar(notificacaoCanticoEmail);
 		}
-		email.setFrom(AppConfig.getInstancia().getValorConfiguracao("email"), AppConfig.getInstancia().getValorConfiguracao("email.nome"));
-		email.setAuthentication(AppConfig.getInstancia().getValorConfiguracao("email"), new CriptografiaUtil("hdaedi").descriptografar(AppConfig.getInstancia().getValorConfiguracao("email.senha")));
-		email.setHostName(AppConfig.getInstancia().getValorConfiguracao("email.smtp.host"));
-		email.setSubject(getAssunto(notificacaoCanticoEmail));
-
-		for (Usuario usuario : usuarios) {
-			email.addTo(usuario.getEmail(), usuario.getIrmao().getNome());
-		}
-		for (Arquivo arquivo : arquivos) {
-			email.attach(new DataSourceArquivoCanticoAnexo(arquivo), arquivo.getNome(), arquivo.getNome());
-		}
-		String cid = email.embed(new DataSource() {
-
-			@Override
-			public OutputStream getOutputStream() throws IOException {
-				return null;
-			}
-
-			@Override
-			public String getName() {
-				return "Imagem";
-			}
-
-			@Override
-			public InputStream getInputStream() throws IOException {
-				return this.getClass().getResource("../../../../../../../resources/imagens/favicon2.gif").openStream();
-			}
-
-			@Override
-			public String getContentType() {
-				return "image/png";
-			}
-		}, "Imagem", "logoHinario");
-
-		email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
-		email.send();
-		notificacaoCanticoEmail.setDataEnvio(new Date());
-		this.canticoDao.salvar(notificacaoCanticoEmail);
 	}
 
 	private String getAssunto(final NotificacaoCanticoEmail notificacaoCanticoEmail) {
 		if (notificacaoCanticoEmail.getMotivo().equals(Motivo.INSERCAO)) {
 			return this.appMessage.getString("label.emailNovoCanticoAssunto", notificacaoCanticoEmail.getCantico().getConsolador().getIrmao().getNome());
-		} else if (notificacaoCanticoEmail.getMotivo().equals(Motivo.ALTERACAO)) {
+		} else if (notificacaoCanticoEmail.getMotivo().equals(Motivo.EDICAO)) {
 			return this.appMessage.getString("label.emailAlteracaoCanticoAssunto", notificacaoCanticoEmail.getCantico().getConsolador().getIrmao().getNome());
 		}
 		return null;

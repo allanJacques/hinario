@@ -34,6 +34,10 @@ public abstract class DAOBase implements Serializable {
 		em.getTransaction().commit();
 	}
 
+	public Object atualizar(final Object object) {
+		return this.em.merge(object);
+	}
+
 	public Query getQueryOrdenadaEFiltrada(final String stringQuery, final String alias, final EntityManager entityManager, final Filtro filtro, final List<SortMeta> multiSortMeta, final Class<? extends Object> clazz) {
 		return this.queryConstrutor.getQueryOrdenadaEFiltrada(stringQuery, alias, entityManager, filtro, multiSortMeta, clazz);
 	}

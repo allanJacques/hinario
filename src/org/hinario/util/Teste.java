@@ -11,23 +11,17 @@ import javax.persistence.TypedQuery;
 
 import org.hinario.model.Arquivo;
 import org.hinario.model.Cantico;
+import org.hinario.model.NotificacaoCanticoEmail;
 import org.hinario.model.Ocasiao;
 
 public class Teste {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, UnsupportedEncodingException {
 
-		CriptografiaUtil cripUtil = new CriptografiaUtil("hdaedi");
-		String normal = "unirondon";
-		String crip = cripUtil.criptografar(normal);
-		String deCrip = cripUtil.descriptografar(crip);
-
-		System.out.println(crip);
-		System.out.println(deCrip);
-
-		System.exit(0);
-
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hinario");
 		EntityManager em = emf.createEntityManager();
+
+		TypedQuery<NotificacaoCanticoEmail> q = em.createQuery("select from NotificacaoCanticoEmail  where dataEnvio is null", NotificacaoCanticoEmail.class);
+		q.getResultList();
 
 		em.getTransaction().begin();
 

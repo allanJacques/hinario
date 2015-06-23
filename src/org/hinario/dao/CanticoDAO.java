@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
+import org.hinario.model.NotificacaoCanticoEmail;
 import org.primefaces.model.SortMeta;
 
 public class CanticoDAO extends DAOBase implements Serializable {
@@ -35,6 +36,17 @@ public class CanticoDAO extends DAOBase implements Serializable {
 	public EntidadeBase getEntidadePorId(Long id) {
 		Cantico cantico = this.em.getReference(Cantico.class, id);
 		return cantico;
+	}
+
+	public void removeNotificacoesEnviadas() {
+		this.em.getTransaction().begin();
+		this.em.createQuery("delete from NotificacaoCanticoEmail n where n.dataEnvio is not null").executeUpdate();
+		this.em.getTransaction().commit();
+	}
+
+	public List<NotificacaoCanticoEmail> getNotificacoesPendentes() {
+		TypedQuery<NotificacaoCanticoEmail> q = this.em.createQuery("select n from NotificacaoCanticoEmail n where n.dataEnvio is null", NotificacaoCanticoEmail.class);
+		return q.getResultList();
 	}
 
 }

@@ -26,7 +26,7 @@ import org.hinario.model.enums.Motivo;
 import org.hinario.negocio.arquivo.ArquivoNegocio;
 import org.hinario.negocio.arquivo.MimeTypeArquivo;
 import org.hinario.negocio.arquivo.TipoArquivo;
-import org.hinario.negocio.managedbean.notificacao.NotificacaoPorEmailTask;
+import org.hinario.negocio.notificacao.NotificacaoPorEmailTask;
 import org.hinario.util.IOUtil;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
@@ -68,7 +68,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		arquivos.addAll(this.cantico.getArquivos());
 		this.cantico.setArquivos(arquivos);
 		this.dao.salvar(this.getCantico());
-		this.notificar(this.getCantico(), this.isAdicao() ? Motivo.INSERCAO : Motivo.ALTERACAO);
+		this.notificar(this.getCantico(), this.isAdicao() ? Motivo.INSERCAO : Motivo.EDICAO);
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 		novo();

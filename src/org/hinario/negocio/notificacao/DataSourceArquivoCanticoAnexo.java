@@ -1,4 +1,4 @@
-package org.hinario.negocio.managedbean.notificacao;
+package org.hinario.negocio.notificacao;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

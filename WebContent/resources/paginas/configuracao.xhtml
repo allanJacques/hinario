@@ -1,9 +1,17 @@
 <ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:pe="http://primefaces.org/ui/extensions">
-	<ui:define name="title">#{strg['label.consoladores']}</ui:define>
+	<ui:define name="title">#{strg['itemMenu.configuracoesDoSistema']}</ui:define>
 	<ui:define name="inHead">
 		<style type="text/css">
-input#nome_input {
+.config_input {
 	width: 500px;
+}
+
+.config_spinner {
+	width: 510px !important;
+}
+
+.ui-spinner-input {
+	width: 470px;
 }
 </style>
 	</ui:define>
@@ -11,31 +19,63 @@ input#nome_input {
 	</ui:define>
 	<ui:define name="body">
 		<!-- ======================================================== EDITOR ======================================================== -->
-		<h:panelGrid id="pagina">
-			<h:panelGroup>
-				<h:form id="editor" prependId="false" acceptcharset="UTF-8">
-					<p:panel>
-						<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
-						<p:tabView>
-							<p:tab title="#{strg['itemMenu.configuracoesDoSistema']}">
-								<h:panelGrid columns="2">
-									<p:outputLabel value="#{strg['label.ativarServicoDeEmail']}" />
-									<p:selectBooleanCheckbox />
-								</h:panelGrid>
-							</p:tab>
-						</p:tabView>
-					</p:panel>
-					<div class="painelBotoesCentralizado">
+		<h:form id="editor" prependId="false" acceptcharset="UTF-8">
+			<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
+			<p:tabView style="margin-top: 3px;margin-right:2px;">
+				<p:tab title="#{strg['itemMenu.configuracoesDoSistema']}">
+					<h:panelGrid columns="2">
+						<p:outputLabel value="#{strg['label.ativarServicoDeEmail']}" for="email_servico" />
+						<p:inputSwitch id="email_servico" value="#{configuracaoBean.email_servico}" onLabel="#{strg['label.sim']}" offLabel="#{strg['label.nao']}" />
 
-						<div style="clear: both;" />
-					</div>
-				</h:form>
+						<p:outputLabel value="#{strg['label.frequenciaDoServicoDeEmail']}" for="email_servico_frequenciaEmMinutos" />
+						<p:spinner id="email_servico_frequenciaEmMinutos" value="#{configuracaoBean.email_servico_frequenciaEmMinutos}" min="1" max="1440" suffix=" #{strg['label.minutos']}" stepFactor="1" styleClass="config_spinner" />
 
-				<p:spacer height="15" />
+						<p:outputLabel value="#{strg['label.enviarEmailAoInserir']}" for="email_aoInserir" />
+						<p:inputSwitch id="email_aoInserir" value="#{configuracaoBean.email_aoInserir}" onLabel="#{strg['label.sim']}" offLabel="#{strg['label.nao']}" />
 
-				<br />
-				<br />
-			</h:panelGroup>
-		</h:panelGrid>
+						<p:outputLabel value="#{strg['label.enviarEmailAoEditar']}" for="email_aoEditar" />
+						<p:inputSwitch id="email_aoEditar" value="#{configuracaoBean.email_aoEditar}" onLabel="#{strg['label.sim']}" offLabel="#{strg['label.nao']}" />
+
+						<p:outputLabel value="#{strg['label.registrarLogAoEnviarEmail']}" for="email_debug" />
+						<p:inputSwitch id="email_debug" value="#{configuracaoBean.email_debug}" onLabel="#{strg['label.sim']}" offLabel="#{strg['label.nao']}" />
+
+						<p:outputLabel value="#{strg['label.email']}" for="email" />
+						<p:inputText id="email" value="#{configuracaoBean.email}" styleClass="config_input">
+							<f:validateRegex pattern="^(.+)@(.+)$" />
+						</p:inputText>
+
+						<p:outputLabel value="#{strg['label.nomeDoRemetente']}" for="email_nome" />
+						<p:inputText id="email_nome" value="#{configuracaoBean.email_nome}" styleClass="config_input" />
+
+
+						<p:outputLabel value="#{strg['label.senhaDoEmail']}" for="senha" />
+						<p:password id="senha" value="#{configuracaoBean.senha}" redisplay="true" styleClass="config_input" />
+
+
+						<p:outputLabel value="#{strg['label.smtpHost']}" for="email_smtp_host" />
+						<p:inputText id="email_smtp_host" value="#{configuracaoBean.email_smtp_host}" styleClass="config_input" />
+
+						<p:outputLabel value="#{strg['label.smtpPort']}" for="email_smtp_porta" />
+						<p:spinner id="email_smtp_porta" value="#{configuracaoBean.email_smtp_porta}" min="0" max="65535" stepFactor="1" styleClass="config_spinner" />
+
+
+						<p:outputLabel value="#{strg['label.protocolo']}" for="email_tipoSeguranca" />
+						<p:selectOneMenu id="email_tipoSeguranca" value="#{configuracaoBean.email_tipoSeguranca}" styleClass="config_spinner">
+							<f:selectItem itemValue="SSL" itemLabel="SSL" />
+							<f:selectItem itemValue="STARTTLS" itemLabel="STARTTLS" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+			<div class="painelBotoesCentralizado">
+				<p:commandButton value="#{strg['label.salvar']}" action="#{configuracaoBean.salvar()}" styleClass="botao botaoSalvar" ajax="false">
+					<f:ajax execute="editor" render="@all" />
+				</p:commandButton>
+				<div style="clear: both;" />
+			</div>
+		</h:form>
+
+		<br />
+		<br />
 	</ui:define>
 </ui:composition>

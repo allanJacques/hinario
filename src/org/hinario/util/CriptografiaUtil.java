@@ -44,15 +44,6 @@ public class CriptografiaUtil {
 
 	public String criptografar(final String valor) {
 		try {
-			// byte[] bytesPraCriptografar = valor.getBytes("UTF8");
-			// byte[] bytesCriptografados =
-			// this.crip.doFinal(bytesPraCriptografar);
-			// String stringCriptografada =
-			// this.StringToByteArray(bytesCriptografados);
-			// String stringCriptografadaHex =
-			// this.stringUtil.StringToHex(stringCriptografada);
-			// return stringCriptografadaHex;
-
 			return this.stringUtil.StringToHex(this.StringToByteArray(this.crip.doFinal(valor.getBytes("UTF8"))));
 		} catch (Throwable e) {
 			e.printStackTrace();

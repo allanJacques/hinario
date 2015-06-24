@@ -64,7 +64,7 @@ public class NotificadorPorEmail implements Serializable {
 			} else if (STARTTLS) {
 				email.setStartTLSEnabled(true);
 				email.setStartTLSRequired(true);
-				email.setSmtpPort(Integer.parseInt(AppConfig.getInstancia().getValorConfiguracao("email.smpt.porta")));
+				email.setSmtpPort(Integer.parseInt(AppConfig.getInstancia().getValorConfiguracao("email.smtp.porta")));
 			}
 			email.setFrom(AppConfig.getInstancia().getValorConfiguracao("email"), AppConfig.getInstancia().getValorConfiguracao("email.nome"));
 			email.setAuthentication(AppConfig.getInstancia().getValorConfiguracao("email"), new CriptografiaUtil("hdaedi").descriptografar(AppConfig.getInstancia().getValorConfiguracao("email.senha")));
@@ -103,6 +103,9 @@ public class NotificadorPorEmail implements Serializable {
 			email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
 			System.out.println(email.getSocketConnectionTimeout());
 			System.out.println(email.getSocketTimeout());
+
+			email.setSocketConnectionTimeout(email.getSocketConnectionTimeout() * 1000);
+			email.setSocketTimeout(email.getSocketTimeout() * 1000);
 			email.send();
 			notificacaoCanticoEmail.setDataEnvio(new Date());
 			this.canticoDao.salvar(notificacaoCanticoEmail);

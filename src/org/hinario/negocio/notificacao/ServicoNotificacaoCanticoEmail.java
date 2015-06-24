@@ -16,10 +16,7 @@ public class ServicoNotificacaoCanticoEmail {
 	private NotificadorPorEmail notificador = NotificadorPorEmail.getInstancia();
 
 	public void start() {
-		if (Boolean.parseBoolean(AppConfig.getInstancia().getValorConfiguracao("email.servico"))) {
-			this.notificar();
-		}
-
+		this.notificar();
 	}
 
 	private void notificar() {
@@ -32,15 +29,18 @@ public class ServicoNotificacaoCanticoEmail {
 	private class ServicoNotificacaoCanticoEmailTask extends TimerTask {
 		@Override
 		public void run() {
-			List<NotificacaoCanticoEmail> notificacoesPendentes = ServicoNotificacaoCanticoEmail.this.dao.getNotificacoesPendentes();
-			for (NotificacaoCanticoEmail notTemp : notificacoesPendentes) {
-				try {
-					ServicoNotificacaoCanticoEmail.this.notificador.notificar(notTemp);
-				} catch (EmailException e) {
-					e.printStackTrace();
+			if (Boolean.parseBoolean(AppConfig.getInstancia().getValorConfiguracao("email.servico"))) {
+				List<NotificacaoCanticoEmail> notificacoesPendentes = ServicoNotificacaoCanticoEmail.this.dao.getNotificacoesPendentes();
+				for (NotificacaoCanticoEmail notTemp : notificacoesPendentes) {
+					try {
+						ServicoNotificacaoCanticoEmail.this.notificador.notificar(notTemp);
+					} catch (EmailException e) {
+						e.printStackTrace();
+					}
 				}
+			} else {
+				System.out.println("Desativado!");
 			}
-
 		}
 	}
 

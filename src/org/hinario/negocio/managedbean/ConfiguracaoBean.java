@@ -6,14 +6,13 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import org.hinario.app.AppConfig;
-import org.hinario.app.AppMessage;
+import org.hinario.util.CriptografiaUtil;
 
 @ManagedBean
 @ApplicationScoped
 public class ConfiguracaoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private final AppMessage appMessage = new AppMessage();
 	private final AppConfig appConfig = AppConfig.getInstancia();
 
 	private String email;
@@ -22,6 +21,7 @@ public class ConfiguracaoBean implements Serializable {
 	private boolean email_debug;
 	private String email_nome;
 	private String email_senha;
+	private String senha;
 	private boolean email_servico;
 	private int email_servico_frequenciaEmMinutos;
 	private String email_smtp_host;
@@ -33,11 +33,32 @@ public class ConfiguracaoBean implements Serializable {
 	}
 
 	private void carregar() {
-
+		this.setEmail(this.appConfig.getValorConfiguracao("email"));
+		this.setEmail_aoEditar(Boolean.parseBoolean(this.appConfig.getValorConfiguracao("email.aoEditar")));
+		this.setEmail_aoInserir(Boolean.parseBoolean(this.appConfig.getValorConfiguracao("email.aoInserir")));
+		this.setEmail_debug(Boolean.parseBoolean(this.appConfig.getValorConfiguracao("email.debug")));
+		this.setEmail_nome(this.appConfig.getValorConfiguracao("email.nome"));
+		this.setEmail_senha(this.appConfig.getValorConfiguracao("email.senha"));
+		this.setSenha(new CriptografiaUtil("hdaedi").descriptografar(this.email_senha));
+		this.setEmail_servico(Boolean.parseBoolean(this.appConfig.getValorConfiguracao("email.servico")));
+		this.setEmail_servico_frequenciaEmMinutos(Integer.parseInt(this.appConfig.getValorConfiguracao("email.servico.frequenciaEmMinutos")));
+		this.setEmail_smtp_host(this.appConfig.getValorConfiguracao("email.smtp.host"));
+		this.setEmail_smtp_porta(Integer.parseInt(this.appConfig.getValorConfiguracao("email.smtp.porta")));
+		this.setEmail_tipoSeguranca(this.appConfig.getValorConfiguracao("email.tipoSeguranca"));
 	}
 
-	private void salvar() {
-
+	public void salvar() {
+		this.appConfig.setConfiguracao("email", this.getEmail());
+		this.appConfig.setConfiguracao("email.aoEditar", String.valueOf(this.isEmail_aoEditar()));
+		this.appConfig.setConfiguracao("email.aoInserir", String.valueOf(this.isEmail_aoInserir()));
+		this.appConfig.setConfiguracao("email.debug", String.valueOf(this.isEmail_debug()));
+		this.appConfig.setConfiguracao("email.nome", this.getEmail_nome());
+		this.appConfig.setConfiguracao("email.senha", new CriptografiaUtil("hdaedi").criptografar(getSenha()));
+		this.appConfig.setConfiguracao("email.servico", String.valueOf(this.isEmail_servico()));
+		this.appConfig.setConfiguracao("email.servico.frequenciaEmMinutos", String.valueOf(this.getEmail_servico_frequenciaEmMinutos()));
+		this.appConfig.setConfiguracao("email.smtp.host", this.getEmail_smtp_host());
+		this.appConfig.setConfiguracao("email.smtp.porta", String.valueOf(this.getEmail_smtp_porta()));
+		this.appConfig.setConfiguracao("email.tipoSeguranca", this.getEmail_tipoSeguranca());
 	}
 
 	public String getEmail() {
@@ -128,4 +149,11 @@ public class ConfiguracaoBean implements Serializable {
 		this.email_tipoSeguranca = email_tipoSeguranca;
 	}
 
+	public String getSenha() {
+		return this.senha;
+	}
+
+	public void setSenha(final String senha) {
+		this.senha = senha;
+	}
 }

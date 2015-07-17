@@ -21,8 +21,14 @@ public class ServicoNotificacaoCanticoEmail {
 
 	private void notificar() {
 		Timer timer = new Timer();
-		long periodo = Long.parseLong(AppConfig.getInstancia().getValorConfiguracao("email.servico.frequenciaEmMinutos")) * 1000 * 60;
-		timer.schedule(new ServicoNotificacaoCanticoEmailTask(), 0, periodo);
+		try {
+			long periodo = Long.parseLong(AppConfig.getInstancia().getValorConfiguracao("email.servico.frequenciaEmMinutos")) * 1000 * 60;
+			timer.schedule(new ServicoNotificacaoCanticoEmailTask(), 0, periodo);
+		} catch (NumberFormatException nfe) {
+			System.out.println(nfe.getMessage());
+			long periodo = 60 * 1000 * 60;
+			timer.schedule(new ServicoNotificacaoCanticoEmailTask(), 0, periodo);
+		}
 
 	}
 

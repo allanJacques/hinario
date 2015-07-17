@@ -27,7 +27,7 @@ public class Configuracao implements Serializable {
 	private String nome;
 
 	@NotNull
-	@Column(length = 100)
+	@Column(length = 200)
 	private String valor;
 
 	public String getNome() {

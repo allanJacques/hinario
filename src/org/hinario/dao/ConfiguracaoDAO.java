@@ -33,7 +33,6 @@ public class ConfiguracaoDAO implements Serializable {
 			em.persist(configTemp);
 		}
 		em.getTransaction().commit();
-
 	}
 
 	public Configuracao getConfiguration(final String nome) {

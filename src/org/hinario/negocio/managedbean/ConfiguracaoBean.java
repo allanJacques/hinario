@@ -39,12 +39,24 @@ public class ConfiguracaoBean implements Serializable {
 		this.setEmail_debug(Boolean.parseBoolean(this.appConfig.getValorConfiguracao("email.debug")));
 		this.setEmail_nome(this.appConfig.getValorConfiguracao("email.nome"));
 		this.setEmail_senha(this.appConfig.getValorConfiguracao("email.senha"));
-		this.setSenha(new CriptografiaUtil("hdaedi").descriptografar(this.email_senha));
 		this.setEmail_servico(Boolean.parseBoolean(this.appConfig.getValorConfiguracao("email.servico")));
-		this.setEmail_servico_frequenciaEmMinutos(Integer.parseInt(this.appConfig.getValorConfiguracao("email.servico.frequenciaEmMinutos")));
 		this.setEmail_smtp_host(this.appConfig.getValorConfiguracao("email.smtp.host"));
 		this.setEmail_smtp_porta(Integer.parseInt(this.appConfig.getValorConfiguracao("email.smtp.porta")));
 		this.setEmail_tipoSeguranca(this.appConfig.getValorConfiguracao("email.tipoSeguranca"));
+		try {
+			this.setEmail_servico_frequenciaEmMinutos(Integer.parseInt(this.appConfig.getValorConfiguracao("email.servico.frequenciaEmMinutos")));
+		} catch (NumberFormatException nfe) {
+			System.out.println(nfe.getMessage());
+			this.setEmail_servico_frequenciaEmMinutos(60);
+		}
+
+		try {
+			this.setSenha(new CriptografiaUtil("hdaedi").descriptografar(this.email_senha));
+		} catch (NullPointerException ex) {
+			System.out.println(ex.getMessage());
+			this.setSenha("senha");
+
+		}
 	}
 
 	public void salvar() {

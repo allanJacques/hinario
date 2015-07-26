@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.URL;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -86,26 +88,27 @@ public class NotificadorPorEmail implements Serializable {
 
 				@Override
 				public String getName() {
-					return "Imagem";
+					return "logoHinario";
 				}
 
 				@Override
 				public InputStream getInputStream() throws IOException {
-					return this.getClass().getResource("../../../../../../../resources/imagens/favicon2.gif").openStream();
+					String urlString = "../../../../../../resources/imagens/favicon.png";
+					URL url = this.getClass().getResource(urlString);
+					return url.openStream();
 				}
 
 				@Override
 				public String getContentType() {
 					return "image/png";
 				}
-			}, "Imagem", "logoHinario");
+			}, "logoHinario", "logoHinario");
 			;
 
 			email.setHtmlMsg(getHtmlMensagem(notificacaoCanticoEmail, cid));
 			System.out.println(email.getSocketConnectionTimeout());
 			System.out.println(email.getSocketTimeout());
 
-			email.setSocketTimeout(3000);
 			email.send();
 			notificacaoCanticoEmail.setDataEnvio(new Date());
 			this.canticoDao.salvar(notificacaoCanticoEmail);

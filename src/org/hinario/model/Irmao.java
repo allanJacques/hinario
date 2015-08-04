@@ -2,6 +2,7 @@ package org.hinario.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import org.hinario.dao.filtro.CampoNaoFiltravel;
+
+import org.hinario.dao.filtro.anotacoes.CampoNaoFiltravel;
+import org.hinario.dao.filtro.anotacoes.CampoPrincipal;
+import org.hinario.dao.filtro.anotacoes.NaoFiltravelPara;
 import org.hinario.model.enums.Sexo;
 
 @Entity
@@ -27,24 +31,23 @@ public class Irmao extends EntidadeBase implements Serializable {
 
 	@NotNull
 	@Column(length = 100, unique = true)
+	@CampoPrincipal
 	private String nome;
 
 	@NotNull
 	@Enumerated(value = EnumType.ORDINAL)
 	@Column(length = 1, scale = 1)
+	@NaoFiltravelPara({ Cantico.class })
 	private Sexo sexo;
 
 	@Column(length = 1000)
+	@NaoFiltravelPara({ Cantico.class })
 	private String observacao;
-
-	// @OneToOne(mappedBy = "irmao", cascade = CascadeType.ALL, fetch =
-	// FetchType.EAGER)
-	// @CampoNaoFiltravel
-	// private Usuario usuario;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	@Column(updatable = false)
+	@NaoFiltravelPara({ Cantico.class })
 	private Date dataCadastro;
 
 	public Long getId() {

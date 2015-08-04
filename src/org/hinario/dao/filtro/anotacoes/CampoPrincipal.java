@@ -1,4 +1,4 @@
-package org.hinario.dao.filtro;
+package org.hinario.dao.filtro.anotacoes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CampoNaoFiltravel {
-
+public @interface CampoPrincipal {
 }

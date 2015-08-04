@@ -39,10 +39,13 @@ public class Campo {
 			classe = Class.forName(this.getClassName());
 			String[] campos = this.chave.split("[*]")[0].split("[.]");
 			for (int i = campos.length > 1 ? 1 : 0; i < campos.length; i++) {
-				classe = classe.getDeclaredField(campos[i]).getType();
+				try {
+					classe = classe.getDeclaredField(campos[i]).getType();
+				} catch (NoSuchFieldException nsf) {
+				}
 			}
 			return classe;
-		} catch (ClassNotFoundException | NoSuchFieldException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return String.class;

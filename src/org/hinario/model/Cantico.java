@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hinario.dao.filtro.anotacoes.FiltroCamposPrincipais;
+
 @Entity
 public class Cantico extends EntidadeBase implements Serializable {
 
@@ -36,9 +38,11 @@ public class Cantico extends EntidadeBase implements Serializable {
 
 	@NotNull
 	@OneToOne
+	@FiltroCamposPrincipais
 	private Consolador consolador;
 
 	@OneToOne
+	@FiltroCamposPrincipais
 	private Recebedor recebedor;
 
 	@ManyToMany(fetch = FetchType.EAGER)

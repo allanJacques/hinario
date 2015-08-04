@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hinario.dao.filtro.anotacoes.CampoPrincipal;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "RECEBEDOR_UNICO_IRMAO", columnNames = "irmao_id"))
 public class Recebedor extends EntidadeBase implements Serializable {
@@ -25,6 +27,7 @@ public class Recebedor extends EntidadeBase implements Serializable {
 
 	@NotNull
 	@OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@CampoPrincipal
 	private Irmao irmao;
 
 	public Recebedor() {

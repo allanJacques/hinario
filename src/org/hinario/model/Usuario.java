@@ -18,7 +18,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
-import org.hinario.dao.filtro.CampoNaoFiltravel;
+import org.hinario.dao.filtro.anotacoes.CampoNaoFiltravel;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name="USUARIO_UNICO_IRMAO",columnNames = "irmao_id"))

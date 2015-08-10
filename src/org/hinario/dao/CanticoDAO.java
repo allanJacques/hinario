@@ -17,13 +17,13 @@ public class CanticoDAO extends DAOBase implements Serializable {
 
 	@Override
 	public Long count(Filtro filtro) {
-		return (Long) getQueryOrdenadaEFiltrada("select COUNT(c) from Cantico c", "c", em, filtro, null, Long.class).getSingleResult();
+		return (Long) getQueryOrdenadaEFiltrada("select COUNT(cantico) from Cantico cantico left join cantico.ocasioes ocasioes", "cantico", em, filtro, null, Long.class).getSingleResult();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<? extends EntidadeBase> getLista(Integer inicio, Integer limite, List<SortMeta> multiSortMeta, Filtro filtro) {
-		TypedQuery<Cantico> q = (TypedQuery<Cantico>) getQueryOrdenadaEFiltrada("select cantico from Cantico cantico", "cantico", em, filtro, multiSortMeta, Cantico.class);
+		TypedQuery<Cantico> q = (TypedQuery<Cantico>) getQueryOrdenadaEFiltrada("select cantico from Cantico cantico left join cantico.ocasioes ocasioes", "cantico", em, filtro, multiSortMeta, Cantico.class);
 		if (inicio != null)
 			q.setFirstResult(inicio);
 		if (limite != null)

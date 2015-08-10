@@ -104,6 +104,10 @@ div.painelBotoesCentralizado {
 	text-transform: capitalize;
 }
 
+.ui-autocomplete-input {
+	text-transform: inherit;
+}
+
 .inputFile {
 	margin: 15px 0px;
 }

@@ -73,4 +73,11 @@ public class UsuarioDAO extends IrmaoDAO implements Serializable {
 		}
 		return returN;
 	}
+
+	public List<String> listaNomeIrmaosParaUsuario(String valor) {
+		TypedQuery<String> qNomes = this.em.createQuery("select i.nome from Irmao i where upper(i.nome) like upper(:nome) and i.nome not in (select irmao.nome from Usuario)", String.class);
+		qNomes.setParameter("nome", this.entrePorcentagens(valor));
+		List<String> returN = qNomes.getResultList();
+		return returN;
+	}
 }

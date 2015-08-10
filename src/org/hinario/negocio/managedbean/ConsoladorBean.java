@@ -57,7 +57,7 @@ public class ConsoladorBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public List<String> listaSugestoesString(String valor) {
-		return this.dao.listaNomeIrmaos(valor);
+		return this.dao.listaNomeIrmaosParaConsolador(valor);
 	}
 
 	public List<Consolador> listaSugestoesBean(String valor) {

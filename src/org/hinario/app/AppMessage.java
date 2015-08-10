@@ -48,4 +48,12 @@ public class AppMessage {
 			return "*" + chave + "*";
 		}
 	}
+
+	public static String getStaticString(final String chave, Object... valores) {
+		String returN = resourceBundleStatic.getString(chave);
+		if (returN.equals(null)) {
+			return "*" + chave + "*";
+		}
+		return MessageFormat.format(returN, valores);
+	}
 }

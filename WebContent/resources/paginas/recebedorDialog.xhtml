@@ -9,8 +9,8 @@
 				<p:message for="codigoRecebedor" rendered="#{recebedorDialogBean.visualizacao}" />
 
 				<p:outputLabel value="#{strg['label.nome']}" for="nomeRecebedor" />
-				<p:autoComplete id="nomeRecebedor" value="#{recebedorDialogBean.recebedor.irmao.nome}" required="true" style="width:500px;" readonly="#{recebedorDialogBean.visualizacao}" completeMethod="#{recebedorDialogBean.listaSugestoesString}" minQueryLength="3000" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
-					<p:ajax event="itemSelect" listener="#{recebedorDialogBean.selecionou}" process="@none" update="nomeRecebedor" />
+				<p:autoComplete id="nomeRecebedor" value="#{recebedorDialogBean.recebedor.irmao.nome}" required="true" style="width:500px;" readonly="#{recebedorDialogBean.visualizacao}" completeMethod="#{recebedorDialogBean.listaSugestoesString}" minQueryLength="3" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
+					<p:ajax event="itemSelect" listener="#{recebedorDialogBean.selecionou}" process="@this" update="@this sexoRecebedor observacaoRecebedor" />
 				</p:autoComplete>
 				<h:panelGroup>
 					<p:message for="nomeRecebedor" />

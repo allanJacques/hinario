@@ -39,6 +39,7 @@ input.exibeCantico {
 									</h:panelGroup>
 									<h:panelGroup id="campoConsolador">
 										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" rendered="#{!canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
+										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="consolador" />
 										<h:panelGroup id="consoladorCadastradoGroup" rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
 											<input id="consoladorCadastrado" name="consoladorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.consolador.irmao.nome}" value="#{canticoBean.cantico.consolador.irmao.nome}" readonly="readonly" />
 											<p:commandButton id="limpaconsoladorCadastrado" icon="apaga" title="#{strg['label.limparCampo']}" style="margin:5px;" action="#{canticoBean.limpaCampoConsoladorCadastrado}" update="campoConsolador" />
@@ -60,6 +61,7 @@ input.exibeCantico {
 									</h:panelGroup>
 									<h:panelGroup id="campoRecebedor">
 										<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" />
+										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="recebedor" />
 										<h:panelGroup id="recebedorCadastradoGroup" rendered="#{canticoBean.selecionadoRecebedorCadastrado}">
 											<input id="recebedorCadastrado" name="recebedorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.recebedor.irmao.nome}" value="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="readonly" />
 											<p:commandButton id="limpaRecebedorCadastrado" icon="apaga" title="#{strg['label.limparCampo']}" style="margin:5px;" action="#{canticoBean.limpaCampoRecebedorCadastrado}" update="campoRecebedor" />
@@ -326,7 +328,7 @@ input.exibeCantico {
 								<f:selectItems value="#{canticoBean.condicaoAAdicionar.valoresEnumerados}" var="valor" itemValue="#{valor}" />
 							</p:selectOneMenu>
 							<p:commandButton id="adicionarCondicao" action="#{canticoBean.adicionarCondicao()}" value="#{strg['label.adicionarFiltro']}" styleClass="botao" style="margin-top:-2px;" ajax="false">
-								<f:ajax render="pagina" execute="@form" />
+								<f:ajax render="@all" execute="@form" />
 							</p:commandButton>
 						</h:panelGrid>
 					</h:panelGroup>
@@ -346,7 +348,7 @@ input.exibeCantico {
 					<p:column headerText="#{strg['label.acoes']}" width="10%">
 						<div class="colunaData">
 							<h:commandLink action="#{canticoBean.removerCondicao(condicao)}">
-								<f:ajax render="pagina" execute="tabelaFiltros"></f:ajax>
+								<f:ajax render="@all" execute="tabelaFiltros"></f:ajax>
 								<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
 							</h:commandLink>
 						</div>
@@ -365,7 +367,7 @@ input.exibeCantico {
 					<p:columnToggler datasource="tabelaValores" trigger="selecionaColunas" />
 				</f:facet>
 				<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
-				<p:column width="5%" sortBy="#{canticoTemp.id}" headerText="#{strg['label.codigo']}">
+				<p:column width="5%" sortBy="#{canticoTemp.id}" headerText="#{strg['label.cod']}">
 					<div class="colunaCodigo">
 						<h:outputText value="#{canticoTemp.id}" title="#{canticoTemp.id}" />
 					</div>
@@ -379,11 +381,11 @@ input.exibeCantico {
 					<h:outputText value=" #{canticoTemp.recebedor.irmao.nome}" title="#{canticoTemp.recebedor.irmao.nome}" />
 				</p:column>
 				<p:column sortBy="#{canticoTemp.dataCadastro}" width="9%">
-					<f:facet name="header"> #{strg['label.dataCadastro']} </f:facet>
+					<f:facet name="header"> #{strg['label.cadastro']} </f:facet>
 					<h:outputText value=" #{formatsBean.getData(canticoTemp.dataCadastro)}" title="#{formatsBean.getData(canticoTemp.dataCadastro)}" />
 				</p:column>
-				<p:column sortBy="#{canticoTemp.dataRecebimento}" width="9%">
-					<f:facet name="header"> #{strg['label.dataRecebimento']} </f:facet>
+				<p:column sortBy="#{canticoTemp.dataRecebimento}" width="10%">
+					<f:facet name="header"> #{strg['label.receb']} </f:facet>
 					<h:outputText value="#{formatsBean.getData(canticoTemp.dataRecebimento)}" title="#{formatsBean.getData(canticoTemp.dataRecebimento)}" />
 				</p:column>
 				<p:column sortBy="#{canticoTemp.observacao}">
@@ -395,7 +397,7 @@ input.exibeCantico {
 						<h:outputText value="#{canticoTemp.observacao}" escape="false" />
 					</p:tooltip>
 				</p:column>
-				<p:column sortBy="#{canticoTemp.ocasioes}" width="10%">
+				<p:column width="9%">
 					<f:facet name="header">#{strg['label.ocasioes']}</f:facet>
 					<p:panel id="ocasioes" styleClass="painelPrimeSemBorda" rendered="#{not empty canticoBean.getResumoOcasioes(canticoTemp)}">
 						<p style="border: 0; margin: 0; white-space: normal;">#{canticoBean.getResumoOcasioes(canticoTemp)}</p>

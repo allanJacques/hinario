@@ -13,7 +13,7 @@
 							<p:message for="codigo" rendered="#{ocasiaoBean.edicao}" />
 
 							<p:outputLabel value="#{strg['label.descricao']}" for="descricao" />
-							<p:inputText id="descricao" value="#{ocasiaoBean.ocasiao.descricao}" required="true" size="50" style="width:500px;" />
+							<p:inputText id="descricao" value="#{ocasiaoBean.ocasiao.descricao}" required="true" size="50" style="width:500px;" styleClass="capitalize" />
 							<p:message for="descricao" />
 							<p:focus />
 						</h:panelGrid>

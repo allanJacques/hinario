@@ -7,13 +7,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hinario.dao.filtro.anotacoes.CampoNaoFiltravel;
+import org.hinario.dao.filtro.anotacoes.NomeElementoEmColecao;
+
 @Entity
+@NomeElementoEmColecao("ocasiao")
 public class Ocasiao extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@CampoNaoFiltravel
 	private Long id;
 
 	private String descricao;

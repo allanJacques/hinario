@@ -43,4 +43,11 @@ public class ConsoladorDAO extends IrmaoDAO implements Serializable {
 		return q.getResultList();
 	}
 
+	public List<String> listaNomeIrmaosParaConsolador(String valor) {
+		TypedQuery<String> qNomes = this.em.createQuery("select i.nome from Irmao i where upper(i.nome) like upper(:nome) and i.nome not in (select irmao.nome from Consolador)", String.class);
+		qNomes.setParameter("nome", this.entrePorcentagens(valor));
+		List<String> returN = qNomes.getResultList();
+		return returN;
+	}
+
 }

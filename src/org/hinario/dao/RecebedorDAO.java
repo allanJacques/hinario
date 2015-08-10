@@ -42,5 +42,12 @@ public class RecebedorDAO extends IrmaoDAO implements Serializable {
 		q.setParameter("nome", this.entrePorcentagens(valor));
 		return q.getResultList();
 	}
+	
+	public List<String> listaNomeIrmaosParaRecebedor(String valor) {
+		TypedQuery<String> qNomes = this.em.createQuery("select i.nome from Irmao i where upper(i.nome) like upper(:nome) and i.nome not in (select irmao.nome from Recebedor)", String.class);
+		qNomes.setParameter("nome", this.entrePorcentagens(valor));
+		List<String> returN = qNomes.getResultList();
+		return returN;
+	}
 
 }

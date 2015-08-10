@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hinario.dao.filtro.anotacoes.CampoNaoFiltravel;
 import org.hinario.dao.filtro.anotacoes.FiltroCamposPrincipais;
 
 @Entity
@@ -61,6 +62,7 @@ public class Cantico extends EntidadeBase implements Serializable {
 	private String observacao;
 
 	@OneToMany(mappedBy = "cantico", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@CampoNaoFiltravel
 	private List<Arquivo> arquivos;
 
 	@Override

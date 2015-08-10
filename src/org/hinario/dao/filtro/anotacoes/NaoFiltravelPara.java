@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 import org.hinario.model.EntidadeBase;
 
-@Target(value = { ElementType.FIELD })
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NaoFiltravelPara {
 	Class<? extends EntidadeBase>[] value();

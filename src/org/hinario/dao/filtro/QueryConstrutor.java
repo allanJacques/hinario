@@ -95,7 +95,7 @@ public class QueryConstrutor implements Serializable {
 
 	private String getCampo(String alias, Condicao condicao) {
 		if (condicao.isValorAlfanumerico() && (condicao.getOperador().equals(Operador.IGUAL) || condicao.getOperador().equals(Operador.CONTEM) || condicao.getOperador().equals(Operador.DIFERENTE) || condicao.getOperador().equals(Operador.NAOCONTEM) || condicao.getOperador().equals(Operador.COMECACOM) || condicao.getOperador().equals(Operador.TERMINACOM))) {
-			return "upper(" + alias + "." + condicao.getCampo().getNome() + ")";
+			return "upper(" + (condicao.getCampo().isDeColecao() ? "" : alias + ".") + condicao.getCampo().getNome() + ")";
 		}
 		return alias + "." + condicao.getCampo().getNome();
 	}

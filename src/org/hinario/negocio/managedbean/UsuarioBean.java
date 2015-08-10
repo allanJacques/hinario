@@ -73,7 +73,7 @@ public class UsuarioBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public List<String> listaSugestoes(String valor) {
-		return this.dao.listaNomeIrmaos(valor);
+		return this.dao.listaNomeIrmaosParaUsuario(valor);
 	}
 
 	public void selecionou(SelectEvent event) {

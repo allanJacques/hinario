@@ -8,7 +8,7 @@ public class Campo {
 	private String descricao;
 	private final AppMessage appMessage = new AppMessage();
 
-	public Campo(String chave) {
+	public Campo(final String chave) {
 		this.chave = chave;
 		this.descricao = this.appMessage.getString(chave);
 	}
@@ -65,6 +65,10 @@ public class Campo {
 		return className;
 	}
 
+	public boolean isDeColecao() {
+		return this.chave.contains("deColecao");
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,11 +92,6 @@ public class Campo {
 		} else if (!chave.equals(other.chave))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Campo [chave=" + chave + ", descricao=" + descricao + ", appMessage=" + appMessage + "]";
 	}
 
 }

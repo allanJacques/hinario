@@ -50,7 +50,7 @@ public class RecebedorBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public List<String> listaSugestoesString(String valor) {
-		return this.dao.listaNomeIrmaos(valor);
+		return this.dao.listaNomeIrmaosParaRecebedor(valor);
 	}
 
 	public List<Recebedor> listaSugestoesBean(String valor) {

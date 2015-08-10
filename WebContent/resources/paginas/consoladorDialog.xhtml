@@ -9,8 +9,8 @@
 				<p:message for="codigoConsolador" rendered="#{consoladorDialogBean.visualizacao}" />
 
 				<p:outputLabel value="#{strg['label.nome']}" for="nomeConsolador" />
-				<p:autoComplete id="nomeConsolador" value="#{consoladorDialogBean.consolador.irmao.nome}" required="true" style="width:500px;" readonly="#{consoladorDialogBean.visualizacao}" completeMethod="#{consoladorDialogBean.listaSugestoesString}" minQueryLength="3000" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
-					<p:ajax event="itemSelect" listener="#{consoladorDialogBean.selecionou}" process="@none" update="nomeConsolador" />
+				<p:autoComplete id="nomeConsolador" value="#{consoladorDialogBean.consolador.irmao.nome}" required="true" style="width:500px;" readonly="#{consoladorDialogBean.visualizacao}" completeMethod="#{consoladorDialogBean.listaSugestoesString}" minQueryLength="3" queryDelay="700" effect="explode" effectDuration="300" styleClass="autoComplete capitalize">
+					<p:ajax event="itemSelect" listener="#{consoladorDialogBean.selecionou}" process="@this" update="@this sexoConsolador observacaoConsolador" />
 				</p:autoComplete>
 				<h:panelGroup>
 					<p:message for="nomeConsolador" />

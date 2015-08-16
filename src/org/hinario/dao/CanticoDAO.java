@@ -3,6 +3,7 @@ package org.hinario.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hinario.dao.filtro.Filtro;
@@ -14,6 +15,24 @@ import org.primefaces.model.SortMeta;
 public class CanticoDAO extends DAOBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void remover(final Object cantico) {
+		try {
+			if (cantico instanceof Cantico) {
+				this.em.getTransaction().begin();
+				Query q = this.em.createQuery("delete from NotificacaoCanticoEmail where cantico = :cantico");
+				q.setParameter("cantico", cantico);
+				q.executeUpdate();
+				em.getTransaction().commit();
+			}
+			super.remover(cantico);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			em.getTransaction().rollback();
+			throw ex;
+		}
+	}
 
 	@Override
 	public Long count(Filtro filtro) {

@@ -23,15 +23,29 @@ public abstract class DAOBase implements Serializable {
 	}
 
 	public void salvar(Object object) {
-		em.getTransaction().begin();
-		em.persist(object);
-		em.getTransaction().commit();
+		try {
+			em.getTransaction().begin();
+			em.persist(object);
+			em.getTransaction().commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			em.getTransaction().rollback();
+			throw ex;
+		}
+
 	}
 
 	public void remover(Object object) {
-		em.getTransaction().begin();
-		em.remove(em.merge(object));
-		em.getTransaction().commit();
+		try {
+			em.getTransaction().begin();
+			Object oTemp = em.merge(object);
+			em.remove(oTemp);
+			em.getTransaction().commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			em.getTransaction().rollback();
+			throw ex;
+		}
 	}
 
 	public Object atualizar(final Object object) {

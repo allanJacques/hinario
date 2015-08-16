@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.persistence.PersistenceException;
 
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.OcasiaoDAO;
@@ -61,24 +62,38 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public String salvar() {
-		if (this.isAdicao()) {
-			this.cantico.setDataCadastro(new Date());
+		try {
+			if (this.isAdicao()) {
+				this.cantico.setDataCadastro(new Date());
+			}
+			ArrayList<Arquivo> arquivos = new ArrayList<>();
+			arquivos.addAll(this.cantico.getArquivos());
+			this.cantico.setArquivos(arquivos);
+			this.dao.salvar(this.getCantico());
+			this.notificar(this.getCantico(), this.isAdicao() ? Motivo.INSERCAO : Motivo.EDICAO);
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			novo();
+			// Adicionando no FlashScoped, porque esse botao salvar redireciona
+			// para
+			// a mesma pagina
+			FacesContext instance = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = instance.getExternalContext();
+			externalContext.getFlash().put("salvoComSucesso", this.appMessage.getString("message.salvoComSucesso"));
+			externalContext.getFlash().setKeepMessages(true);
+			return "ok";
+		} catch (PersistenceException pe) {
+			// Adicionando no FlashScoped, porque esse botao salvar redireciona
+			// para
+			// a mesma pagina
+			FacesContext instance = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = instance.getExternalContext();
+			externalContext.getFlash().put("algoErrado", this.appMessage.getString("message.algoErrado"));
+			externalContext.getFlash().setKeepMessages(true);
+			FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, this.appMessage.getString("label.erro"), this.appMessage.getString("message.algoErrado"));
+			FacesContext.getCurrentInstance().addMessage(null, fm);
+			return "erro";
 		}
-		ArrayList<Arquivo> arquivos = new ArrayList<>();
-		arquivos.addAll(this.cantico.getArquivos());
-		this.cantico.setArquivos(arquivos);
-		this.dao.salvar(this.getCantico());
-		this.notificar(this.getCantico(), this.isAdicao() ? Motivo.INSERCAO : Motivo.EDICAO);
-		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("message.sucesso"), this.appMessage.getString("message.salvoComSucesso"));
-		FacesContext.getCurrentInstance().addMessage(null, fm);
-		novo();
-		// Adicionando no FlashScoped, porque esse botao salvar redireciona para
-		// a mesma pagina
-		FacesContext instance = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = instance.getExternalContext();
-		externalContext.getFlash().put("salvoComSucesso", this.appMessage.getString("message.salvoComSucesso"));
-		externalContext.getFlash().setKeepMessages(true);
-		return "ok";
 	}
 
 	private void notificar(Cantico cantico, Motivo motivo) {
@@ -131,7 +146,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 					arquivoTemp.setNome(event.getFile().getFileName());
 					arquivoTemp.setCantico(this.cantico);
 					this.cantico.getArquivos().add(arquivoTemp);
-					FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoRecebido"), this.appMessage.getString("message.arquivoRecebido", event.getFile().getFileName()));
+					FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoRecebido"), this.appMessage.getString("message.arquivoRecebido"));
 					FacesContext.getCurrentInstance().addMessage(null, fm);
 				} else {
 					Logger.getGlobal().log(Level.INFO, "Tipo nao aceito: " + event.getFile().getContentType());
@@ -161,7 +176,10 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	public void setEntidade(EntidadeBase entidade) {
 		this.setCantico((Cantico) entidade);
 		if (this.cantico != null && this.cantico.getId() != null) {
-			this.step = "tabConfirmacao";
+			this.step = "tabConsoladorRecebedor";
+			this.selecionadoConsoladorCadastrado = false;
+			this.selecionadoRecebedorCadastrado = false;
+
 		}
 	}
 
@@ -209,7 +227,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public boolean isCanticoValido() {
-		return this.estaEmConfirmacao && temDocumento();
+		return this.estaEmConfirmacao && temDocumento() && this.cantico.getConsolador() != null;
 	}
 
 	public boolean temAudio() {
@@ -240,6 +258,8 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public void removerArquivo(final Arquivo arquivo) {
 		this.cantico.getArquivos().remove(arquivo);
+		if (this.isEdicao())
+			this.dao.remover(arquivo);
 		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, this.appMessage.getString("label.arquivoExcluido"), this.appMessage.getString("message.arquivoExcluido", arquivo.getNome()));
 		FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
@@ -333,6 +353,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public boolean isSelecionadoConsoladorCadastrado() {
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& " + this.selecionadoConsoladorCadastrado);
 		return selecionadoConsoladorCadastrado;
 	}
 
@@ -360,6 +381,10 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	public void limpaCampoRecebedorCadastrado() {
 		this.cantico.setRecebedor(null);
 		this.selecionadoRecebedorCadastrado = false;
+	}
+
+	public Date getDataMaxima() {
+		return new Date();
 	}
 
 }

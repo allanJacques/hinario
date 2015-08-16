@@ -10,13 +10,42 @@ input.exibeCantico {
 	width: 400px;
 }
 </style>
+		<script type="text/javascript">
+	PrimeFaces.locales['pt_BR'] = {
+		closeText: 'Fechar',
+		prevText: 'Anterior',
+		nextText: 'Próximo',
+		currentText: 'Começo',
+		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		monthNamesShort: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+		dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+		dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+		weekHeader: 'Semana',
+		firstDay: 0,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: '',
+		timeOnlyTitle: 'Só Horas',
+		timeText: 'Tempo',
+		hourText: 'Hora',
+		minuteText: 'Minuto',
+		secondText: 'Segundo',
+		ampm: false,
+		month: 'Mês',
+		week: 'Semana',
+		day: 'Dia',
+		allDayText : 'Todo o Dia'
+	};
+</script>
 	</ui:define>
+
 	<ui:define name="body">
 		<!-- ======================================================== EDITOR ======================================================== -->
 		<h:form id="editor" prependId="false" acceptcharset="UTF-8">
 			<p:panel>
-				<p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" />
-				<p:wizard backLabel="Voltar" nextLabel="Próximo" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard" step="#{canticoBean.step}">
+				<p:growl id="growl" showDetail="true" autoUpdate="true" life="15000" redisplay="false" globalOnly="true" />
+				<p:wizard backLabel="#{strg['label.voltar']}" nextLabel="#{strg['label.proximo']}" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard" step="#{canticoBean.step}">
 					<p:tab id="tabConsoladorRecebedor" title="#{strg['label.aba.consoladorERecebedor']}">
 						<p:panel id="painelConsoladorRecebedor" rendered="#{canticoBean.adicao}">
 							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
@@ -35,10 +64,10 @@ input.exibeCantico {
 										<h:panelGroup rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
 											<label class="ui-outputlabel ui-widget" for="consoladorCadastrado">#{strg['label.consolador']}<span class="ui-outputlabel-rfi">*</span></label>
 										</h:panelGroup>
-										<p:outputLabel value="#{strg['label.consolador']}" for="consolador" rendered="#{!canticoBean.selecionadoConsoladorCadastrado}" />
+										<p:outputLabel value="#{strg['label.consolador']}" for="consolador" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" />
 									</h:panelGroup>
 									<h:panelGroup id="campoConsolador">
-										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" rendered="#{!canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
+										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
 										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="consolador" />
 										<h:panelGroup id="consoladorCadastradoGroup" rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
 											<input id="consoladorCadastrado" name="consoladorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.consolador.irmao.nome}" value="#{canticoBean.cantico.consolador.irmao.nome}" readonly="readonly" />
@@ -95,11 +124,11 @@ input.exibeCantico {
 							<p:focus context="painelDatas" />
 							<h:panelGrid columns="3">
 								<p:outputLabel value="#{strg['label.dataCadastro']}" for="dataCadastro" />
-								<p:calendar id="dataCadastro" value="#{canticoBean.dataCadastroCantico}" effect="show" pattern="dd/MM/yyyy" locale="pt" navigator="true" mask="true" style="margin-top:-1px;" disabled="true" required="true" />
+								<p:calendar id="dataCadastro" value="#{canticoBean.dataCadastroCantico}" effect="show" pattern="dd/MM/yyyy" navigator="true" mask="true" style="margin-top:-1px;" disabled="true" required="true" />
 								<p:message for="dataCadastro" />
 
 								<p:outputLabel value="#{strg['label.dataRecebimento']}" for="dataRecebimento" />
-								<p:calendar id="dataRecebimento" value="#{canticoBean.cantico.dataRecebimento}" maxdate="#{now}" effect="show" pattern="dd/MM/yyyy" locale="pt_BR" navigator="true" mask="true" style="margin-top:-1px;" required="false" />
+								<p:calendar id="dataRecebimento" value="#{canticoBean.cantico.dataRecebimento}" mindate="01/01/1914" maxdate="c" yearRange="1914:c" effect="show" pattern="dd/MM/yyyy" locale="pt_BR" navigator="true" mask="true" style="margin-top:-1px;" required="false" />
 								<p:message for="dataRecebimento" />
 							</h:panelGrid>
 						</p:panel>
@@ -146,7 +175,8 @@ input.exibeCantico {
 							</div>
 						</p:panel>
 						<p:panel>
-							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source"></p:editor>
+							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source" />
+							<p:watermark value="testeasdfasdf" for="observacao" />
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
@@ -187,6 +217,16 @@ input.exibeCantico {
 					</p:tab>
 					<p:tab id="tabConfirmacao" title="#{strg['label.aba.confirmacao']}">
 						<p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.cantico.consolador == null}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-error ui-corner-all">
+										<span class="ui-messages-error-icon"></span>
+										<ul>
+											<li><span class="ui-messages-error-summary">#{strg['message.semConsolador']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
 							<p:panel styleClass="painelPrimeSemBorda" rendered="#{!canticoBean.temDocumento()}">
 								<div class="ui-messages ui-widget" aria-live="polite">
 									<div class="ui-messages-error ui-corner-all">
@@ -366,7 +406,7 @@ input.exibeCantico {
 					<p:commandButton id="selecionaColunas" value="#{strg['label.columnToggler.label']}" />
 					<p:columnToggler datasource="tabelaValores" trigger="selecionaColunas" />
 				</f:facet>
-				<p:ajax event="rowSelect" update="@([id$=editor])" process="@([id$=tabelaValores])" />
+				<p:ajax event="rowSelect" update="@all" process="@([id$=tabelaValores])" />
 				<p:column width="5%" sortBy="#{canticoTemp.id}" headerText="#{strg['label.cod']}">
 					<div class="colunaCodigo">
 						<h:outputText value="#{canticoTemp.id}" title="#{canticoTemp.id}" />

@@ -6,15 +6,16 @@
 		<managed-bean-scope>none</managed-bean-scope>
 	</managed-bean>
 	<application>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
 		<resource-bundle>
 			<base-name>org.hinario.ui.message.string</base-name>
 			<var>strg</var>
 		</resource-bundle>
-		<locale-config>
-			<default-locale>pt_BR</default-locale>
-		</locale-config>
 	</application>
 	<navigation-rule>
+
 		<from-view-id>/resources/paginas/cantico.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{canticoBean.salvar}</from-action>

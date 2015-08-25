@@ -1,2 +1,7 @@
 	V	Tratar exclusão e alteração na lista dos arquivos dos canticos
-	-	Na Edição não está aparecendo os campos consolador e recebedor dos canticos.
+	V	Na Edição não está aparecendo os campos consolador e recebedor dos canticos
+	V	Inserir campos assunto e Modo de Cantar(Entidade) no cantico
+	-	Criar painel de configurações do usuário
+	-	Criar painel de ultimos canticos adicionados em home
+	-	Criar nova tela para consultar canticos
+	-	Criar nova tela para detalhar canticos e baixar/visualizar arquivos

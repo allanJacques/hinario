@@ -22,6 +22,7 @@ import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Arquivo;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
+import org.hinario.model.ModoDeCantar;
 import org.hinario.model.Ocasiao;
 import org.hinario.model.enums.Motivo;
 import org.hinario.negocio.arquivo.ArquivoNegocio;
@@ -32,6 +33,7 @@ import org.hinario.util.IOUtil;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.UploadedFile;
 
@@ -176,10 +178,7 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	public void setEntidade(EntidadeBase entidade) {
 		this.setCantico((Cantico) entidade);
 		if (this.cantico != null && this.cantico.getId() != null) {
-			this.step = "tabConsoladorRecebedor";
-			this.selecionadoConsoladorCadastrado = false;
-			this.selecionadoRecebedorCadastrado = false;
-
+			this.step = "tabConfirmacao";
 		}
 	}
 
@@ -353,7 +352,6 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public boolean isSelecionadoConsoladorCadastrado() {
-		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& " + this.selecionadoConsoladorCadastrado);
 		return selecionadoConsoladorCadastrado;
 	}
 
@@ -383,8 +381,13 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		this.selecionadoRecebedorCadastrado = false;
 	}
 
-	public Date getDataMaxima() {
-		return new Date();
+	public void selecionouConsolador(SelectEvent event) {
 	}
 
+	public void selecionouRecebedor(SelectEvent event) {
+	}
+
+	public List<ModoDeCantar> listaSugestoesModosDeCantar(final String query) {
+		return this.dao.listSugestoesModoDeCantar(query);
+	}
 }

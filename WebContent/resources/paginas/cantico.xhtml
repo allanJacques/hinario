@@ -9,6 +9,10 @@ input#consolador_input, input#recebedor_input {
 input.exibeCantico {
 	width: 400px;
 }
+
+#modoDeCantar_input {
+	width: 100%;
+}
 </style>
 		<script type="text/javascript">
 	PrimeFaces.locales['pt_BR'] = {
@@ -47,7 +51,7 @@ input.exibeCantico {
 				<p:growl id="growl" showDetail="true" autoUpdate="true" life="15000" redisplay="false" globalOnly="true" />
 				<p:wizard backLabel="#{strg['label.voltar']}" nextLabel="#{strg['label.proximo']}" flowListener="#{canticoBean.trocaAba}" showNavBar="true" showStepStatus="true" widgetVar="wizard" step="#{canticoBean.step}">
 					<p:tab id="tabConsoladorRecebedor" title="#{strg['label.aba.consoladorERecebedor']}">
-						<p:panel id="painelConsoladorRecebedor" rendered="#{canticoBean.adicao}">
+						<p:panel id="painelConsoladorRecebedor">
 							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.adicao}">
 								<div class="ui-messages ui-widget" aria-live="polite">
 									<div class="ui-messages-info ui-corner-all">
@@ -67,7 +71,9 @@ input.exibeCantico {
 										<p:outputLabel value="#{strg['label.consolador']}" for="consolador" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" />
 									</h:panelGroup>
 									<h:panelGroup id="campoConsolador">
-										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador}" required="true" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" />
+										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador.irmao.nome}" required="true" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3">
+											<p:ajax event="itemSelect" listener="#{canticoBean.selecionouConsolador}" />
+										</p:autoComplete>
 										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="consolador" />
 										<h:panelGroup id="consoladorCadastradoGroup" rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
 											<input id="consoladorCadastrado" name="consoladorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.consolador.irmao.nome}" value="#{canticoBean.cantico.consolador.irmao.nome}" readonly="readonly" />
@@ -89,7 +95,9 @@ input.exibeCantico {
 										<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" />
 									</h:panelGroup>
 									<h:panelGroup id="campoRecebedor">
-										<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor}" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" />
+										<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor.irmao.nome}" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3">
+											<p:ajax event="itemSelect" listener="#{canticoBean.selecionouConsolador}" />
+										</p:autoComplete>
 										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="recebedor" />
 										<h:panelGroup id="recebedorCadastradoGroup" rendered="#{canticoBean.selecionadoRecebedorCadastrado}">
 											<input id="recebedorCadastrado" name="recebedorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.recebedor.irmao.nome}" value="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="readonly" />
@@ -175,8 +183,20 @@ input.exibeCantico {
 							</div>
 						</p:panel>
 						<p:panel>
-							<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="1000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source" />
-							<p:watermark value="testeasdfasdf" for="observacao" />
+							<h:panelGrid columns="3">
+								<p:outputLabel value="#{strg['label.assunto']}" for="assunto" />
+								<p:inputText id="assunto" value="#{canticoBean.cantico.assunto}" maxlength="150" style="width:100%;" />
+								<p:message for="assunto" />
+
+								<p:outputLabel value="#{strg['label.modoDeCantar']}" for="modoDeCantar" />
+								<p:autoComplete id="modoDeCantar" value="#{canticoBean.cantico.modoDeCantar}" title="#{canticoBean.cantico.modoDeCantar.descricao}" maxlength="150" required="true" delay="800" forceSelection="false" completeMethod="#{canticoBean.listaSugestoesModosDeCantar}" var="modoDeCantar" itemLabel="#{modoDeCantar.descricao}" itemValue="#{modoDeCantar}" minQueryLength="3" style="width:100%;" />
+								<p:message for="modoDeCantar" />
+
+								<p:outputLabel value="#{strg['label.observacoes']}" for="observacao" />
+								<p:editor id="observacao" value="#{canticoBean.cantico.observacao}" maxlength="3000" controls="bold italic underline font size style color highlight bullets numbering alignleft center alignright justify cut copy paste rule outdent indent undo redo source" />
+								<p:message for="observacao" />
+							</h:panelGrid>
+							<p:focus for="assunto" />
 						</p:panel>
 					</p:tab>
 					<p:tab id="tabArquivos" title="#{strg['label.aba.arquivos']}">
@@ -223,6 +243,16 @@ input.exibeCantico {
 										<span class="ui-messages-error-icon"></span>
 										<ul>
 											<li><span class="ui-messages-error-summary">#{strg['message.semConsolador']}</span></li>
+										</ul>
+									</div>
+								</div>
+							</p:panel>
+							<p:panel styleClass="painelPrimeSemBorda" rendered="#{canticoBean.cantico.modoDeCantar == null}">
+								<div class="ui-messages ui-widget" aria-live="polite">
+									<div class="ui-messages-error ui-corner-all">
+										<span class="ui-messages-error-icon"></span>
+										<ul>
+											<li><span class="ui-messages-error-summary">#{strg['message.semModoDeCantar']}</span></li>
 										</ul>
 									</div>
 								</div>
@@ -288,6 +318,10 @@ input.exibeCantico {
 										</ul>
 									</div>
 								</p:outputPanel>
+								<p:outputLabel value="#{strg['label.assunto']}" />
+								<p:inputText value="#{canticoBean.cantico.assunto}" title="#{canticoBean.cantico.assunto}" readonly="true" styleClass="exibeCantico" />
+								<p:outputLabel value="#{strg['label.modoDeCantar']}" />
+								<p:inputText value="#{canticoBean.cantico.modoDeCantar.descricao}" title="#{canticoBean.cantico.modoDeCantar.descricao}" readonly="true" styleClass="exibeCantico" />
 								<p:inputText value="#{strg['label.semOcasioesInformadas']}" rendered="#{empty canticoBean.cantico.ocasioes}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.observacao']}" />
 								<h:panelGroup>

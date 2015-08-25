@@ -3,12 +3,14 @@ package org.hinario.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hinario.dao.filtro.Filtro;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
+import org.hinario.model.ModoDeCantar;
 import org.hinario.model.NotificacaoCanticoEmail;
 import org.primefaces.model.SortMeta;
 
@@ -66,6 +68,23 @@ public class CanticoDAO extends DAOBase implements Serializable {
 	public List<NotificacaoCanticoEmail> getNotificacoesPendentes() {
 		TypedQuery<NotificacaoCanticoEmail> q = this.em.createQuery("select n from NotificacaoCanticoEmail n where n.dataEnvio is null", NotificacaoCanticoEmail.class);
 		return q.getResultList();
+	}
+
+	public List<ModoDeCantar> listSugestoesModoDeCantar(final String query) {
+		TypedQuery<ModoDeCantar> q = em.createQuery("select modoDeCantar from ModoDeCantar modoDeCantar where upper(modoDeCantar.descricao) like upper(:query)", ModoDeCantar.class);
+		q.setParameter("query", "%" + query + "%");
+		return q.getResultList();
+	}
+
+	public ModoDeCantar getModoDeCantarPorNome(final String modoDeCantar) {
+		try {
+			TypedQuery<ModoDeCantar> q = em.createQuery("select modoDeCantar from ModoDeCantar modoDeCantar where upper(modoDeCantar.descricao) = upper(:modoDeCantar)", ModoDeCantar.class);
+			q.setParameter("modoDeCantar", modoDeCantar);
+			return q.getSingleResult();
+		} catch (NoResultException ex) {
+			System.out.println(ex.getMessage());
+			return null;
+		}
 	}
 
 }

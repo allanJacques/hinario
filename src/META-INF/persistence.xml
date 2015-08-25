@@ -13,6 +13,7 @@
 		<class>org.hinario.model.Consolador</class>
 		<class>org.hinario.model.NotificacaoCanticoEmail</class>
 		<class>org.hinario.model.Configuracao</class>
+		<class>org.hinario.model.ModoDeCantar</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hinario" />

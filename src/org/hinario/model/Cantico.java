@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -45,6 +46,13 @@ public class Cantico extends EntidadeBase implements Serializable {
 	@OneToOne
 	@FiltroCamposPrincipais
 	private Recebedor recebedor;
+
+	@ManyToOne(optional = false, cascade = { CascadeType.ALL })
+	@CampoNaoFiltravel
+	private ModoDeCantar modoDeCantar;
+
+	@Column(length = 150)
+	private String assunto;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Ocasiao> ocasioes;
@@ -88,6 +96,22 @@ public class Cantico extends EntidadeBase implements Serializable {
 
 	public void setRecebedor(Recebedor recebedor) {
 		this.recebedor = recebedor;
+	}
+
+	public ModoDeCantar getModoDeCantar() {
+		return modoDeCantar;
+	}
+
+	public void setModoDeCantar(ModoDeCantar modoDeCantar) {
+		this.modoDeCantar = modoDeCantar;
+	}
+
+	public String getAssunto() {
+		return assunto;
+	}
+
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
 	}
 
 	public List<Ocasiao> getOcasioes() {

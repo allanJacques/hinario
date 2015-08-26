@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hinario.dao.filtro.anotacoes.CampoNaoFiltravel;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name="USUARIO_UNICO_IRMAO",columnNames = "irmao_id"))
+@Table(uniqueConstraints = @UniqueConstraint(name = "USUARIO_UNICO_IRMAO", columnNames = "irmao_id"))
 public class Usuario extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -39,7 +39,6 @@ public class Usuario extends EntidadeBase implements Serializable {
 	@CampoNaoFiltravel
 	private String senha;
 
-	@NotNull
 	@Transient
 	@CampoNaoFiltravel
 	private String confirmeSenha;
@@ -51,6 +50,9 @@ public class Usuario extends EntidadeBase implements Serializable {
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] imagem;
+
+	@NotNull
+	private boolean receberEmails = true;
 
 	public Usuario() {
 		this.irmao = new Irmao();
@@ -104,6 +106,14 @@ public class Usuario extends EntidadeBase implements Serializable {
 
 	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
+	}
+
+	public boolean isReceberEmails() {
+		return receberEmails;
+	}
+
+	public void setReceberEmails(boolean receberEmails) {
+		this.receberEmails = receberEmails;
 	}
 
 }

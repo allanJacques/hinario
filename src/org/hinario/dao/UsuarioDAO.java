@@ -27,11 +27,10 @@ public class UsuarioDAO extends IrmaoDAO implements Serializable {
 	}
 
 	public boolean emailJaExisteEmOutroUsuario(final String email, final Long id) {
-		Query q = this.em.createQuery("select COUNT(u) from Usuario u where email = :email AND id != :id");
+		Query q = this.em.createQuery("select (COUNT(u) > 0) from Usuario u where email = :email AND id != :id");
 		q.setParameter("email", email);
 		q.setParameter("id", id);
-		Long count = (Long) q.getSingleResult();
-		return (count > 0);
+		return (boolean) q.getSingleResult();
 	}
 
 	@Override

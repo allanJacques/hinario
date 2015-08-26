@@ -82,14 +82,6 @@ public class Irmao extends EntidadeBase implements Serializable {
 		this.observacao = observacao;
 	}
 
-	// public Usuario getUsuario() {
-	// return usuario;
-	// }
-	//
-	// public void setUsuario(Usuario usuario) {
-	// this.usuario = usuario;
-	// }
-
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}

@@ -49,7 +49,10 @@ public abstract class DAOBase implements Serializable {
 	}
 
 	public Object atualizar(final Object object) {
-		return this.em.merge(object);
+		this.em.getTransaction().begin();
+		this.em.getTransaction().rollback();
+		Object returN = this.em.find(object.getClass(), ((EntidadeBase) object).getId());
+		return returN;
 	}
 
 	public Query getQueryOrdenadaEFiltrada(final String stringQuery, final String alias, final EntityManager entityManager, final Filtro filtro, final List<SortMeta> multiSortMeta, final Class<? extends Object> clazz) {

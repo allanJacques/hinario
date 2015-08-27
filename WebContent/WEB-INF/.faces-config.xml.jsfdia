@@ -11,4 +11,18 @@
     TITLE="#{canticoBean.salvar}:[any]" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#resources#paginas#configuracoesPessoais.xhtml"
+  PATH="/resources/paginas/configuracoesPessoais.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#resources#paginas#configuracoesPessoais.xhtml:0"
+   NAME="item" PATH="/resources/paginas/configuracoesPessoais.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID=":#{usuarioLoginBean.cortar}:#resources#paginas#configuracoesPessoais.xhtml"
+    NAME="output" PATH="/resources/paginas/configuracoesPessoais.xhtml"
+    TARGET="rules:#resources#paginas#configuracoesPessoais.xhtml"
+    TITLE="#{usuarioLoginBean.cortar}:[any]" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

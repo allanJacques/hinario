@@ -12,6 +12,29 @@ span.ui-chkbox-label {
 			<p:growl id="growl" showDetail="true" autoUpdate="true" life="15000" redisplay="false" globalOnly="true" />
 			<p:tabView id="tabView" dynamic="true">
 				<p:ajax event="tabChange" listener="#{usuarioLoginBean.mudarTab}" update="tabView" process="tabView" />
+				<!--================================================================================================= TROCAR IMAGEM ================================================================================================= -->
+				<p:tab id="trocarImagem" title="#{strg['label.trocarImagem']}">
+					<p:panel>
+						<div>
+							<p:graphicImage value="#{usuarioLoginBean.imageUsuario}" cache="false" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:25px;max-width:100%;" />
+						</div>
+						<div>
+							<p:commandButton value="#{strg['label.cortarImagem']}" style="float:left;" onclick="PF('dlgCortarImagem').show()" />
+							<p:commandButton value="#{strg['label.tirarFoto']}" style="float:right;" />
+							<p:dialog id="dlgCortarImagem" widgetVar="dlgCortarImagem" dynamic="false" position="0,0" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="max-height:100%;max-width:100%;overflow:scroll;">
+								<p:ajax event="close" update="@all" process="@all" />
+								<p:imageCropper value="#{usuarioLoginBean.imagemRecortada}" image="/resources/logins/#{usuarioLoginBean.usuario.irmao.nome}" initialCoords="5,5,105,105" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:45px;max-height:95%;max-width:95%; overflow:scroll;" />
+								<div>
+									<p:commandButton value="#{strg['label.recortar']}" update="@all" action="#{usuarioLoginBean.cortar}" style="margin-left:auto; margin-right:auto; display:block; margin-top:15px;" />
+								</div>
+							</p:dialog>
+							<p:dialog>
+							</p:dialog>
+						</div>
+						<br />
+						<br />
+					</p:panel>
+				</p:tab>
 				<!--================================================================================================= CONFIGURACOES GERAIS ================================================================================================= -->
 				<p:tab id="geral" title="#{strg['label.informacoesGerais']}">
 					<h:panelGrid columns="3" cellpadding="8px">
@@ -54,28 +77,6 @@ span.ui-chkbox-label {
 					</h:panelGrid>
 					<p:spacer height="1px" />
 					<p:commandButton value="#{strg['label.trocarSenha']}" action="#{usuarioLoginBean.trocarSenha}" update="@form" process="@form" style="float:right;" />
-				</p:tab>
-				<!--================================================================================================= TROCAR IMAGEM ================================================================================================= -->
-				<p:tab id="trocarImagem" title="#{strg['label.trocarImagem']}">
-					<p:panel>
-						<div>
-							<p:graphicImage value="#{usuarioLoginBean.imageUsuario}" cache="false" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:25px;max-width:100%;" />
-						</div>
-						<div>
-							<p:commandButton value="#{strg['label.cortarImagem']}" style="float:left;" onclick="PF('dlgCortarImagem').show()" />
-							<p:commandButton value="#{strg['label.tirarFoto']}" style="float:right;" />
-							<p:dialog id="dlgCortarImagem" widgetVar="dlgCortarImagem" dynamic="true" position="0,0" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="max-height:100%;max-width:100%;overflow:scroll;">
-								<p:imageCropper value="#{usuarioLoginBean.imagemRecortada}" image="/resources/logins/#{usuarioLoginBean.usuario.irmao.nome}" initialCoords="5,5,105,105" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:45px;max-height:95%;max-width:95%; overflow:scroll;" />
-								<div>
-									<p:commandButton value="#{strg['label.recortar']}" update="@all" action="#{usuarioLoginBean.cortar}" style="margin-left:auto; margin-right:auto; display:block; margin-top:15px;" />
-								</div>
-							</p:dialog>
-							<p:dialog>
-							</p:dialog>
-						</div>
-						<br />
-						<br />
-					</p:panel>
 				</p:tab>
 			</p:tabView>
 		</h:form>

@@ -13,7 +13,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hinario.dao.UsuarioDAO;
@@ -202,27 +201,23 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 		this.imagemRecortada = imagemRecortada;
 	}
 
-	public void cortar() {
-
-		FileImageOutputStream imageOutput;
+	public String cortar() {
 		try {
-			imageOutput = new FileImageOutputStream(this.imagem);
-			imageOutput.write(this.imagemRecortada.getBytes(), 0, this.imagemRecortada.getBytes().length);
-			imageOutput.close();
-
 			BufferedImage bufImgOrg = ImageIO.read(this.imagem);
 			BufferedImage bufImgRec = bufImgOrg.getSubimage(this.imagemRecortada.getLeft(), this.imagemRecortada.getTop(), this.imagemRecortada.getWidth(), this.imagemRecortada.getHeight());
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(bufImgRec, "jpg", baos);
 			baos.toByteArray();
 
+			this.imagemRecortada = null;
 			this.imagemAntiga = this.usuario.getImagem();
 			this.usuario.setImagem(baos.toByteArray());
 			baos.close();
+
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Cropping failed."));
 		}
-
+		return "configuracoesPessoais";
 	}
 
 }

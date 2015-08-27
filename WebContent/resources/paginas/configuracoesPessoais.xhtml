@@ -10,7 +10,7 @@ span.ui-chkbox-label {
 	<ui:define name="body">
 		<h:form>
 			<p:growl id="growl" showDetail="true" autoUpdate="true" life="15000" redisplay="false" globalOnly="true" />
-			<p:tabView id="tabView">
+			<p:tabView id="tabView" dynamic="true">
 				<p:ajax event="tabChange" listener="#{usuarioLoginBean.mudarTab}" update="tabView" process="tabView" />
 				<!--================================================================================================= CONFIGURACOES GERAIS ================================================================================================= -->
 				<p:tab id="geral" title="#{strg['label.informacoesGerais']}">
@@ -57,10 +57,24 @@ span.ui-chkbox-label {
 				</p:tab>
 				<!--================================================================================================= TROCAR IMAGEM ================================================================================================= -->
 				<p:tab id="trocarImagem" title="#{strg['label.trocarImagem']}">
-					<p:panel style="margin-left:auto; margin-right:auto;width:100%;">
-						<h:panelGrid columns="3">
-							<p:graphicImage value="#{usuarioLoginBean.imageUsuario}" style="margin-left:auto;margin-right:auto;width:100%;" />
-						</h:panelGrid>
+					<p:panel>
+						<div>
+							<p:graphicImage value="#{usuarioLoginBean.imageUsuario}" cache="false" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:25px;max-width:100%;" />
+						</div>
+						<div>
+							<p:commandButton value="#{strg['label.cortarImagem']}" style="float:left;" onclick="PF('dlgCortarImagem').show()" />
+							<p:commandButton value="#{strg['label.tirarFoto']}" style="float:right;" />
+							<p:dialog id="dlgCortarImagem" widgetVar="dlgCortarImagem" dynamic="true" position="0,0" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="max-height:100%;max-width:100%;overflow:scroll;">
+								<p:imageCropper value="#{usuarioLoginBean.imagemRecortada}" image="/resources/logins/#{usuarioLoginBean.usuario.irmao.nome}" initialCoords="5,5,105,105" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:45px;max-height:95%;max-width:95%; overflow:scroll;" />
+								<div>
+									<p:commandButton value="#{strg['label.recortar']}" update="@all" action="#{usuarioLoginBean.cortar}" style="margin-left:auto; margin-right:auto; display:block; margin-top:15px;" />
+								</div>
+							</p:dialog>
+							<p:dialog>
+							</p:dialog>
+						</div>
+						<br />
+						<br />
 					</p:panel>
 				</p:tab>
 			</p:tabView>

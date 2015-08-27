@@ -15,3 +15,5 @@ INSERT INTO `configuracao` VALUES('email.servico.frequenciaEmMinutos','1');
 INSERT INTO `configuracao` VALUES('email.smtp.host','smtp.googlemail.com');
 INSERT INTO `configuracao` VALUES('email.smtp.porta','465');
 INSERT INTO `configuracao` VALUES('email.tipoSeguranca','SSL');
+UPDATE `configuracao` SET VALOR = 'false' WHERE NOME = 'email.servico';
+UPDATE `configuracao` SET VALOR = '60' WHERE NOME = 'email.servico.frequenciaEmMinutos';

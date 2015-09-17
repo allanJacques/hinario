@@ -24,5 +24,16 @@
     TARGET="rules:#resources#paginas#configuracoesPessoais.xhtml"
     TITLE="#{usuarioLoginBean.cortar}:[any]" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
+  <PROCESS-ITEM
+   ID="rules:#resources#paginas#configuracoesPessoais.xhtml:1"
+   NAME="item1" PATH="/resources/paginas/configuracoesPessoais.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="configuracoesPessoais::#resources#paginas#login.xhtml"
+    NAME="output" PATH="/resources/paginas/login.xhtml"
+    TARGET="rules:#resources#paginas#login.xhtml"
+    TITLE="configuracoesPessoais" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#resources#paginas#login.xhtml"
+  PATH="/resources/paginas/login.xhtml" SHAPE="464,17,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

@@ -32,7 +32,6 @@ public abstract class DAOBase implements Serializable {
 			em.getTransaction().rollback();
 			throw ex;
 		}
-
 	}
 
 	public void remover(Object object) {
@@ -48,10 +47,11 @@ public abstract class DAOBase implements Serializable {
 		}
 	}
 
-	public Object atualizar(final Object object) {
+	public Object atualizar(Object object) {
 		this.em.getTransaction().begin();
 		this.em.getTransaction().rollback();
 		Object returN = this.em.find(object.getClass(), ((EntidadeBase) object).getId());
+		object = returN;
 		return returN;
 	}
 

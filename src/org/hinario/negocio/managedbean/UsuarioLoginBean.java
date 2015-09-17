@@ -6,12 +6,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,9 @@ import org.hinario.model.Irmao;
 import org.hinario.model.Usuario;
 import org.hinario.util.CriptografiaSHA1Util;
 import org.primefaces.component.tabview.Tab;
+import org.primefaces.event.CaptureEvent;
+import org.primefaces.event.CloseEvent;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.CroppedImage;
 import org.primefaces.model.DefaultStreamedContent;
@@ -41,9 +46,10 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 	private CroppedImage imagemRecortada;
 	private final File path;
 	private File imagem;
-	private byte[] imagemAntiga;
 	private String novaSenha;
 	private String confirmeNovaSenha;
+	// private byte[] fotoTemporaria;
+	private StreamedContent fotoTemporariaStream;
 
 	public UsuarioLoginBean() {
 		this.dao = new UsuarioDAO();
@@ -63,25 +69,28 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 			fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", this.appMessage.getString("message.emailNaoCadastrado")));
 		} else {
 			this.usuario = this.dao.valida(this.email, new CriptografiaSHA1Util().criptografar(this.senha));
-			// this.usuario = this.usuarioDAO.valida(this.email, this.senha);
-			this.dao.atualizar(this.usuario);
 			this.senha = null;
 			if (this.usuario == null) {
 				FacesContext fc = FacesContext.getCurrentInstance();
 				fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", this.appMessage.getString("message.senhaIncorreta")));
 			} else {
-				try {
-					this.imagem = new File(this.path, this.usuario.getIrmao().getNome());
-					FileOutputStream saida = new FileOutputStream(imagem);
-					saida.write(this.usuario.getImagem());
-					saida.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				this.salvarArquivoDeImagemLocal(null);
 				return "home?faces-redirect=true";
 			}
 		}
 		return null;
+	}
+
+	public void salvarArquivoDeImagemLocal(ActionListener event) {
+		if (this.usuario.getImagem() != null)
+			try {
+				this.imagem = new File(this.path, this.usuario.getIrmao().getNome());
+				FileOutputStream saida = new FileOutputStream(imagem);
+				saida.write(this.usuario.getImagem());
+				saida.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 
 	public String logout() {
@@ -168,8 +177,8 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 		return this.usuario;
 	}
 
-	public void mudarTab(TabChangeEvent evt) {
-		this.tab = evt.getTab();
+	public void mudarTab(TabChangeEvent evento) {
+		this.tab = evento.getTab();
 	}
 
 	public String getNovaSenha() {
@@ -189,8 +198,11 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 	}
 
 	public StreamedContent getImageUsuario() {
-		this.dao.atualizar(this.usuario);
-		return new DefaultStreamedContent(new ByteArrayInputStream(this.usuario.getImagem()));
+		if (this.usuario.getImagem() != null) {
+			return new DefaultStreamedContent(new ByteArrayInputStream(this.usuario.getImagem()));
+		} else {
+			return null;
+		}
 	}
 
 	public CroppedImage getImagemRecortada() {
@@ -206,18 +218,73 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 			BufferedImage bufImgOrg = ImageIO.read(this.imagem);
 			BufferedImage bufImgRec = bufImgOrg.getSubimage(this.imagemRecortada.getLeft(), this.imagemRecortada.getTop(), this.imagemRecortada.getWidth(), this.imagemRecortada.getHeight());
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bufImgRec, "jpg", baos);
+			ImageIO.write(bufImgRec, "png", baos);
 			baos.toByteArray();
-
+			this.usuario = (Usuario) this.dao.atualizar(this.usuario);
 			this.imagemRecortada = null;
-			this.imagemAntiga = this.usuario.getImagem();
 			this.usuario.setImagem(baos.toByteArray());
 			baos.close();
-
+			this.dao.salvar(this.usuario);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Cropping failed."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, this.appMessage.getString("label.erro"), this.appMessage.getString("message.erroAoCortarImage", e.getMessage())));
 		}
 		return "configuracoesPessoais";
 	}
 
+	public String novaImagemUpload(final FileUploadEvent evento) {
+		try {
+			this.usuario = (Usuario) this.dao.atualizar(this.usuario);
+			this.usuario.setImagem(new byte[(int) evento.getFile().getSize()]);
+			evento.getFile().getInputstream().read(this.usuario.getImagem());
+			this.salvarArquivoDeImagemLocal(null);
+			this.dao.salvar(this.usuario);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "configuracoesPessoais";
+	}
+
+	public void tirarFoto(CaptureEvent captureEvent) {
+		UsuarioLoginBean.this.getUsuario().setImagem(captureEvent.getData());
+		this.fotoTemporariaStream = new StreamedContent() {
+
+			@Override
+			public String getName() {
+				return UsuarioLoginBean.this.getUsuario().getId() + System.currentTimeMillis() + ".jpeg";
+			}
+
+			@Override
+			public InputStream getStream() {
+				return new ByteArrayInputStream(UsuarioLoginBean.this.getUsuario().getImagem());
+			}
+
+			@Override
+			public String getContentType() {
+				return "image/jpeg";
+			}
+
+			@Override
+			public String getContentEncoding() {
+				return null;
+			}
+
+			@Override
+			public String toString() {
+				return this.getName();
+			}
+		};
+	}
+
+	public StreamedContent getFotoTemporaria() {
+		if (this.fotoTemporariaStream != null) {
+			return this.fotoTemporariaStream;
+		} else {
+			return new DefaultStreamedContent(new ByteArrayInputStream(this.usuario.getImagem()));
+		}
+	}
+
+	public void alteraPraFotoTirada(final CloseEvent evento) {
+		this.dao.salvar(this.usuario);
+		this.salvarArquivoDeImagemLocal(null);
+	}
 }

@@ -8,6 +8,7 @@ span.ui-chkbox-label {
 </style>
 	</ui:define>
 	<ui:define name="body">
+		<f:ajax event="load" listener="#{usuarioLoginBean.salvarArquivoDeImagemLocal(null)}"></f:ajax>
 		<h:form>
 			<p:growl id="growl" showDetail="true" autoUpdate="true" life="15000" redisplay="false" globalOnly="true" />
 			<p:tabView id="tabView" dynamic="true">
@@ -16,19 +17,42 @@ span.ui-chkbox-label {
 				<p:tab id="trocarImagem" title="#{strg['label.trocarImagem']}">
 					<p:panel>
 						<div>
-							<p:graphicImage value="#{usuarioLoginBean.imageUsuario}" cache="false" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:25px;max-width:100%;" />
+							<p:commandButton value="#{strg['label.selecionarNovaImagem']}" onclick="PF('dlgSelecionarImagem').show()" style="margin-right:auto; margin-left:auto; margin-bottom:10px; display:block;" actionListener="#{usuarioLoginBean.salvarArquivoDeImagemLocal(null)}" />
+							<p:dialog id="dlgSelecionarImagem" widgetVar="dlgSelecionarImagem" dynamic="true" position="center" minHeight="500" minWidth="500" height="500" width="500" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="height:100%;width:100%;overflow:scroll;">
+								<p:ajax event="close" update="@all" process="@all" />
+								<p:fileUpload allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" update="@all" label="#{strg['label.fileUpload.selecionarImagem']}" cancelLabel="#{strg['label.cancelar']}" dragDropSupport="true" oncomplete="PF('dlgSelecionarImagem').hide()" fileLimit="1" fileUploadListener="#{usuarioLoginBean.novaImagemUpload}" multiple="false" style="margin-bottom:25px;" />
+							</p:dialog>
 						</div>
 						<div>
-							<p:commandButton value="#{strg['label.cortarImagem']}" style="float:left;" onclick="PF('dlgCortarImagem').show()" />
-							<p:commandButton value="#{strg['label.tirarFoto']}" style="float:right;" />
-							<p:dialog id="dlgCortarImagem" widgetVar="dlgCortarImagem" dynamic="false" position="0,0" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="max-height:100%;max-width:100%;overflow:scroll;">
+							<p:graphicImage value="#{usuarioLoginBean.imageUsuario}" rendered="#{usuarioLoginBean.imageUsuario!=null}" cache="false" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:25px;max-width:100%;" />
+						</div>
+						<div>
+							<p:commandButton value="#{strg['label.cortarImagem']}" rendered="#{usuarioLoginBean.imageUsuario!=null}" style="float:left;" onclick="PF('dlgCortarImagem').show()" actionListener="#{usuarioLoginBean.salvarArquivoDeImagemLocal(null)}" />
+							<p:dialog id="dlgCortarImagem" widgetVar="dlgCortarImagem" dynamic="true" position="left,top" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="max-height:100%;max-width:100%;overflow:scroll;">
 								<p:ajax event="close" update="@all" process="@all" />
 								<p:imageCropper value="#{usuarioLoginBean.imagemRecortada}" image="/resources/logins/#{usuarioLoginBean.usuario.irmao.nome}" initialCoords="5,5,105,105" style="margin-left:auto;margin-right:auto;border:1px solid;border-radius:10px; display:block; margin-bottom:45px;max-height:95%;max-width:95%; overflow:scroll;" />
 								<div>
 									<p:commandButton value="#{strg['label.recortar']}" update="@all" action="#{usuarioLoginBean.cortar}" style="margin-left:auto; margin-right:auto; display:block; margin-top:15px;" />
 								</div>
 							</p:dialog>
-							<p:dialog>
+							<p:commandButton value="#{strg['label.tirarFoto']}" style="float:right;" onclick="PF('dlgTirarFoto').show()" />
+							<p:dialog id="dlgTirarFoto" widgetVar="dlgTirarFoto" dynamic="false" position="center" minHeight="500" minWidth="700" height="500" width="700" hideEffect="puff" showEffect="puff" maximizable="true" closable="true" closeOnEscape="true" modal="false" style="height:100%;width:100%;overflow:scroll;">
+								<p:ajax event="close" update="@all" process="@all" listener="#{usuarioLoginBean.alteraPraFotoTirada}" />
+								<h:panelGrid columns="2" cellpadding="5">
+									<p:outputPanel>
+										<p:photoCam widgetVar="pc" listener="#{usuarioLoginBean.tirarFoto}" update="foto" />
+										<div>
+											<p:commandButton type="button" value="#{strg['label.capturar']}" onclick="PF('pc').capture()" style="margin-right: auto; margin-left: auto; display: block;" />
+										</div>
+									</p:outputPanel>
+									<p:outputPanel id="foto">
+										<p:graphicImage value="#{usuarioLoginBean.fotoTemporaria}" rendered="#{usuarioLoginBean.fotoTemporaria != null}" cache="false" />
+										<br />
+										<div>
+											<p:commandButton value="#{strg['label.usarEstaFoto']}" onclick="PF('dlgTirarFoto').hide()" style="margin-right: auto; margin-left: auto; display: block;" />
+										</div>
+									</p:outputPanel>
+								</h:panelGrid>
 							</p:dialog>
 						</div>
 						<br />

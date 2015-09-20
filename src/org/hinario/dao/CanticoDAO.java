@@ -1,6 +1,7 @@
 package org.hinario.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -87,4 +88,10 @@ public class CanticoDAO extends DAOBase implements Serializable {
 		}
 	}
 
+	public List<Cantico> getInseridosEntre(Date dataInicial, Date dataFinal) {
+		TypedQuery<Cantico> q = this.em.createQuery("select cantico from Cantico cantico where cantico.dataCadastro >= :dataInicial and cantico.dataCadastro <= :dataFinal", Cantico.class);
+		q.setParameter("dataInicial", dataInicial);
+		q.setParameter("dataFinal", dataFinal);
+		return q.getResultList();
+	}
 }

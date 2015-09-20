@@ -211,3 +211,20 @@ select.ui-paginator-rpp-options {
 	float: right;
 	margin-top: 3px
 }
+
+span.homeHinario {
+	background-image: url('../imagens/home.png') !important;
+	width: 25px;
+	height: 25px;
+	border-radius: 0;
+	left: 5px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+span[class="ui-menuitem-icon ui-icon homeHinario"] {
+	width: 132px;
+	height: 32px;
+	background-repeat: no-repeat;
+	background-position: center;
+}

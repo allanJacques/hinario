@@ -3,6 +3,7 @@ package org.hinario.negocio.managedbean;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -389,5 +390,11 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public List<ModoDeCantar> listaSugestoesModosDeCantar(final String query) {
 		return this.dao.listSugestoesModoDeCantar(query);
+	}
+
+	public List<Cantico> getInseridosRecentemente() {
+		Calendar dataInicio = Calendar.getInstance();
+		dataInicio.add(Calendar.DAY_OF_YEAR, -90);
+		return this.dao.getInseridosEntre(new Date(dataInicio.getTimeInMillis()), new Date());
 	}
 }

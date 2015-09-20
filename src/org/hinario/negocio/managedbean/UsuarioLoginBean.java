@@ -48,7 +48,6 @@ public class UsuarioLoginBean extends ManagedBeanBase implements Serializable {
 	private File imagem;
 	private String novaSenha;
 	private String confirmeNovaSenha;
-	// private byte[] fotoTemporaria;
 	private StreamedContent fotoTemporariaStream;
 
 	public UsuarioLoginBean() {

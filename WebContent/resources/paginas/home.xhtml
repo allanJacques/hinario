@@ -1,10 +1,45 @@
 <ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
 	<ui:define name="title">#{strg['label.nomeApp']}</ui:define>
 	<ui:define name="body">
-		<div id="divCentralizadora" style="line-height: 640px; height: 640px; width: 1300px; margin: auto;">
-			<div>
-				<p style="text-align: center;">Em implementação, #{usuarioLoginBean.usuario.irmao.nome}</p>
-			</div>
-		</div>
+		<p:panel toggleable="true">
+			<f:facet name="header">Inseridos recentemente</f:facet>
+			<p:dataTable value="#{canticoBean.inseridosRecentemente}" var="cantico">
+				<p:column headerText="#{strg['label.recebedor']}">
+					<h:outputText value="#{cantico.recebedor.irmao.nome}" />
+				</p:column>
+				<p:column headerText="#{strg['label.consolador']}">
+					<h:outputText value="#{cantico.consolador.irmao.nome}" />
+				</p:column>
+				<p:column headerText="#{strg['label.dataRecebimento']}">
+					<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" />
+				</p:column>
+				<p:column headerText="#{strg['label.dataCadastro']}">
+					<h:outputText value="  #{formatsBean.getData(cantico.dataCadastro)}" />
+				</p:column>
+
+				<p:column headerText="#{strg['label.acoes']}" width="8%">
+					<div class="colunaData">
+						<p:link>
+							<f:ajax render="@form" execute="@this"></f:ajax>
+							<h:graphicImage value="../imagens/remove.png" height="15" width="15" title="#{strg['label.remover']}" />
+						</p:link>
+					</div>
+				</p:column>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</p:dataTable>
+
+		</p:panel>
 	</ui:define>
 </ui:composition>

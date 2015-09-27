@@ -17,6 +17,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.PersistenceException;
 
+import org.hinario.app.AppConfig;
 import org.hinario.dao.CanticoDAO;
 import org.hinario.dao.OcasiaoDAO;
 import org.hinario.dao.filtro.Filtro;
@@ -394,7 +395,13 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 
 	public List<Cantico> getInseridosRecentemente() {
 		Calendar dataInicio = Calendar.getInstance();
-		dataInicio.add(Calendar.DAY_OF_YEAR, -90);
-		return this.dao.getInseridosEntre(new Date(dataInicio.getTimeInMillis()), new Date());
+		dataInicio.add(Calendar.DAY_OF_YEAR, -Integer.parseInt((AppConfig.getInstancia().getValorConfiguracao("lista.CanticosInseridosDias"))));
+		return this.dao.listaInseridosEntre(new Date(dataInicio.getTimeInMillis()), new Date());
+	}
+
+	public List<Cantico> getRecebidosRecentemente() {
+		Calendar dataInicio = Calendar.getInstance();
+		dataInicio.add(Calendar.DAY_OF_YEAR, -Integer.parseInt((AppConfig.getInstancia().getValorConfiguracao("lista.CanticosRecebidosDias"))));
+		return this.dao.listaRecebidosEntre(new Date(dataInicio.getTimeInMillis()), new Date());
 	}
 }

@@ -62,7 +62,7 @@ span.ui-chkbox-label {
 				<p:tab id="geral" title="#{strg['label.informacoesGerais']}">
 					<h:panelGrid columns="3" cellpadding="8px">
 						<p:outputLabel value="#{strg['label.nome']}" for="nome" />
-						<p:inputText id="nome" value="#{usuarioLoginBean.usuario.irmao.nome}" title="#{usuarioLoginBean.usuario.irmao.nome}" maxlength="100" required="true" style="width:500px;" />
+						<p:inputText id="nome" value="#{usuarioLoginBean.usuario.irmao.nome}" title="#{usuarioLoginBean.usuario.irmao.nome}" maxlength="100" required="true" style="width:500px;" styleClass="capitalize" />
 						<p:message for="nome" />
 
 						<p:outputLabel value="#{strg['label.email']}" for="email" />

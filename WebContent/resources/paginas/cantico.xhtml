@@ -71,12 +71,12 @@ input.exibeCantico {
 										<p:outputLabel value="#{strg['label.consolador']}" for="consolador" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" />
 									</h:panelGroup>
 									<h:panelGroup id="campoConsolador">
-										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador.irmao.nome}" required="true" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3">
+										<p:autoComplete id="consolador" value="#{canticoBean.cantico.consolador}" title="#{canticoBean.cantico.consolador.irmao.nome}" required="true" rendered="#{canticoBean.edicao || !canticoBean.selecionadoConsoladorCadastrado}" forceSelection="true" completeMethod="#{consoladorBean.listaSugestoesBean}" var="consolador" itemLabel="#{consolador.irmao.nome}" itemValue="#{consolador}" minQueryLength="3" styleClass="capitalize">
 											<p:ajax event="itemSelect" listener="#{canticoBean.selecionouConsolador}" />
 										</p:autoComplete>
 										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="consolador" />
 										<h:panelGroup id="consoladorCadastradoGroup" rendered="#{canticoBean.selecionadoConsoladorCadastrado}">
-											<input id="consoladorCadastrado" name="consoladorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.consolador.irmao.nome}" value="#{canticoBean.cantico.consolador.irmao.nome}" readonly="readonly" />
+											<input id="consoladorCadastrado" name="consoladorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all capitalize" title="#{canticoBean.cantico.consolador.irmao.nome}" value="#{canticoBean.cantico.consolador.irmao.nome}" readonly="readonly" />
 											<p:commandButton id="limpaconsoladorCadastrado" icon="apaga" title="#{strg['label.limparCampo']}" style="margin:5px;" action="#{canticoBean.limpaCampoConsoladorCadastrado}" update="campoConsolador" />
 										</h:panelGroup>
 									</h:panelGroup>
@@ -95,12 +95,12 @@ input.exibeCantico {
 										<p:outputLabel value="#{strg['label.recebedor']}" for="recebedor" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" />
 									</h:panelGroup>
 									<h:panelGroup id="campoRecebedor">
-										<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor.irmao.nome}" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3">
+										<p:autoComplete id="recebedor" value="#{canticoBean.cantico.recebedor}" title="#{canticoBean.cantico.recebedor.irmao.nome}" rendered="#{!canticoBean.selecionadoRecebedorCadastrado}" forceSelection="true" completeMethod="#{recebedorBean.listaSugestoesBean}" var="recebedor" itemLabel="#{recebedor.irmao.nome}" itemValue="#{recebedor}" minQueryLength="3" styleClass="capitalize">
 											<p:ajax event="itemSelect" listener="#{canticoBean.selecionouConsolador}" />
 										</p:autoComplete>
 										<p:watermark value="#{strg['label.buscarPeloNomeWaterMark']}" for="recebedor" />
 										<h:panelGroup id="recebedorCadastradoGroup" rendered="#{canticoBean.selecionadoRecebedorCadastrado}">
-											<input id="recebedorCadastrado" name="recebedorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all" title="#{canticoBean.cantico.recebedor.irmao.nome}" value="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="readonly" />
+											<input id="recebedorCadastrado" name="recebedorCadastrado" type="text" class="ui-autocomplete-input ui-inputfield ui-widget ui-state-default ui-corner-all capitalize" title="#{canticoBean.cantico.recebedor.irmao.nome}" value="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="readonly" />
 											<p:commandButton id="limpaRecebedorCadastrado" icon="apaga" title="#{strg['label.limparCampo']}" style="margin:5px;" action="#{canticoBean.limpaCampoRecebedorCadastrado}" update="campoRecebedor" />
 										</h:panelGroup>
 									</h:panelGroup>
@@ -301,9 +301,9 @@ input.exibeCantico {
 								<p:outputLabel value="#{strg['label.codigo']}" rendered="#{canticoBean.edicao}" />
 								<p:inputText value="#{canticoBean.cantico.id}" rendered="#{canticoBean.edicao}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.consolador']}" />
-								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" styleClass="exibeCantico" />
+								<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" styleClass="exibeCantico capitalize" />
 								<p:outputLabel value="#{strg['label.recebedor']}" />
-								<p:inputText value="#{canticoBean.cantico.recebedor.irmao.nome}" title="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="true" styleClass="exibeCantico" />
+								<p:inputText value="#{canticoBean.cantico.recebedor.irmao.nome}" title="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="true" styleClass="exibeCantico capitalize" />
 								<p:outputLabel value="#{strg['label.dataCadastro']}" />
 								<p:inputText value="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" title="#{formatsBean.getData(canticoBean.dataCadastroCantico)}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.dataRecebimento']}" />
@@ -313,16 +313,16 @@ input.exibeCantico {
 									<div class="ui-autocomplete-multiple" style="margin: 0 !important;">
 										<ul class="ui-autocomplete-multiple-container ui-widget ui-inputfield ui-state-default ui-corner-all">
 											<ui:repeat var="ocasiao" value="#{canticoBean.cantico.ocasioes}">
-												<li class="ui-autocomplete-token ui-state-active ui-corner-all ui-helper-hidden" style="display: list-item;"><span class="ui-autocomplete-token-label">#{ocasiao.descricao}</span></li>
+												<li class="ui-autocomplete-token ui-state-active ui-corner-all ui-helper-hidden" style="display: list-item;"><span class="ui-autocomplete-token-label  capitalize">#{ocasiao.descricao}</span></li>
 											</ui:repeat>
 										</ul>
 									</div>
 								</p:outputPanel>
+								<p:inputText value="#{strg['label.semOcasioesInformadas']}" rendered="#{empty canticoBean.cantico.ocasioes}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.assunto']}" />
 								<p:inputText value="#{canticoBean.cantico.assunto}" title="#{canticoBean.cantico.assunto}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.modoDeCantar']}" />
 								<p:inputText value="#{canticoBean.cantico.modoDeCantar.descricao}" title="#{canticoBean.cantico.modoDeCantar.descricao}" readonly="true" styleClass="exibeCantico" />
-								<p:inputText value="#{strg['label.semOcasioesInformadas']}" rendered="#{empty canticoBean.cantico.ocasioes}" readonly="true" styleClass="exibeCantico" />
 								<p:outputLabel value="#{strg['label.observacao']}" />
 								<h:panelGroup>
 									<p:editor id="exibeObservacao" value="#{canticoBean.cantico.observacao}" controls="" disabled="true" rendered="#{not empty canticoBean.cantico.observacao}" />
@@ -448,11 +448,11 @@ input.exibeCantico {
 				</p:column>
 				<p:column sortBy="#{canticoTemp.consolador.irmao.nome}">
 					<f:facet name="header"> #{strg['label.consolador']} </f:facet>
-					<h:outputText value=" #{canticoTemp.consolador.irmao.nome}" title="#{canticoTemp.consolador.irmao.nome}" />
+					<h:outputText value=" #{canticoTemp.consolador.irmao.nome}" title="#{canticoTemp.consolador.irmao.nome}" styleClass="capitalize" />
 				</p:column>
 				<p:column sortBy="#{canticoTemp.recebedor.irmao.nome}">
 					<f:facet name="header"> #{strg['label.recebedor']} </f:facet>
-					<h:outputText value=" #{canticoTemp.recebedor.irmao.nome}" title="#{canticoTemp.recebedor.irmao.nome}" />
+					<h:outputText value=" #{canticoTemp.recebedor.irmao.nome}" title="#{canticoTemp.recebedor.irmao.nome}" styleClass="capitalize" />
 				</p:column>
 				<p:column sortBy="#{canticoTemp.dataCadastro}" width="9%">
 					<f:facet name="header"> #{strg['label.cadastro']} </f:facet>

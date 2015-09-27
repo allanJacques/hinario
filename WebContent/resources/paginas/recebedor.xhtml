@@ -133,7 +133,7 @@ input#nome_input {
 						</p:column>
 						<p:column width="32%" sortBy="#{recebedorTemp.irmao.nome}">
 							<f:facet name="header"> #{strg['label.nome']} </f:facet>
-							<h:outputText value=" #{recebedorTemp.irmao.nome}" title="#{recebedorTemp.irmao.nome}" />
+							<h:outputText value=" #{recebedorTemp.irmao.nome}" title="#{recebedorTemp.irmao.nome}" styleClass="capitalize" />
 						</p:column>
 						<p:column width="16%" sortBy="#{recebedorTemp.irmao.dataCadastro}">
 							<f:facet name="header">#{strg['label.dataCadastro']}</f:facet>

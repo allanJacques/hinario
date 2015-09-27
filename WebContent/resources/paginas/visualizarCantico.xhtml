@@ -1,0 +1,86 @@
+<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">#{strg['label.nomeApp']}</ui:define>
+	<ui:define name="inHead">
+		<style>
+input#consolador_input, input#recebedor_input {
+	width: 600px;
+}
+
+input.exibeCantico {
+	width: 600px;
+}
+
+#modoDeCantar_input {
+	width: 100%;
+}
+
+ul.ui-autocomplete-multiple-container {
+	min-width: 608px;
+}
+</style>
+	</ui:define>
+	<ui:define name="body">
+		<f:metadata>
+			<f:viewParam name="cantico" value="#{canticoBean.cantico}" />
+			<f:viewAction action="#{canticoBean.visualizando}" />
+		</f:metadata>
+		<p:panel style="margin: 3px;">
+			<h:panelGrid columns="2" cellpadding="8px">
+				<p:outputLabel value="#{strg['label.codigo']}" />
+				<p:inputText value="#{canticoBean.cantico.id}" readonly="true" styleClass="exibeCantico" />
+				<p:outputLabel value="#{strg['label.consolador']}" />
+				<p:inputText value="#{canticoBean.cantico.consolador.irmao.nome}" title="#{canticoBean.cantico.consolador.irmao.nome}" readonly="true" styleClass="exibeCantico capitalize" />
+				<p:outputLabel value="#{strg['label.recebedor']}" />
+				<p:inputText value="#{canticoBean.cantico.recebedor.irmao.nome}" title="#{canticoBean.cantico.recebedor.irmao.nome}" readonly="true" styleClass="exibeCantico capitalize" />
+				<p:outputLabel value="#{strg['label.dataCadastro']}" />
+				<p:inputText value="#{formatsBean.getTimestamp(canticoBean.dataCadastroCantico)}" title="#{formatsBean.getTimestamp(canticoBean.dataCadastroCantico)}" readonly="true" styleClass="exibeCantico" />
+				<p:outputLabel value="#{strg['label.dataRecebimento']}" />
+				<p:inputText value="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" title="#{formatsBean.getData(canticoBean.cantico.dataRecebimento)}" readonly="true" styleClass="exibeCantico" />
+				<p:outputLabel value="#{strg['label.ocasioes']}" />
+				<p:outputPanel rendered="#{not empty canticoBean.cantico.ocasioes}">
+					<div class="ui-autocomplete-multiple" style="margin: 0 !important;">
+						<ul class="ui-autocomplete-multiple-container ui-widget ui-inputfield ui-state-default ui-corner-all">
+							<ui:repeat var="ocasiao" value="#{canticoBean.cantico.ocasioes}">
+								<li class="ui-autocomplete-token ui-state-active ui-corner-all ui-helper-hidden" style="display: list-item;"><span class="ui-autocomplete-token-label  capitalize">#{ocasiao.descricao}</span></li>
+							</ui:repeat>
+						</ul>
+					</div>
+				</p:outputPanel>
+				<p:inputText value="#{strg['label.semOcasioesInformadas']}" rendered="#{empty canticoBean.cantico.ocasioes}" readonly="true" styleClass="exibeCantico" />
+				<p:outputLabel value="#{strg['label.assunto']}" />
+				<p:inputText value="#{canticoBean.cantico.assunto}" title="#{canticoBean.cantico.assunto}" readonly="true" styleClass="exibeCantico" />
+				<p:outputLabel value="#{strg['label.modoDeCantar']}" />
+				<p:inputText value="#{canticoBean.cantico.modoDeCantar.descricao}" title="#{canticoBean.cantico.modoDeCantar.descricao}" readonly="true" styleClass="exibeCantico" />
+				<p:outputLabel value="#{strg['label.observacao']}" />
+				<h:panelGroup>
+					<p:editor id="exibeObservacao" value="#{canticoBean.cantico.observacao}" controls="" disabled="true" rendered="#{not empty canticoBean.cantico.observacao}" />
+					<p:tooltip for="exibeObservacao">
+						<h:outputText value="#{canticoBean.cantico.observacao}" escape="false" />
+					</p:tooltip>
+
+					<p:inputText value="#{canticoBean.cantico.observacao}" readonly="true" rendered="#{empty canticoBean.cantico.observacao}" styleClass="exibeCantico" />
+				</h:panelGroup>
+				<p:outputLabel value="#{strg['label.arquivos']}" />
+				<p:dataTable var="arquivoTemp" value="#{canticoBean.cantico.arquivos}" rendered="#{not empty canticoBean.cantico.arquivos}">
+					<p:column headerText="#{strg['label.nome']}">
+						<h:graphicImage value="../imagens/formatos/#{canticoBean.arquivoNegocio.getPorMimeType(arquivoTemp.mimeType)}.png" height="40" width="40" style="display:inline;float:left;" />
+						<div style="display: inline; line-height: 40px; margin: 5px;">
+							<h:outputText value="#{arquivoTemp.nome}" title="#{arquivoTemp.nome}" />
+						</div>
+					</p:column>
+					<p:column headerText="#{strg['label.tamanho']}" width="12%" styleClass="alignRight">
+						<h:outputText value="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" title="#{canticoBean.tamanhoFormatado(arquivoTemp.tamanho)}" />
+					</p:column>
+					<p:column headerText="#{strg['label.acoes']}" width="7%">
+						<div class="colunaData">
+							<p:link href="/arquivostream/#{arquivoTemp.nome}?id=#{arquivoTemp.id}">
+								<h:graphicImage value="../imagens/download.png" height="15" width="15" title="#{strg['label.baixar']}" />
+							</p:link>
+						</div>
+					</p:column>
+				</p:dataTable>
+				<p:inputText value="#{strg['label.semArquivoEnviados']}" rendered="#{empty canticoBean.cantico.arquivos}" readonly="true" styleClass="exibeCantico" />
+			</h:panelGrid>
+		</p:panel>
+	</ui:define>
+</ui:composition>

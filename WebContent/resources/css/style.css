@@ -228,3 +228,11 @@ span[class="ui-menuitem-icon ui-icon homeHinario"] {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
+span.ui-column-title {
+	font-size: 15px;
+}
+
+li.ui-picklist-item {
+	text-transform: capitalize;
+}

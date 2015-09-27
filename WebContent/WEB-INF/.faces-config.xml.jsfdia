@@ -36,4 +36,13 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#resources#paginas#login.xhtml"
   PATH="/resources/paginas/login.xhtml" SHAPE="464,17,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="400,384,53,42" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="arquivoStream::#arquivostream#"
+    NAME="output" PATH="/arquivostream/" TARGET="rules:#arquivostream#"
+    TITLE="arquivoStream" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#arquivostream#" PATH="/arquivostream/"
+  SHAPE="448,385,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

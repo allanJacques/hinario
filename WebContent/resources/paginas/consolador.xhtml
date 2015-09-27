@@ -131,7 +131,7 @@ input#nome_input {
 						</p:column>
 						<p:column width="32%" sortBy="#{consoladorTemp.irmao.nome}">
 							<f:facet name="header"> #{strg['label.nome']} </f:facet>
-							<h:outputText value=" #{consoladorTemp.irmao.nome}" title="#{consoladorTemp.irmao.nome}" />
+							<h:outputText value=" #{consoladorTemp.irmao.nome}" title="#{consoladorTemp.irmao.nome}" styleClass="capitalize" />
 						</p:column>
 						<p:column width="16%" sortBy="#{consoladorTemp.irmao.dataCadastro}">
 							<f:facet name="header">#{strg['label.dataCadastro']}</f:facet>

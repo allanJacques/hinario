@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hinario.dao.filtro.Filtro;
+import org.hinario.model.Arquivo;
 import org.hinario.model.Cantico;
 import org.hinario.model.EntidadeBase;
 import org.hinario.model.ModoDeCantar;
@@ -45,7 +46,7 @@ public class CanticoDAO extends DAOBase implements Serializable {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<? extends EntidadeBase> getLista(Integer inicio, Integer limite, List<SortMeta> multiSortMeta, Filtro filtro) {
-		TypedQuery<Cantico> q = (TypedQuery<Cantico>) getQueryOrdenadaEFiltrada("select cantico from Cantico cantico left join cantico.ocasioes ocasioes", "cantico", em, filtro, multiSortMeta, Cantico.class);
+		TypedQuery<Cantico> q = (TypedQuery<Cantico>) getQueryOrdenadaEFiltrada("select distinct cantico from Cantico cantico left join cantico.ocasioes ocasioes", "cantico", em, filtro, multiSortMeta, Cantico.class);
 		if (inicio != null)
 			q.setFirstResult(inicio);
 		if (limite != null)
@@ -88,10 +89,21 @@ public class CanticoDAO extends DAOBase implements Serializable {
 		}
 	}
 
-	public List<Cantico> getInseridosEntre(Date dataInicial, Date dataFinal) {
+	public List<Cantico> listaInseridosEntre(Date dataInicial, Date dataFinal) {
 		TypedQuery<Cantico> q = this.em.createQuery("select cantico from Cantico cantico where cantico.dataCadastro >= :dataInicial and cantico.dataCadastro <= :dataFinal", Cantico.class);
 		q.setParameter("dataInicial", dataInicial);
 		q.setParameter("dataFinal", dataFinal);
 		return q.getResultList();
+	}
+
+	public List<Cantico> listaRecebidosEntre(Date dataInicial, Date dataFinal) {
+		TypedQuery<Cantico> q = this.em.createQuery("select cantico from Cantico cantico where cantico.dataRecebimento >= :dataInicial and cantico.dataRecebimento <= :dataFinal", Cantico.class);
+		q.setParameter("dataInicial", dataInicial);
+		q.setParameter("dataFinal", dataFinal);
+		return q.getResultList();
+	}
+
+	public Arquivo getArquivo(final Long id) {
+		return this.em.getReference(Arquivo.class, id);
 	}
 }

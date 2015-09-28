@@ -26,10 +26,10 @@ public class LoginFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		String path = new URL(((HttpServletRequest) request).getRequestURL().toString()).getPath().replaceAll("^/", "").replaceAll("/$", "").replaceAll("[;]jsessionid=.*", "");
-		if ((!path.endsWith("login.jsf") && (!path.endsWith(".gif.jsf") && !path.endsWith(".css.jsf") && !path.endsWith(".js.jsf") && !path.endsWith(".png.jsf"))) && (path.endsWith(".jsf") || path.endsWith(".xhtml"))) {
+		if (!path.endsWith("login.jsf") && !path.endsWith(".gif.jsf") && !path.endsWith(".css.jsf") && !path.endsWith(".css") && !path.endsWith(".js.jsf") && !path.endsWith(".png.jsf")) {
 			UsuarioLoginBean loginBean = (UsuarioLoginBean) ((HttpServletRequest) request).getSession().getAttribute("usuarioLoginBean");
 			if (loginBean == null || (loginBean != null && !loginBean.isLogado())) {
-				((HttpServletResponse) response).sendRedirect("login.jsf");
+				((HttpServletResponse) response).sendRedirect("/hinario/resources/paginas/login.jsf");
 			} else {
 				chain.doFilter(request, response);
 			}

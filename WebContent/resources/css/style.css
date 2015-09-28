@@ -102,11 +102,11 @@ div.painelBotoesCentralizado {
 }
 
 .capitalize {
-	text-transform: capitalize;
+	text-transform: capitalize !important;
 }
 
-.ui-autocomplete-input {
-	text-transform: inherit;
+.ui-autocomplete-item {
+	text-transform: capitalize !important;
 }
 
 .inputFile {

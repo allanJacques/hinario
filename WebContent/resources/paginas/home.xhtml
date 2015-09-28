@@ -17,16 +17,16 @@
 				<p:tab title="#{strg['label.recebidosRecentemente']}">
 					<p:panel style="padding: 0;">
 						<p:dataTable value="#{canticoBean.recebidosRecentemente}" var="cantico" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}">
-							<p:column headerText="#{strg['label.recebedor']}">
-								<h:outputText value="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
-							</p:column>
 							<p:column headerText="#{strg['label.consolador']}">
 								<h:outputText value="#{cantico.consolador.irmao.nome}" styleClass="capitalize" />
 							</p:column>
-							<p:column headerText="#{strg['label.dataRecebimento']}" width="9%">
+							<p:column headerText="#{strg['label.recebedor']}">
+								<h:outputText value="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
+							</p:column>
+							<p:column headerText="#{strg['label.recebimento']}" width="10%">
 								<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" />
 							</p:column>
-							<p:column headerText="#{strg['label.dataCadastro']}" width="9%">
+							<p:column headerText="#{strg['label.cadastro']}" width="9%">
 								<h:outputText value="  #{formatsBean.getData(cantico.dataCadastro)}" />
 							</p:column>
 
@@ -44,13 +44,13 @@
 				<p:tab title="#{strg['label.inseridosRecentemente']}">
 					<p:panel style="padding: 0;">
 						<p:dataTable value="#{canticoBean.inseridosRecentemente}" var="cantico" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}">
-							<p:column headerText="#{strg['label.recebedor']}">
-								<h:outputText value="#{cantico.recebedor.irmao.nome}" title="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
-							</p:column>
 							<p:column headerText="#{strg['label.consolador']}">
 								<h:outputText value="#{cantico.consolador.irmao.nome}" title="#{cantico.consolador.irmao.nome}" styleClass="capitalize" />
 							</p:column>
-							<p:column headerText="#{strg['label.recebimento']}" width="9%">
+							<p:column headerText="#{strg['label.recebedor']}">
+								<h:outputText value="#{cantico.recebedor.irmao.nome}" title="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
+							</p:column>
+							<p:column headerText="#{strg['label.recebimento']}" width="10%">
 								<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" title="#{formatsBean.getData(cantico.dataRecebimento)}" />
 							</p:column>
 							<p:column headerText="#{strg['label.cadastro']}" width="9%">

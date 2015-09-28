@@ -28,7 +28,7 @@ public class ArquivoStream extends HttpServlet {
 			OutputStream out = response.getOutputStream();
 
 			response.setContentLengthLong(arquivo.getTamanho());
-			// response.setContentType(arquivo.getMimeType());
+			response.setContentType("application/force-download");
 
 			for (byte b : arquivo.getConteudo()) {
 				out.write(b);

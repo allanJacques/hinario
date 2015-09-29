@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Arquivo implements Serializable {
+public class Arquivo extends EntidadeBase implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,6 +50,7 @@ public class Arquivo implements Serializable {
 	@JoinColumn()
 	private Cantico cantico;
 
+	@Override
 	public Long getId() {
 		return id;
 	}

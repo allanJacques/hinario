@@ -404,4 +404,6 @@ public class CanticoBean extends ManagedBeanBase implements Serializable {
 		dataInicio.add(Calendar.DAY_OF_YEAR, -Integer.parseInt((AppConfig.getInstancia().getValorConfiguracao("lista.CanticosRecebidosDias"))));
 		return this.dao.listaRecebidosEntre(new Date(dataInicio.getTimeInMillis()), new Date());
 	}
+
+
 }

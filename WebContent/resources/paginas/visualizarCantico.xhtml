@@ -73,8 +73,11 @@ ul.ui-autocomplete-multiple-container {
 					</p:column>
 					<p:column headerText="#{strg['label.acoes']}" width="7%">
 						<div class="colunaData">
-							<p:link href="/arquivostream/#{arquivoTemp.nome}?id=#{arquivoTemp.id}">
+							<p:link href="/arquivostream/#{arquivoTemp.nome}?id=#{arquivoTemp.id}" style="margin: 4px;">
 								<h:graphicImage value="../imagens/download.png" height="15" width="15" title="#{strg['label.baixar']}" />
+							</p:link>
+							<p:link href="../../arquivostreamview/#{arquivoTemp.nome}?id=#{arquivoTemp.id}" target="_blank" style="margin: 4px;" rendered="#{arquivoBean.isArquivoVisualizavelEmBrowser(arquivoTemp)}">
+								<h:graphicImage value="../imagens/visualizar.png" height="15" width="15" title="#{strg['label.visualizar']}" />
 							</p:link>
 						</div>
 					</p:column>

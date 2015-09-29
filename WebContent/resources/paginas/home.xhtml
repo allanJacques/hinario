@@ -12,6 +12,13 @@
 </style>
 	</ui:define>
 	<ui:define name="body">
+		<f:ajax event="load" render="@all" execute="@all" />
+		<div onload="javascript:document.reload()" onshow="javascript:document.reload()" onmouseup="javascript:document.reload()" onmouseover="javascript:document.reload()">
+			<h:outputText value="#{formatsBean.currentTimeMillis}" />
+			<script>
+	
+			</script>
+		</div>
 		<p:panel styleClass="painelPrimeSemBorda" style="margin: 3px !important;">
 			<p:accordionPanel dynamic="true" multiple="true">
 				<p:tab title="#{strg['label.recebidosRecentemente']}">

@@ -35,7 +35,7 @@ public class ArquivoStream extends HttpServlet {
 			}
 			out.close();
 		} catch (NumberFormatException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 

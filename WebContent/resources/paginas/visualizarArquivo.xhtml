@@ -1,0 +1,21 @@
+<ui:composition template="/WEB-INF/paginas/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">#{arquivoBean.arquivo.nome} </ui:define>
+	<ui:define name="inHead">
+		<f:metadata>
+			<f:viewParam name="arquivo" value="#{arquivoBean.arquivo}" />
+			<f:viewAction action="#{arquivoBean.visualizando}" />
+		</f:metadata>
+	</ui:define>
+	<ui:define name="menu"></ui:define>
+	<ui:define name="body">
+
+		<p:dialog id="video" dynamic="true" modal="true" rendered="true" widgetVar="video" visible="true">
+			<!-- 			<p:media value="http://192.168.1.100:8080/#{request.contextPath}arquivostreamview/#{arquivoBean.arquivo.nome}?id=#{arquivoBean.arquivo.id}" /> -->
+			<object data="http://192.168.1.100:8080#{request.contextPath}/arquivostreamview/#{arquivoBean.arquivo.nome}?id=#{arquivoBean.arquivo.id}" type="#{arquivoBean.arquivo.mimeType}" style="min-height: 500px; min-width: 500px;">
+				<h:outputText value="#{arquivoBean.arquivo.nome}" />
+			</object>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

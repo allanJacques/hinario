@@ -2,6 +2,7 @@ package org.hinario.negocio.managedbean;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.render.ResponseStateManager;
 
 import org.hinario.app.AppMessage;
 import org.hinario.app.ModoEditor;
@@ -120,6 +121,11 @@ public abstract class ManagedBeanBase {
 
 	public void setCondicaoAAdicionar(Condicao condicaoAAdicionar) {
 		this.condicaoAAdicionar = condicaoAAdicionar;
+	}
+
+	public boolean isPostBack() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		return fc != null && fc.getExternalContext().getRequestParameterMap().containsKey(ResponseStateManager.VIEW_STATE_PARAM);
 	}
 
 	public abstract void setEntidade(final EntidadeBase entidade);

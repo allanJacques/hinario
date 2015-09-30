@@ -12,70 +12,65 @@
 </style>
 	</ui:define>
 	<ui:define name="body">
-		<f:ajax event="load" render="@all" execute="@all" />
-		<div onload="javascript:document.reload()" onshow="javascript:document.reload()" onmouseup="javascript:document.reload()" onmouseover="javascript:document.reload()">
-			<h:outputText value="#{formatsBean.currentTimeMillis}" />
-			<script>
-	
-			</script>
-		</div>
-		<p:panel styleClass="painelPrimeSemBorda" style="margin: 3px !important;">
-			<p:accordionPanel dynamic="true" multiple="true">
-				<p:tab title="#{strg['label.recebidosRecentemente']}">
-					<p:panel style="padding: 0;">
-						<p:dataTable value="#{canticoBean.recebidosRecentemente}" var="cantico" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}">
-							<p:column headerText="#{strg['label.consolador']}">
-								<h:outputText value="#{cantico.consolador.irmao.nome}" styleClass="capitalize" />
-							</p:column>
-							<p:column headerText="#{strg['label.recebedor']}">
-								<h:outputText value="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
-							</p:column>
-							<p:column headerText="#{strg['label.recebimento']}" width="10%">
-								<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" />
-							</p:column>
-							<p:column headerText="#{strg['label.cadastro']}" width="9%">
-								<h:outputText value="  #{formatsBean.getData(cantico.dataCadastro)}" />
-							</p:column>
+		<h:form>
+			<p:panel styleClass="painelPrimeSemBorda" style="margin: 3px !important;">
+				<p:accordionPanel dynamic="true" multiple="true">
+					<p:tab title="#{strg['label.recebidosRecentemente']}">
+						<p:panel style="padding: 0;">
+							<p:dataTable value="#{canticoBean.recebidosRecentemente}" var="cantico" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}">
+								<p:column headerText="#{strg['label.consolador']}">
+									<h:outputText value="#{cantico.consolador.irmao.nome}" styleClass="capitalize" />
+								</p:column>
+								<p:column headerText="#{strg['label.recebedor']}">
+									<h:outputText value="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
+								</p:column>
+								<p:column headerText="#{strg['label.recebimento']}" width="10%">
+									<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" />
+								</p:column>
+								<p:column headerText="#{strg['label.cadastro']}" width="9%">
+									<h:outputText value="  #{formatsBean.getData(cantico.dataCadastro)}" />
+								</p:column>
 
-							<p:column headerText="#{strg['label.acoes']}" width="6%">
-								<div class="colunaData">
-									<p:link outcome="visualizarCantico">
-										<h:graphicImage value="../imagens/visualizar.png" height="15" width="15" title="#{strg['label.visualizar']}" />
-										<f:param name="cantico" value="#{cantico.id}" />
-									</p:link>
-								</div>
-							</p:column>
-						</p:dataTable>
-					</p:panel>
-				</p:tab>
-				<p:tab title="#{strg['label.inseridosRecentemente']}">
-					<p:panel style="padding: 0;">
-						<p:dataTable value="#{canticoBean.inseridosRecentemente}" var="cantico" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}">
-							<p:column headerText="#{strg['label.consolador']}">
-								<h:outputText value="#{cantico.consolador.irmao.nome}" title="#{cantico.consolador.irmao.nome}" styleClass="capitalize" />
-							</p:column>
-							<p:column headerText="#{strg['label.recebedor']}">
-								<h:outputText value="#{cantico.recebedor.irmao.nome}" title="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
-							</p:column>
-							<p:column headerText="#{strg['label.recebimento']}" width="10%">
-								<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" title="#{formatsBean.getData(cantico.dataRecebimento)}" />
-							</p:column>
-							<p:column headerText="#{strg['label.cadastro']}" width="9%">
-								<h:outputText value="#{formatsBean.getData(cantico.dataCadastro)}" title="#{formatsBean.getData(cantico.dataCadastro)}" />
-							</p:column>
+								<p:column headerText="#{strg['label.acoes']}" width="6%">
+									<div class="colunaData">
+										<p:link outcome="visualizarCantico">
+											<h:graphicImage value="../imagens/visualizar.png" height="15" width="15" title="#{strg['label.visualizar']}" />
+											<f:param name="cantico" value="#{cantico.id}" />
+										</p:link>
+									</div>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</p:tab>
+					<p:tab id="inseridosRecentemente" title="#{strg['label.inseridosRecentemente']}">
+						<p:panel style="padding: 0;">
+							<p:dataTable value="#{canticoBean.inseridosRecentemente}" var="cantico" emptyMessage="#{strg['message.nenhumRegistroEncontrado']}">
+								<p:column headerText="#{strg['label.consolador']}">
+									<h:outputText value="#{cantico.consolador.irmao.nome}" title="#{cantico.consolador.irmao.nome}" styleClass="capitalize" />
+								</p:column>
+								<p:column headerText="#{strg['label.recebedor']}">
+									<h:outputText value="#{cantico.recebedor.irmao.nome}" title="#{cantico.recebedor.irmao.nome}" styleClass="capitalize" />
+								</p:column>
+								<p:column headerText="#{strg['label.recebimento']}" width="10%">
+									<h:outputText value="#{formatsBean.getData(cantico.dataRecebimento)}" title="#{formatsBean.getData(cantico.dataRecebimento)}" />
+								</p:column>
+								<p:column headerText="#{strg['label.cadastro']}" width="9%">
+									<h:outputText value="#{formatsBean.getData(cantico.dataCadastro)}" title="#{formatsBean.getData(cantico.dataCadastro)}" />
+								</p:column>
 
-							<p:column headerText="#{strg['label.acoes']}" width="6%">
-								<div class="colunaData">
-									<p:link outcome="visualizarCantico">
-										<h:graphicImage value="../imagens/visualizar.png" height="15" width="15" title="#{strg['label.visualizar']}" />
-										<f:param name="cantico" value="#{cantico.id}" />
-									</p:link>
-								</div>
-							</p:column>
-						</p:dataTable>
-					</p:panel>
-				</p:tab>
-			</p:accordionPanel>
-		</p:panel>
+								<p:column headerText="#{strg['label.acoes']}" width="6%">
+									<div class="colunaData">
+										<p:link outcome="visualizarCantico">
+											<h:graphicImage value="../imagens/visualizar.png" height="15" width="15" title="#{strg['label.visualizar']}" />
+											<f:param name="cantico" value="#{cantico.id}" />
+										</p:link>
+									</div>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</p:tab>
+				</p:accordionPanel>
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>

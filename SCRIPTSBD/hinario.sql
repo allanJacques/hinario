@@ -1,6 +1,6 @@
 USE `hinario`;
 INSERT INTO `IRMAO` VALUES (1,CURRENT_TIMESTAMP(),'Allan Jacques Neves de Oliveira','Developer',0);
-INSERT INTO `USUARIO` VALUES (1,'allanjnofs@gmail.com','hvfkN/qlp/zhXR3cuerq6jd2Z7g=','hvfkN/qlp/zhXR3cuerq6jd2Z7g=',1);
+INSERT INTO `USUARIO` VALUES (1,'allanjnofs@gmail.com','hvfkN/qlp/zhXR3cuerq6jd2Z7g=',1,'hvfkN/qlp/zhXR3cuerq6jd2Z7g=',1);
 UPDATE `USUARIO` SET `SENHA` = 'hvfkN/qlp/zhXR3cuerq6jd2Z7g=' WHERE `ID` = 1;
 
 
@@ -18,4 +18,4 @@ INSERT INTO `CONFIGURACAO` VALUES('email.tipoSeguranca','SSL');
 INSERT INTO `CONFIGURACAO` VALUES('lista.CanticosRecebidosDias','90');
 INSERT INTO `CONFIGURACAO` VALUES('lista.CanticosInseridosDias','30');
 UPDATE `CONFIGURACAO` SET `VALOR` = 'false' WHERE `NOME` = 'email.servico';
-UPDATE `CONFIGURACAO` SET `VALOR` = '60' WHERE `NOME` = 'email.servico.frequenciaEmMinutos';
+UPDATE `CONFIGURACAO` SET `VALOR` = '60' WHERE `NOME` = 'email.serSvico.frequenciaEmMinutos';
